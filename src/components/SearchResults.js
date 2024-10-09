@@ -3,10 +3,10 @@ import TrackList from './TrackList';
 
 const SearchResults = () => {
     return (
-        <div>
-            <h1>Search Results</h1>
+        <section>
+            <h2>Search Results</h2>
             <TrackList />
-        </div>
+        </section>
     );
 };
 
