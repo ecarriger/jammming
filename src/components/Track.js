@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Track = () => {
+const Track = ({track, handleTrackClick}) => {
+
     return (
-        <li>Example Track</li>
+        <li key={track.id} onClick={handleTrackClick}>{track.title}</li>
     );
 };
 

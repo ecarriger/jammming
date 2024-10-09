@@ -1,7 +1,7 @@
 import React from 'react';
 import TrackList from './TrackList';
 
-const PlayList = () => {
+const PlayList = ({tracks, handleTrackClick}) => {
     return (
         <section>
             <h2>Playlist</h2>
@@ -10,7 +10,7 @@ const PlayList = () => {
                 <input type="text" id="playlist-name" name="playlist-name" placeholder="Playlist name" />
                 <input type='submit' value='Save to Spotify' />
             </form>
-            <TrackList />
+            <TrackList tracks={tracks} handleTrackClick={handleTrackClick} />
         </section>
     );
 };
