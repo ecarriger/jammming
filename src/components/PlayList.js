@@ -6,7 +6,7 @@ const PlayList = () => {
         <section>
             <h2>Playlist</h2>
             <form>
-                <label for="playlist-name">Playlist name</label>
+                <label htmlFor="playlist-name">Playlist name</label>
                 <input type="text" id="playlist-name" name="playlist-name" placeholder="Playlist name" />
                 <input type='submit' value='Save to Spotify' />
             </form>

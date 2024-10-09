@@ -5,7 +5,7 @@ const SearchBar = () => {
         <section>
             <h2>Search</h2>
             <form>
-                <label for="search-bar">Search for songs</label>
+                <label htmlFor="search-bar">Search for songs</label>
                 <input type="text" id="search-bar" name="search-bar" placeholder="Type your search..." />
                 <input type="submit" value="Search" />
             </form>
