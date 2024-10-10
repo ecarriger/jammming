@@ -1,10 +1,11 @@
 import React from 'react';
 import Track from './Track';
 
-const TrackList = () => {
+const TrackList = ({tracks, handleTrackClick}) => {
+    const tracksToDisplay = tracks.map(track => <Track track={track} handleTrackClick={handleTrackClick} /> )
     return (
         <ul>
-            <Track />
+            {tracksToDisplay}
         </ul>
     );
 };
