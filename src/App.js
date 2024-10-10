@@ -7,18 +7,25 @@ import PlayList from './components/PlayList';
 import mockTracks from './utilities/mockTracks';
 
 function App() {
+  //Initialize states for result list and playlist tracks
   const [resultTracks, setResultTracks] = useState(mockTracks);
-  const handleResultTrackClick = ({target}) => {
-    alert(`This should add track ${target.innerHTML} to the playlist`);
-  };
   const [playlistTracks, setPlaylistTracks] = useState([]);
+
+  //Add clicked track to playlist (clicked from SearchResult list)
+  const handleClickAddToPlaylist = (trackIdToAdd) => {
+    setPlaylistTracks(playlistTracks => [resultTracks[trackIdToAdd], ...playlistTracks]);
+  };
+
+  //Remove track from playlist
   const removeTrack = (trackId) => {
     alert(`This should remove track with ID: ${trackId} from the playlist`);
   }
+
+  //App JSX to render
   return (
     <div>
       <SearchBar />
-      <SearchResults tracks={resultTracks} handleTrackClick={handleResultTrackClick} />
+      <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
       <PlayList tracks={playlistTracks} handleTrackClick={removeTrack} />
     </div>
   );
