@@ -17,8 +17,8 @@ function App() {
   };
 
   //Remove track from playlist
-  const removeTrack = (trackId) => {
-    alert(`This should remove track with ID: ${trackId} from the playlist`);
+  const handleClickRemoveTrack = (trackIdToRemove) => {
+    setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
   }
 
   //App JSX to render
@@ -26,7 +26,7 @@ function App() {
     <div>
       <SearchBar />
       <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
-      <PlayList tracks={playlistTracks} handleTrackClick={removeTrack} />
+      <PlayList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
     </div>
   );
 }
