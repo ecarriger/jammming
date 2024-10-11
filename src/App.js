@@ -27,7 +27,7 @@ function App() {
     <div>
       <SearchBar />
       <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
-      <Playlist tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
+      <Playlist tracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} handleTrackClick={handleClickRemoveTrack} />
     </div>
   );
 }
