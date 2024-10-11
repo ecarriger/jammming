@@ -8,7 +8,8 @@ import mockTracks from './utilities/mockTracks';
 
 function App() {
   //Initialize states for result list and playlist tracks
-  const [resultTracks, setResultTracks] = useState(mockTracks);
+
+  const [resultTracks, setResultTracks] = useState(mockTracks.tracks);
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
   //Add clicked track to playlist (clicked from SearchResult list)

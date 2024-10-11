@@ -3,7 +3,7 @@ import React from 'react';
 const Track = ({index, track, handleTrackClick}) => {
 
     return (
-        <li key={index} onClick={handleTrackClick}>{track.title}</li>
+        <li key={index} onClick={handleTrackClick}>{track.name}</li>
     );
 };
 
