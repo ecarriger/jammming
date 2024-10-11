@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TrackList from './TrackList';
 
-const PlayList = ({tracks, handleTrackClick}) => {
+const Playlist = ({tracks, handleTrackClick}) => {
 
     const [playlistName, setPlaylistName] = useState('');
     const handlePlaylistNameChange = ({target}) => {
@@ -28,4 +28,4 @@ const PlayList = ({tracks, handleTrackClick}) => {
     );
 };
 
-export default PlayList;
+export default Playlist;

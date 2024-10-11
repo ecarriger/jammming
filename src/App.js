@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
-import PlayList from './components/PlayList';
+import Playlist from './components/Playlist';
 import mockTracks from './utilities/mockTracks';
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
     <div>
       <SearchBar />
       <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
-      <PlayList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
+      <Playlist tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
     </div>
   );
 }
