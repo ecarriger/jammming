@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import Playlist from './components/Playlist';
-import Auth from './components/Auth';
 
 import mockTracks from './utilities/mockTracks';
 
@@ -15,6 +14,9 @@ function App() {
   const [resultTracks, setResultTracks] = useState(mockTracks.tracks);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [accessToken, setAccessToken] = useState('');
+  useEffect(() => {
+    
+  }, [App]);
 
   //Add clicked track to playlist (clicked from SearchResult list)
   const handleClickAddToPlaylist = (trackIdToAdd) => {
@@ -26,17 +28,15 @@ function App() {
     setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
   }
 
-  const authJSX = <section><Auth setAccessToken={setAccessToken} /></section>;
-  const authedJSXContent = (
+
+  //App JSX to render
+  return (
     <section>
-      <SearchBar />
+      <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} />
       <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
       <Playlist tracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} handleTrackClick={handleClickRemoveTrack} />
     </section>
-    );
-
-  //App JSX to render
-  return accessToken.length > 0 ? authedJSXContent : authJSX;
+  )
 }
 
 export default App;
