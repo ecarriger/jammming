@@ -1,4 +1,6 @@
-const auth = () => {
+import { generateRandomString } from "./utils";
+
+const auth = (stateKey) => {
     var client_id = '7549faaac87744f98288992bdaadfbde';
     var redirect_uri = 'http://localhost:3000/auth';
 
