@@ -1,5 +1,6 @@
 const get = async (url) => {
     try{
+        console.log(url);
         const response = await fetch(url);
         if(response.ok) {
             const data = await response.json();

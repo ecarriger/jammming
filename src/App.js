@@ -14,7 +14,7 @@ function App() {
 
   const [resultTracks, setResultTracks] = useState(mockTracks.tracks);
   const [playlistTracks, setPlaylistTracks] = useState([]);
-  const [isAuth, setIsAuth] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
 
   //Add clicked track to playlist (clicked from SearchResult list)
   const handleClickAddToPlaylist = (trackIdToAdd) => {
@@ -26,7 +26,7 @@ function App() {
     setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
   }
 
-  const authJSX = <section><Auth setIsAuth={setIsAuth} /></section>;
+  const authJSX = <section><Auth setAccessToken={setAccessToken} /></section>;
   const authedJSXContent = (
     <section>
       <SearchBar />
@@ -36,7 +36,7 @@ function App() {
     );
 
   //App JSX to render
-  return isAuth ? authedJSXContent : authJSX;
+  return accessToken.length > 0 ? authedJSXContent : authJSX;
 }
 
 export default App;

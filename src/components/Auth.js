@@ -2,20 +2,18 @@ import React from "react";
 import auth from '../utilities/auth';
 import get from "../utilities/get";
 
-const Auth = ({setIsAuth}) => {
+const Auth = ({setAccessToken}) => {
     const handleAuthSubmit = (e) => {
         e.preventDefault();
-        let clientToken = '';
-
-        const clientTokenRequestUrl = auth();
-
-        clientToken = get(clientTokenRequestUrl);
-
-        
-
-        if(clientToken.length > 0) {
-            setIsAuth(true);
+        let urlParams = window.location.href;
+        if(urlParams.includes("access_token=")) {
+            const returnedAccessToken = urlParams.match(/(?<=access_token=)(.*)(?=&token_type)/);
+            console.log(returnedAccessToken[0]);
+            setAccessToken(returnedAccessToken[0]);
         }
+        else {
+            window.location = auth();
+        }       
     };
 
     return (
