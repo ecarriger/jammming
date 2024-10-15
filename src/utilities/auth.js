@@ -1,15 +1,15 @@
 import { generateRandomString } from "./utils";
 
-const auth = (stateKey) => {
-    var client_id = '7549faaac87744f98288992bdaadfbde';
-    var redirect_uri = 'http://localhost:3000/auth';
+const auth = () => {
+    const client_id = '7549faaac87744f98288992bdaadfbde';
+    const redirect_uri = 'http://localhost:3000/auth';
 
-    var state = generateRandomString(16);
+    const state = generateRandomString(16);
 
-    localStorage.setItem(stateKey, state);
-    var scope = 'playlist-modify-private playlist-modify-public';
+    localStorage.setItem('state', state);
+    const scope = 'playlist-modify-private';
 
-    var url = 'https://accounts.spotify.com/authorize';
+    let url = 'https://accounts.spotify.com/authorize';
     url += '?response_type=token';
     url += '&client_id=' + encodeURIComponent(client_id);
     url += '&scope=' + encodeURIComponent(scope);
