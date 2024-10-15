@@ -4,6 +4,7 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import Playlist from './components/Playlist';
+import auth from './utilities/auth';
 import mockTracks from './utilities/mockTracks';
 
 function App() {
