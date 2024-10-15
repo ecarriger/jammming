@@ -7,7 +7,6 @@ import SearchResults from './components/SearchResults';
 import Playlist from './components/Playlist';
 import Auth from './components/Auth';
 
-import auth from './utilities/auth';
 import mockTracks from './utilities/mockTracks';
 
 function App() {
@@ -27,7 +26,7 @@ function App() {
     setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
   }
 
-  const authJSX = <section><Auth /></section>;
+  const authJSX = <section><Auth setIsAuth={setIsAuth} /></section>;
   const authedJSXContent = (
     <section>
       <SearchBar />

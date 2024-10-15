@@ -1,9 +1,11 @@
 import React from "react";
+import auth from '../utilities/auth';
 
-const Auth = () => {
+const Auth = ({setIsAuth}) => {
     const handleAuthSubmit = (e) => {
         e.preventDefault();
         alert('This should submit auth request');
+        setIsAuth(true);
     };
 
     return (
