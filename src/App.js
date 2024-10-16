@@ -5,7 +5,9 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import Playlist from './components/Playlist';
+import Auth from './components/Auth';
 
+import Spotify from './utilities/Spotify';
 import mockTracks from './utilities/mockTracks';
 
 function App() {
@@ -14,9 +16,20 @@ function App() {
   const [resultTracks, setResultTracks] = useState(mockTracks.tracks);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [accessToken, setAccessToken] = useState('');
+  const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date);
   useEffect(() => {
-    
+    // Check if Spotify access token is set
+    if(accessTokenExpiration < new Date) {
+      if(Spotify.auth.checkUrlForAccessToken()) {
+          setAccessToken('');
+      }
+  }
   }, [App]);
+
+  const handleAuthSubmit = (event) => {
+    event.preventDefault();
+    console.log('This should redirect to Spotify to authorize');
+  };
 
   //Add clicked track to playlist (clicked from SearchResult list)
   const handleClickAddToPlaylist = (trackIdToAdd) => {
@@ -32,6 +45,7 @@ function App() {
   //App JSX to render
   return (
     <section>
+      <Auth handleAuthSubmit={handleAuthSubmit} />
       <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} />
       <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
       <Playlist tracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} handleTrackClick={handleClickRemoveTrack} />

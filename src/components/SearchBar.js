@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import auth from '../utilities/auth';
-
 const SearchBar = (props) => {
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -12,15 +10,6 @@ const SearchBar = (props) => {
         event.preventDefault();
         console.log("This should initiate a search!");
 
-        //1. Check if Spotify access token is set
-        if(props.accessToken.length === 0) {
-            if(auth.checkUrlForAccessToken()) {
-                props.setAccessToken(auth.extractAccessToken);
-            }
-            else {
-                auth.requestAccessToken();
-            }
-        }
 
     };
 
