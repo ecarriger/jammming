@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 
-const SearchBar = (props) => {
+const SearchBar = ({handleSearchSubmit}) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearchChange = ({target}) => {
         setSearchQuery(target.value);
-    };
-    const handleSearchSubmit = (event) => {
-        event.preventDefault();
-        console.log("This should initiate a search!");
-
-
     };
 
     return (
