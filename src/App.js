@@ -44,6 +44,7 @@ function App() {
   //App JSX to render
   return (
     <section>
+      <h1>Jammming</h1>
       {accessToken.length === 0 && <Auth handleAuthSubmit={handleAuthSubmit} />}
       {accessToken.length > 0 && <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} />}
       {accessToken.length > 0 && <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />}
