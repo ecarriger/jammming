@@ -19,16 +19,15 @@ function App() {
   const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date);
   useEffect(() => {
     // Check if Spotify access token is set
-    if(accessTokenExpiration < new Date) {
-      if(Spotify.auth.checkUrlForAccessToken()) {
-          setAccessToken('');
-      }
-  }
+    if(accessToken.length === 0 && Spotify.auth.checkUrlForAccessToken()) {
+        setAccessToken(Spotify.auth.extractAccessToken);
+    }
   }, [App]);
 
+  //Redirect to Spotify to grant permission to app
   const handleAuthSubmit = (event) => {
     event.preventDefault();
-    console.log('This should redirect to Spotify to authorize');
+    Spotify.auth.requestAccessToken();
   };
 
   //Add clicked track to playlist (clicked from SearchResult list)
@@ -45,10 +44,10 @@ function App() {
   //App JSX to render
   return (
     <section>
-      <Auth handleAuthSubmit={handleAuthSubmit} />
-      <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} />
-      <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
-      <Playlist tracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} handleTrackClick={handleClickRemoveTrack} />
+      {accessToken.length === 0 && <Auth handleAuthSubmit={handleAuthSubmit} />}
+      {accessToken.length > 0 && <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} />}
+      {accessToken.length > 0 && <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />}
+      {accessToken.length > 0 && <Playlist tracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} handleTrackClick={handleClickRemoveTrack} />}
     </section>
   )
 }
