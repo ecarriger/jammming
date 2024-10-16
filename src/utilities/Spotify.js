@@ -29,10 +29,19 @@ const Spotify = {
             return returnedAccessToken[0];
         }
     },
-    get: async (url) => {
+    getTracks: async (query, accessToken) => {
+        let url = '/v1/search?q=';
+        url += query;
+        url += '&type=track';
+
         try{
             console.log(url);
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                headers: {
+                    method: 'GET',
+                    Authorization: 'Bearer ' + accessToken
+                }
+              });
             if(response.ok) {
                 const data = await response.json();
                 console.log(data);
