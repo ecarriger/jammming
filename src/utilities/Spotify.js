@@ -30,12 +30,11 @@ const Spotify = {
         }
     },
     getTracks: async (query, accessToken) => {
-        let url = '/v1/search?q=';
-        url += query;
+        let url = 'https://api.spotify.com/v1/search?q=';
+        url += encodeURIComponent(query);
         url += '&type=track';
 
         try{
-            console.log(url);
             const response = await fetch(url, {
                 headers: {
                     method: 'GET',
@@ -43,14 +42,14 @@ const Spotify = {
                 }
               });
             if(response.ok) {
-                const data = await response.json();
-                console.log(data);
-                return data;
+                const json = await response.json();
+                console.log(json);
+                return json;
             }
         }
         catch(error) {
             console.log(error);
-        }
+       }
         
     },
     post: async () => {

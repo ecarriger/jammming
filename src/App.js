@@ -30,15 +30,19 @@ function App() {
     Spotify.auth.requestAccessToken();
   };
 
+
   //Send search request to Spotify
-  const handleSearchSubmit = (event) => {
+  const handleSearchSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const query = formData.get('search-bar');
-    console.log('This should send a search request to Spotify', query);
+    console.log('This should send a search request to Spotify: ', query);
     
-    const responseData = Spotify.getTracks(query, accessToken);
-    setResultTracks(JSON.parse(responseData).tracks.items);
+
+    const spotifyResults = await Spotify.getTracks(query, accessToken);   
+    setResultTracks(spotifyResults.tracks.items);
+    
+
   };
 
   //Add clicked track to playlist (clicked from SearchResult list)
