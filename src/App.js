@@ -22,14 +22,13 @@ function App() {
     if(accessToken.length === 0 && Spotify.auth.checkUrlForAccessToken()) {
         setAccessToken(Spotify.auth.extractAccessToken);
     }
-  }, [App]);
+  }, [accessToken.length]);
 
   //Redirect to Spotify to grant permission to app
   const handleAuthSubmit = (event) => {
     event.preventDefault();
     Spotify.auth.requestAccessToken();
   };
-
 
   //Send search request to Spotify
   const handleSearchSubmit = async (event) => {
@@ -39,10 +38,10 @@ function App() {
     console.log('This should send a search request to Spotify: ', query);
     
 
-    const spotifyResults = await Spotify.getTracks(query, accessToken);   
+    const spotifyResults = await Spotify.getTracks(query, accessToken);
+    console.log(spotifyResults);
     setResultTracks(spotifyResults.tracks.items);
     
-
   };
 
   //Add clicked track to playlist (clicked from SearchResult list)

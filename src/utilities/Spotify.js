@@ -30,10 +30,12 @@ const Spotify = {
         }
     },
     getTracks: async (query, accessToken) => {
-        let url = 'https://api.spotify.com/v1/search?q=';
+        //Using relative path with proxy server during development 
+        let url = '/api/search?q=';
         url += encodeURIComponent(query);
         url += '&type=track';
 
+        console.log(url);
         try{
             const response = await fetch(url, {
                 headers: {
