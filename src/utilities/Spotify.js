@@ -31,18 +31,18 @@ const Spotify = {
     },
     getTracks: async (query, accessToken) => {
         //Using relative path with proxy server during development 
-        let url = '/api/search?q=';
-        url += encodeURIComponent(query);
-        url += '&type=track';
+        const baseUrl = '/api';
+        const endpoint = '/search';
+        const request = baseUrl + endpoint + '?type=track&q=' + encodeURIComponent(query);
 
-        console.log(url);
+        console.log(request);
         try{
-            const response = await fetch(url, {
+            const response = await fetch(request, {
                 headers: {
                     method: 'GET',
                     Authorization: 'Bearer ' + accessToken
                 }
-              });
+            });
             if(response.ok) {
                 const json = await response.json();
                 console.log(json);
