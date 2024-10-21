@@ -1,5 +1,23 @@
 import { generateRandomString } from "./utils";
 
+const get = async (url, accessToken) => {
+    try{
+        const response = await fetch(url, {
+            headers: {
+                method: 'GET',
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+        if(response.ok) {
+            const json = await response.json();
+            return json;
+        }
+    }
+    catch(error) {
+        console.log(error);
+   }
+};
+
 const Spotify = {
     auth: {
         requestAccessToken: () => {
@@ -31,14 +49,27 @@ const Spotify = {
     },
     getTracks: async (query, accessToken) => {
         //Using relative path with proxy server during development 
-        const baseUrl = '/api';
+        const base = '/api';
         const endpoint = '/search';
-        const request = baseUrl + endpoint + '?type=track&q=' + encodeURIComponent(query);
+        const url = base + endpoint + '?type=track&q=' + encodeURIComponent(query);
 
+        const results = await get(url, accessToken);
+        return results;      
+    },
+    getUserId: async (accessToken) => {
+        //Using relative path with proxy server during development 
+        const base = '/api';
+        const endpoint = '/me';
+        const url = base + endpoint;
+
+        const results = await get(url, accessToken);
+        return results;
+    },
+    post: async (url, accessToken) => {
         try{
-            const response = await fetch(request, {
+            const response = await fetch(url, {
                 headers: {
-                    method: 'GET',
+                    method: 'POST',
                     Authorization: 'Bearer ' + accessToken
                 }
             });
@@ -51,7 +82,10 @@ const Spotify = {
             console.log(error);
        }
     },
-    post: async () => {
+    postNewPlaylist: async (playlistName, accessToken) => {
+
+    },
+    postTracksToPlaylist: async (playlistName, trackUrisToSave, accessToken) => {
 
     }
 };

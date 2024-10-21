@@ -6,6 +6,7 @@ import Spotify from '../utilities/Spotify';
 
 const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessToken}) => {
 
+    const [userId, setUserId] = useState('');
     const [playlistName, setPlaylistName] = useState('');
     const handlePlaylistNameChange = ({target}) => {
         setPlaylistName(target.value);
@@ -24,8 +25,11 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
         console.log(`This should save playlist ${playlistName} to Spotify with tracks: ${trackUrisToSave}`);
 
         //Get user's Spotify ID
-        const userId = await Spotify.getUserId(accessToken);
-        console.log(userId);
+        if(userId.length === 0) {
+            const user = await Spotify.getUserId(accessToken);
+            setPlaylistName(user.id);
+            console.log(userId);
+        }
 
         //Create new playlist on users account
         Spotify.postNewPlaylist(playlistName);        
