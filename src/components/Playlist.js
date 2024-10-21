@@ -32,10 +32,18 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
         }
 
         //Create new playlist on users account
-        Spotify.postNewPlaylist(playlistName);        
+        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, accessToken);
+        console.log(createPlaylistResults);
+        const playlistId = createPlaylistResults.id;
 
         //Add selected tracks to the new playlist
-        Spotify.postTracksToPlaylist(playlistName, trackUrisToSave);
+        if(playlistId) {
+            const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, accessToken);
+            console.log(addTracksToPlaylistResults);
+        }
+        else {
+            throw(new Error('Cannot add tracks as no playlist id response'));
+        }
 
         //Cleanup
         setPlaylistName('');

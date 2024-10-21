@@ -17,7 +17,25 @@ const get = async (url, accessToken) => {
         console.log(error);
    }
 };
-
+const post = async (url, body, accessToken) => {
+    const headers = {
+        method: 'POST',
+        Authorization: 'Bearer ' + accessToken,
+    }    
+    try{
+        const response = await fetch(url, {
+            headers: JSON.stringify(headers),
+            body: JSON.stringify(body)
+        });
+        if(response.ok) {
+            const json = await response.json();
+            return json;
+        }
+    }
+    catch(error) {
+        console.log(error);
+   }
+};
 const Spotify = {
     auth: {
         requestAccessToken: () => {
@@ -65,28 +83,29 @@ const Spotify = {
         const results = await get(url, accessToken);
         return results;
     },
-    post: async (url, accessToken) => {
-        try{
-            const response = await fetch(url, {
-                headers: {
-                    method: 'POST',
-                    Authorization: 'Bearer ' + accessToken
-                }
-            });
-            if(response.ok) {
-                const json = await response.json();
-                return json;
-            }
-        }
-        catch(error) {
-            console.log(error);
-       }
-    },
-    postNewPlaylist: async (playlistName, accessToken) => {
+    
+    postNewPlaylist: async (playlistName, userId, accessToken) => {
+        //Using relative path with proxy server during development 
+        const base = '/api';
+        const endpoint = '/playlists';
+        const url = base + userId + endpoint;
 
-    },
-    postTracksToPlaylist: async (playlistName, trackUrisToSave, accessToken) => {
+        const body = {name: playlistName, public: false};
 
+        const results = await get(url, body, accessToken);
+        return results;
+    },
+    postTracksToPlaylist: async (playlistID, trackUrisToSave, accessToken) => {
+        //Using relative path with proxy server during development 
+        const base = '/api';
+        const midpoint = '/playlists/';
+        const endpoint = '/tracks'
+        const url = base + midpoint + playlistID + endpoint;
+
+        const body = {"uris": trackUrisToSave};
+
+        const results = await get(url, body, accessToken);
+        return results;
     }
 };
 export default Spotify;
