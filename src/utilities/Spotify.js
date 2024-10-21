@@ -35,7 +35,6 @@ const Spotify = {
         const endpoint = '/search';
         const request = baseUrl + endpoint + '?type=track&q=' + encodeURIComponent(query);
 
-        console.log(request);
         try{
             const response = await fetch(request, {
                 headers: {
@@ -45,14 +44,12 @@ const Spotify = {
             });
             if(response.ok) {
                 const json = await response.json();
-                console.log(json);
                 return json;
             }
         }
         catch(error) {
             console.log(error);
        }
-        
     },
     post: async () => {
 

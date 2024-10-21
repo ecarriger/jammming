@@ -34,14 +34,10 @@ function App() {
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const query = formData.get('search-bar');
-    console.log('This should send a search request to Spotify: ', query);
-    
+    const query = formData.get('search-bar');    
 
     const spotifyResults = await Spotify.getTracks(query, accessToken);
-    console.log(spotifyResults);
     setResultTracks(spotifyResults.tracks.items);
-    
   };
 
   //Add clicked track to playlist (clicked from SearchResult list)
