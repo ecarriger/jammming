@@ -40,7 +40,7 @@ function App() {
 
     const spotifyResults = await Spotify.getTracks(query, accessToken);
     console.log(spotifyResults);
-    //setResultTracks(spotifyResults.tracks.items);
+    setResultTracks(spotifyResults.tracks.items);
     
   };
 
