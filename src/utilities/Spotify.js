@@ -17,16 +17,18 @@ const get = async (url, accessToken) => {
         console.log(error);
    }
 };
-const post = async (url, body, accessToken) => {
-    const headers = {
+const post = async (url, data, accessToken) => {
+    const dataJSON = JSON.stringify(data);
+    const request = {
         method: 'POST',
-        Authorization: 'Bearer ' + accessToken,
+        headers: {
+            Authorization: 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        },
+        body: dataJSON
     }    
     try{
-        const response = await fetch(url, {
-            headers: JSON.stringify(headers),
-            body: JSON.stringify(body)
-        });
+        const response = await fetch(url, request);
         if(response.ok) {
             const json = await response.json();
             return json;
@@ -87,12 +89,13 @@ const Spotify = {
     postNewPlaylist: async (playlistName, userId, accessToken) => {
         //Using relative path with proxy server during development 
         const base = '/api';
+        const midpoint = '/users/';
         const endpoint = '/playlists';
-        const url = base + userId + endpoint;
+        const url = base + midpoint + userId + endpoint;
 
         const body = {name: playlistName, public: false};
 
-        const results = await get(url, body, accessToken);
+        const results = await post(url, body, accessToken);
         return results;
     },
     postTracksToPlaylist: async (playlistID, trackUrisToSave, accessToken) => {
@@ -104,7 +107,7 @@ const Spotify = {
 
         const body = {"uris": trackUrisToSave};
 
-        const results = await get(url, body, accessToken);
+        const results = await post(url, body, accessToken);
         return results;
     }
 };

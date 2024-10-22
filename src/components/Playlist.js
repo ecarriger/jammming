@@ -22,18 +22,16 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
 
-        console.log(`This should save playlist ${playlistName} to Spotify with tracks: ${trackUrisToSave}`);
-
         //Get user's Spotify ID
         if(userId.length === 0) {
             const user = await Spotify.getUserId(accessToken);
-            setPlaylistName(user.id);
-            console.log(userId);
+            setUserId(user.id);
+            
         }
 
         //Create new playlist on users account
         const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, accessToken);
-        console.log(createPlaylistResults);
+        console.log('Playlist creation:' + createPlaylistResults);
         const playlistId = createPlaylistResults.id;
 
         //Add selected tracks to the new playlist
