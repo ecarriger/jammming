@@ -1,5 +1,43 @@
 import { generateRandomString } from "./utils";
 
+const get = async (url, accessToken) => {
+    try{
+        const response = await fetch(url, {
+            headers: {
+                method: 'GET',
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+        if(response.ok) {
+            const json = await response.json();
+            return json;
+        }
+    }
+    catch(error) {
+        console.log(error);
+   }
+};
+const post = async (url, data, accessToken) => {
+    const dataJSON = JSON.stringify(data);
+    const request = {
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        },
+        body: dataJSON
+    }    
+    try{
+        const response = await fetch(url, request);
+        if(response.ok) {
+            const json = await response.json();
+            return json;
+        }
+    }
+    catch(error) {
+        console.log(error);
+   }
+};
 const Spotify = {
     auth: {
         requestAccessToken: () => {
@@ -31,28 +69,46 @@ const Spotify = {
     },
     getTracks: async (query, accessToken) => {
         //Using relative path with proxy server during development 
-        const baseUrl = '/api';
+        const base = '/api';
         const endpoint = '/search';
-        const request = baseUrl + endpoint + '?type=track&q=' + encodeURIComponent(query);
+        const url = base + endpoint + '?type=track&q=' + encodeURIComponent(query);
 
-        try{
-            const response = await fetch(request, {
-                headers: {
-                    method: 'GET',
-                    Authorization: 'Bearer ' + accessToken
-                }
-            });
-            if(response.ok) {
-                const json = await response.json();
-                return json;
-            }
-        }
-        catch(error) {
-            console.log(error);
-       }
+        const results = await get(url, accessToken);
+        return results;      
     },
-    post: async () => {
+    getUserId: async (accessToken) => {
+        //Using relative path with proxy server during development 
+        const base = '/api';
+        const endpoint = '/me';
+        const url = base + endpoint;
 
+        const results = await get(url, accessToken);
+        return results;
+    },
+    
+    postNewPlaylist: async (playlistName, userId, accessToken) => {
+        //Using relative path with proxy server during development 
+        const base = '/api';
+        const midpoint = '/users/';
+        const endpoint = '/playlists';
+        const url = base + midpoint + userId + endpoint;
+
+        const body = {name: playlistName, public: false};
+
+        const results = await post(url, body, accessToken);
+        return results;
+    },
+    postTracksToPlaylist: async (playlistID, trackUrisToSave, accessToken) => {
+        //Using relative path with proxy server during development 
+        const base = '/api';
+        const midpoint = '/playlists/';
+        const endpoint = '/tracks'
+        const url = base + midpoint + playlistID + endpoint;
+
+        const body = {"uris": trackUrisToSave};
+
+        const results = await post(url, body, accessToken);
+        return results;
     }
 };
 export default Spotify;

@@ -58,7 +58,12 @@ function App() {
       {accessToken.length === 0 && <Auth handleAuthSubmit={handleAuthSubmit} />}
       {accessToken.length > 0 && <SearchBar handleSearchSubmit={handleSearchSubmit} />}
       {accessToken.length > 0 && <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />}
-      {accessToken.length > 0 && <Playlist tracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} handleTrackClick={handleClickRemoveTrack} />}
+      {accessToken.length > 0 && <Playlist 
+        playlistTracks={playlistTracks} 
+        setPlaylistTracks={setPlaylistTracks} 
+        handleTrackClick={handleClickRemoveTrack} 
+        accessToken={accessToken}
+      />}
     </section>
   )
 }
