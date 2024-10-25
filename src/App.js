@@ -21,6 +21,9 @@ function App() {
     // Check if Spotify access token is set
     if(accessToken.length === 0 && Spotify.auth.checkUrlForAccessToken()) {
         setAccessToken(Spotify.auth.extractAccessToken);
+        const expDate = new Date();
+        expDate.setSeconds(expDate.getSeconds() + Spotify.auth.extractExpiration());
+        setAccessTokenExpiration(expDate);
     }
   }, [accessToken.length]);
 

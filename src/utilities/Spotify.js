@@ -46,7 +46,7 @@ const Spotify = {
 
             const state = generateRandomString(16);
 
-            localStorage.setItem('state', state);
+            window.localStorage.setItem('state', state);
             const scope = 'playlist-modify-private';
 
             let url = 'https://accounts.spotify.com/authorize';
@@ -65,6 +65,10 @@ const Spotify = {
         extractAccessToken: () => {
             const returnedAccessToken = window.location.href.match(/(?<=access_token=)(.*)(?=&token_type)/);
             return returnedAccessToken[0];
+        },
+        extractExpiration: () => {
+            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
+            return Number(returnedExpiration[0]);
         }
     },
     getTracks: async (query, accessToken) => {
