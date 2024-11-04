@@ -22,15 +22,22 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
 
+        debugger;
+
+
+        let currentUserId = "";
         //Get user's Spotify ID
         if(userId.length === 0) {
             const user = await Spotify.getUserId(accessToken);
+            currentUserId = user.id;
             setUserId(user.id);
-            
+        }
+        else {
+            currentUserId = userId;
         }
 
         //Create new playlist on users account
-        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, accessToken);
+        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, accessToken);
         console.log('Playlist creation:' + createPlaylistResults);
         const playlistId = createPlaylistResults.id;
 
