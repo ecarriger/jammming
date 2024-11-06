@@ -8,6 +8,7 @@ import Playlist from './components/Playlist';
 import Auth from './components/Auth';
 
 import Spotify from './utilities/Spotify';
+import { checkTokenExpired } from './utilities/utils';
 import mockTracks from './utilities/mockTracks';
 
 function App() {
@@ -16,16 +17,30 @@ function App() {
   const [resultTracks, setResultTracks] = useState(mockTracks.tracks);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [accessToken, setAccessToken] = useState('');
-  const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date);
+  const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date());
+  const [auth, setAuth] = useState(false);
+
+  //Clear token and expiration when auth set to false
   useEffect(() => {
-    // Check if Spotify access token is set
-    if(accessToken.length === 0 && Spotify.auth.checkUrlForAccessToken()) {
-        setAccessToken(Spotify.auth.extractAccessToken);
-        const expDate = new Date();
-        expDate.setSeconds(expDate.getSeconds() + Spotify.auth.extractExpiration());
-        setAccessTokenExpiration(expDate);
+    if(!auth) {
+      setAccessToken('');
+      setAccessTokenExpiration(new Date());
     }
-  }, [accessToken.length]);
+
+  }, [auth])
+
+  //
+  const accessTokenSet = accessToken.length > 0;
+  const accessTokenInUrl = Spotify.auth.checkUrlForAccessToken();
+  const tokenExpired = checkTokenExpired(accessTokenExpiration);
+  // If access token is not set, but can be found in url
+
+  if(!accessTokenSet && accessTokenInUrl && !tokenExpired) {
+      setAccessToken(Spotify.auth.extractAccessToken);
+      setAccessTokenExpiration(Spotify.auth.extractExpiration());
+      setAuth(true);
+  }
+
 
   //Redirect to Spotify to grant permission to app
   const handleAuthSubmit = (event) => {
@@ -58,14 +73,16 @@ function App() {
   return (
     <section>
       <h1>Jammming</h1>
-      {accessToken.length === 0 && <Auth handleAuthSubmit={handleAuthSubmit} />}
-      {accessToken.length > 0 && <SearchBar handleSearchSubmit={handleSearchSubmit} />}
-      {accessToken.length > 0 && <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />}
-      {accessToken.length > 0 && <Playlist 
+      {!auth && <Auth handleAuthSubmit={handleAuthSubmit} />}
+      {auth && <SearchBar handleSearchSubmit={handleSearchSubmit} />}
+      {auth && <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />}
+      {auth && <Playlist 
         playlistTracks={playlistTracks} 
         setPlaylistTracks={setPlaylistTracks} 
         handleTrackClick={handleClickRemoveTrack} 
         accessToken={accessToken}
+        setAuth={setAuth}
+        accessTokenExpiration={accessTokenExpiration}
       />}
     </section>
   )

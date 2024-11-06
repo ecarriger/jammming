@@ -67,8 +67,10 @@ const Spotify = {
             return returnedAccessToken[0];
         },
         extractExpiration: () => {
-            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
-            return Number(returnedExpiration[0]);
+            const returnedExpiration = 15; //window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
+            const expDate = new Date();
+            expDate.setSeconds(expDate.getSeconds() + Number(returnedExpiration[0]));
+            return expDate;
         }
     },
     getTracks: async (query, accessToken) => {

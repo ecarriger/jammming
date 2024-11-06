@@ -12,3 +12,7 @@ export const generateRandomString = (strLengthToGen) => {
 
     return genStr;
 };
+export const checkTokenExpired = (expirationDate) => {
+    const now = new Date();
+    return now > expirationDate;
+};

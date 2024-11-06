@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import TrackList from './TrackList';
 
 import Spotify from '../utilities/Spotify';
+import { checkTokenExpired } from '../utilities/utils';
 
-const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessToken}) => {
+
+const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessToken, setAuth, accessTokenExpiration}) => {
 
     const [userId, setUserId] = useState('');
     const [playlistName, setPlaylistName] = useState('');
+    
+    
     const handlePlaylistNameChange = ({target}) => {
         setPlaylistName(target.value);
     };
 
     const handleSaveSubmit = async (event) => {
         event.preventDefault();
+
+        if(checkTokenExpired(accessTokenExpiration)) {
+            setAuth(false);
+            return;
+        }
+
         const messageElement = document.getElementById('playlist-submit-message');
         if(playlistTracks.length === 0) {
             messageElement.innerHTML = 'Playlist is empty, please add some tracks';
@@ -21,8 +31,6 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
         }
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
-
-        debugger;
 
 
         let currentUserId = "";
