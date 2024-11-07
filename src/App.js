@@ -29,13 +29,13 @@ function App() {
 
   }, [auth])
 
-  //
+
+
+
   const accessTokenSet = accessToken.length > 0;
   const accessTokenInUrl = Spotify.auth.checkUrlForAccessToken();
-  const tokenExpired = checkTokenExpired(accessTokenExpiration);
-  // If access token is not set, but can be found in url
 
-  if(!accessTokenSet && accessTokenInUrl && !tokenExpired) {
+  if(!accessTokenSet && accessTokenInUrl) {
       setAccessToken(Spotify.auth.extractAccessToken);
       setAccessTokenExpiration(Spotify.auth.extractExpiration());
       setAuth(true);
@@ -51,6 +51,13 @@ function App() {
   //Send search request to Spotify
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
+
+  if(checkTokenExpired(accessTokenExpiration)) {
+    setAuth(false);
+    window.location = 'http://localhost:3000';
+    return;
+  }
+
     const formData = new FormData(event.target);
     const query = formData.get('search-bar');    
 

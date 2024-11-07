@@ -67,7 +67,7 @@ const Spotify = {
             return returnedAccessToken[0];
         },
         extractExpiration: () => {
-            const returnedExpiration = 15; //window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
+            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
             const expDate = new Date();
             expDate.setSeconds(expDate.getSeconds() + Number(returnedExpiration[0]));
             return expDate;

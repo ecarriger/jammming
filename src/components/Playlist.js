@@ -21,6 +21,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
 
         if(checkTokenExpired(accessTokenExpiration)) {
             setAuth(false);
+            window.location = 'http://localhost:3000';
             return;
         }
 
