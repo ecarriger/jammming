@@ -9,12 +9,11 @@ import Auth from './components/Auth';
 
 import Spotify from './utilities/Spotify';
 import { checkTokenExpired } from './utilities/utils';
-import mockTracks from './utilities/mockTracks';
 
 function App() {
   //Initialize states for result list and playlist tracks
 
-  const [resultTracks, setResultTracks] = useState(mockTracks.tracks);
+  const [resultTracks, setResultTracks] = useState([]);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [accessToken, setAccessToken] = useState('');
   const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date());
