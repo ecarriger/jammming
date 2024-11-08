@@ -45,6 +45,7 @@ const Spotify = {
             const redirect_uri = 'http://localhost:3000';
 
             const state = generateRandomString(16);
+            const showDialog = true;
 
             window.localStorage.setItem('state', state);
             const scope = 'playlist-modify-private';
@@ -55,6 +56,7 @@ const Spotify = {
             url += '&scope=' + encodeURIComponent(scope);
             url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
             url += '&state=' + encodeURIComponent(state);
+            url += '&show_dialog=' + encodeURIComponent(showDialog);
 
             window.location = url;
         },
@@ -71,6 +73,10 @@ const Spotify = {
             const expDate = new Date();
             expDate.setSeconds(expDate.getSeconds() + Number(returnedExpiration[0]));
             return expDate;
+        },
+        extractState: () => {
+            const returnedAccessToken = window.location.href.match(/(?<=state=)[\w\d]{16}/);
+            return returnedAccessToken[0];
         }
     },
     getTracks: async (query, accessToken) => {
