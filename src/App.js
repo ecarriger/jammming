@@ -28,16 +28,16 @@ function App() {
 
   }, [auth])
 
-
-
-
   const accessTokenSet = accessToken.length > 0;
   const accessTokenInUrl = Spotify.auth.checkUrlForAccessToken();
 
   if(!accessTokenSet && accessTokenInUrl) {
-      setAccessToken(Spotify.auth.extractAccessToken);
-      setAccessTokenExpiration(Spotify.auth.extractExpiration());
-      setAuth(true);
+      const stateMatches = localStorage.getItem('state') === Spotify.auth.extractState();
+      if(stateMatches) {
+        setAccessToken(Spotify.auth.extractAccessToken);
+        setAccessTokenExpiration(Spotify.auth.extractExpiration());
+        setAuth(true);
+      }
   }
 
 
