@@ -40,13 +40,6 @@ function App() {
       }
   }
 
-
-  //Redirect to Spotify to grant permission to app
-  const handleAuthSubmit = (event) => {
-    event.preventDefault();
-    Spotify.auth.requestAccessToken();
-  };
-
   //Send search request to Spotify
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
@@ -79,7 +72,7 @@ function App() {
   return (
     <section>
       <h1>Jammming</h1>
-      {!auth && <Auth handleAuthSubmit={handleAuthSubmit} />}
+      {!auth && <Auth />}
       {auth && <SearchBar handleSearchSubmit={handleSearchSubmit} />}
       {auth && <SearchResults tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />}
       {auth && <Playlist 
