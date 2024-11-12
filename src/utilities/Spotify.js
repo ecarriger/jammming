@@ -45,9 +45,8 @@ const Spotify = {
             const redirect_uri = 'http://localhost:3000';
 
             const state = generateRandomString(16);
-            const showDialog = true;
-
             window.localStorage.setItem('state', state);
+            const showDialog = true;
             const scope = 'playlist-modify-private';
 
             let url = 'https://accounts.spotify.com/authorize';

@@ -1,11 +1,32 @@
 import React, { useState } from 'react';
 
-const SearchBar = ({handleSearchSubmit}) => {
+import Spotify from '../utilities/Spotify';
+import { checkTokenExpired } from '../utilities/utils';
+
+
+const SearchBar = ({setResultTracks, setAuth}) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearchChange = ({target}) => {
         setSearchQuery(target.value);
     };
+
+    //Send search request to Spotify
+  const handleSearchSubmit = async (event) => {
+    event.preventDefault();
+
+  if(checkTokenExpired(localStorage.getItem('accessTokenExpiration'))) {
+    setAuth(false);
+    window.location = 'http://localhost:3000';
+    return;
+  }
+
+    const formData = new FormData(event.target);
+    const query = formData.get('search-bar');    
+
+    const spotifyResults = await Spotify.getTracks(query, localStorage.getItem('accessToken'));
+    setResultTracks(spotifyResults.tracks.items);
+  };
 
     return (
         <section>
