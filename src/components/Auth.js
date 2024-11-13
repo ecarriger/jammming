@@ -8,6 +8,7 @@ const Auth = ({ auth, setAuth }) => {
     if(!auth) {
       localStorage.setItem('accessToken', '');
       localStorage.setItem('accessTokenExpiration', new Date());
+      localStorage.setItem('userId', '');
     }
 
   }, [auth]);

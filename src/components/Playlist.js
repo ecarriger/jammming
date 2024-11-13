@@ -8,7 +8,6 @@ import { checkTokenExpired } from '../utilities/utils';
 
 const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, setAuth}) => {
 
-    const [userId, setUserId] = useState('');
     const [playlistName, setPlaylistName] = useState('');
     
     //Remove track from playlist
@@ -37,20 +36,15 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, setAuth}
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
 
-
-        let currentUserId = "";
         //Get user's Spotify ID
-        if(userId.length === 0) {
+        let userId = localStorage.getItem('userId');
+        if(!userId) {
             const user = await Spotify.getUserId(localStorage.getItem('accessToken'));
-            currentUserId = user.id;
-            setUserId(user.id);
-        }
-        else {
-            currentUserId = userId;
+            userId = user.id;
         }
 
         //Create new playlist on users account
-        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, localStorage.getItem('accessToken'));
+        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, localStorage.getItem('accessToken'));
         const playlistId = createPlaylistResults.id;
 
         //Add selected tracks to the new playlist
