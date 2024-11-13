@@ -6,12 +6,15 @@ import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
 
-const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessToken, setAuth, accessTokenExpiration}) => {
+const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, setAuth}) => {
 
-    const [userId, setUserId] = useState('');
     const [playlistName, setPlaylistName] = useState('');
     
-    
+    //Remove track from playlist
+    const handleClickRemoveTrack = (trackIdToRemove) => {
+        setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
+    }
+
     const handlePlaylistNameChange = ({target}) => {
         setPlaylistName(target.value);
     };
@@ -19,7 +22,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
     const handleSaveSubmit = async (event) => {
         event.preventDefault();
 
-        if(checkTokenExpired(accessTokenExpiration)) {
+        if(checkTokenExpired(localStorage.getItem('accessToken'))) {
             setAuth(false);
             window.location = 'http://localhost:3000';
             return;
@@ -33,26 +36,20 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
 
-
-        let currentUserId = "";
         //Get user's Spotify ID
-        if(userId.length === 0) {
-            const user = await Spotify.getUserId(accessToken);
-            currentUserId = user.id;
-            setUserId(user.id);
-        }
-        else {
-            currentUserId = userId;
+        let userId = localStorage.getItem('userId');
+        if(!userId) {
+            const user = await Spotify.getUserId(localStorage.getItem('accessToken'));
+            userId = user.id;
         }
 
         //Create new playlist on users account
-        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, accessToken);
-        console.log('Playlist creation:' + createPlaylistResults);
+        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, localStorage.getItem('accessToken'));
         const playlistId = createPlaylistResults.id;
 
         //Add selected tracks to the new playlist
         if(playlistId) {
-            const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, accessToken);
+            const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, localStorage.getItem('accessToken'));
             console.log(addTracksToPlaylistResults);
         }
         else {
@@ -81,7 +78,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, accessTo
                 <input type='submit' value='Save to Spotify' />
             </form>
             <p id="playlist-submit-message" hidden={playlistTracks.length >= 1 ? true : false}></p>
-            <TrackList tracks={playlistTracks} handleTrackClick={handleTrackClick} />
+            <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
         </section>
     );
 };
