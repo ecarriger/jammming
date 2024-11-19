@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import SearchBar from './components/SearchBar';
+import Auth from './components/Auth';
 
-describe('App', () => {
-  it('renders Jamming title', () => {
-    render(<App />);
-    const linkElement = screen.getByText(/Jammming/i);
-    expect(linkElement).toBeInTheDocument();
+
+test('renders Jamming title', () => {
+  render(<App />);
+
+  const title = screen.getByRole('heading', {
+    name: /jammming/i
   });
+
+  expect(title).toBeInTheDocument();
 });
