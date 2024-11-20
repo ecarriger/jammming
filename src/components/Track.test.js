@@ -2,20 +2,59 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import Track from './Track';
 
-test('Track name is displayed', () => {
-    render(<Track track={{name: 'Sound of Silence'}} />)
+const setUpTrack = () => {
+    const handleClick = jest.fn();
+    const track = {
+        name: 'Sound of Silence',
+        album: {
+            name: 'Immortalized'
+        },
+        artists: [
+            {
+                name: 'Disturbed'
+            }
+        ]
+    }
 
-    const track = screen.getByText(/sound of silence/i);
+    render(<Track track={track} handleTrackClick={handleClick} />);
+    
+    return handleClick;
+}
+
+test('Track name is displayed', () => {
+    setUpTrack();
+
+    const track = screen.getByRole('heading', {
+        name: /sound of silence/i
+    })
 
     expect(track).toBeInTheDocument();
 });
+test('Track album name is shown', () => {
+    setUpTrack();
+
+    const album = screen.getByRole('heading', {
+        name: /immortalized/i
+    });
+
+    expect(album).toBeInTheDocument();
+});
+test('Track artist name is shown', () => {
+    setUpTrack();
+
+    const album = screen.getByRole('heading', {
+        name: /disturbed/i
+    });
+
+    expect(album).toBeInTheDocument();
+});
 test('click handler runs when clicked', () => {
-    const handleClick = jest.fn();
-    render(<Track track={{name: 'Sound of Silence'}} handleTrackClick={handleClick} />)
+    const handleClick = setUpTrack();
 
     const listitem = screen.getByRole('listitem');
     userEvent.click(listitem);
 
     expect(handleClick).toHaveBeenCalled();
 });
+
 
