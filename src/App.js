@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -6,8 +6,6 @@ import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import Playlist from './components/Playlist';
 import Auth from './components/Auth';
-
-import Spotify from './utilities/Spotify';
 
 function App() {
   //Initialize states for result list and playlist tracks
