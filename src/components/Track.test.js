@@ -13,7 +13,8 @@ const setUpTrack = () => {
             {
                 name: 'Disturbed'
             }
-        ]
+        ],
+        duration_ms: 252908
     }
 
     render(<Track track={track} handleTrackClick={handleClick} />);
@@ -44,6 +45,15 @@ test('Track artist name is shown', () => {
 
     const album = screen.getByRole('heading', {
         name: /disturbed/i
+    });
+
+    expect(album).toBeInTheDocument();
+});
+test('Track time to be shown', () => {
+    setUpTrack();
+
+    const album = screen.getByRole('heading', {
+        name: '4:12'
     });
 
     expect(album).toBeInTheDocument();
