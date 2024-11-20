@@ -16,7 +16,7 @@ const Auth = ({ auth, setAuth }) => {
   useEffect(() => {
     const accessTokenSet = localStorage.getItem('accessToken');
     const accessTokenInUrl = Spotify.auth.checkUrlForAccessToken();
-    if(!accessTokenSet && accessTokenInUrl && auth) {
+    if(!accessTokenSet && accessTokenInUrl) {
       const stateMatches = localStorage.getItem('state') === Spotify.auth.extractState();
       if(stateMatches) {
         localStorage.setItem('accessToken', Spotify.auth.extractAccessToken());
