@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import TrackList from './TrackList';
+import SearchResults from './SearchResults';
 
-const renderTrackList = (handleClick) => {
+const renderSearchResults = (handleClick) => {
     const tracks = [{
         name: 'Sound of Silence',
         album: {
@@ -28,18 +28,18 @@ const renderTrackList = (handleClick) => {
         duration_ms: 272437
     }]
 
-    render(<TrackList tracks={tracks} handleTrackClick={handleClick} />);
+    render(<SearchResults resultTracks={tracks} setPlaylistTracks={handleClick} />);
 }
 
-test('no tracks displayed if tracks is empty', () => {
-    render(<TrackList tracks={[]} />);
+test('shows no tracks if none present', () => {
+    render(<SearchResults resultTracks={[]} />);
 
-    const trackList = screen.queryByRole('listitem');
+    const tracks = screen.queryByRole('listitem');
 
-    expect(trackList).not.toBeInTheDocument();
+    expect(tracks).not.toBeInTheDocument();
 });
-test('tracks are displayed if present', () => {
-    renderTrackList();
+test('shows 2 tracks when passed 2', () => {
+    renderSearchResults();
 
     const track1 = screen.getByRole('heading', {
         name: /Sound of Silence/i
@@ -53,7 +53,7 @@ test('tracks are displayed if present', () => {
 });
 test('handleTrackClick is run when track is clicked', () => {
     const handleClick = jest.fn();
-    renderTrackList(handleClick);
+    renderSearchResults(handleClick);
     const tracks = screen.getAllByRole('listitem');
 
     for(const track of tracks) {
