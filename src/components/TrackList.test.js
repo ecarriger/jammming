@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event'
+import user from '@testing-library/user-event'
 import TrackList from './TrackList';
 
-const setUpTrackList = () => {
-    const handleClick = jest.fn();
+const setUpTrackList = (handleClick) => {
     const tracks = [{
         name: 'Sound of Silence',
         album: {
@@ -30,12 +29,10 @@ const setUpTrackList = () => {
     }]
 
     render(<TrackList tracks={tracks} handleTrackClick={handleClick} />);
-    
-    return handleClick;
 }
 
 test('no tracks displayed if tracks is empty', () => {
-    render(<TrackList tracks={[]} handleTrackClick={() => {}} />);
+    render(<TrackList tracks={[]} />);
 
     const trackList = screen.queryByRole('listitem');
 
@@ -55,10 +52,13 @@ test('tracks are displayed if present', () => {
     expect(track2).toBeInTheDocument();
 });
 test('handleTrackClick is run when track is clicked', () => {
-    const handleClick = setUpTrackList();
-    const tracks = screen.getAllByRole('listitem');    
+    const handleClick = jest.fn();
+    setUpTrackList(handleClick);
+    const tracks = screen.getAllByRole('listitem');
 
-    userEvent.click(tracks[0]);
+    for(const track of tracks) {
+        user.click(track);
+    }
 
-    expect(handleClick).toHaveBeenCalled();  
+    expect(handleClick).toHaveBeenCalledTimes(2);  
 });
