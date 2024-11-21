@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import TrackList from './TrackList';
 
@@ -20,8 +20,8 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
     };
 
     const handleSaveSubmit = async (event) => {
+        debugger;
         event.preventDefault();
-
         if(checkTokenExpired(localStorage.getItem('accessToken'))) {
             setAuth(false);
             window.location = 'http://localhost:3000';
