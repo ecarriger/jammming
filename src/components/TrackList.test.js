@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event'
+import user from '@testing-library/user-event';
 import TrackList from './TrackList';
 
-const setUpTrackList = (handleClick) => {
+const renderTrackList = (handleClick) => {
     const tracks = [{
         name: 'Sound of Silence',
         album: {
@@ -39,7 +39,7 @@ test('no tracks displayed if tracks is empty', () => {
     expect(trackList).not.toBeInTheDocument();
 });
 test('tracks are displayed if present', () => {
-    setUpTrackList();
+    renderTrackList();
 
     const track1 = screen.getByRole('heading', {
         name: /Sound of Silence/i
@@ -53,7 +53,7 @@ test('tracks are displayed if present', () => {
 });
 test('handleTrackClick is run when track is clicked', () => {
     const handleClick = jest.fn();
-    setUpTrackList(handleClick);
+    renderTrackList(handleClick);
     const tracks = screen.getAllByRole('listitem');
 
     for(const track of tracks) {
