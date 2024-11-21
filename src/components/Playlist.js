@@ -6,7 +6,7 @@ import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
 
-const Playlist = ({playlistTracks, setPlaylistTracks, handleTrackClick, setAuth}) => {
+const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
 
     const [playlistName, setPlaylistName] = useState('');
     
