@@ -1,48 +1,47 @@
 import { screen, render } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import Playlist from './Playlist';
+
 import { checkTokenExpired } from '../utilities/utils';
+import Playlist from './Playlist';
 
 //mock utilities module so checkTokenExpired can be set to return true or false
-jest.mock('../utilities/utils');
+jest.mock('../utilities/utils', () => {
+    return {
+        convertMsToTime: () => {},
+        checkTokenExpired: jest.fn()
+    };
+});
+ 
+const tracks = [{
+    name: 'Sound of Silence',
+    album: {
+        name: 'Immortalized'
+    },
+    artists: [
+        {
+            name: 'Disturbed'
+        }
+    ],
+    duration_ms: 252908
+}, 
+{
+    name: 'The Greatest Showman Theme',
+    album: {
+        name: 'The Greatest Showman Soundtrack'
+    },
+    artists: [
+        {
+            name: 'Hugh Jackman'
+        }
+    ],
+    duration_ms: 272437
+}];
 
-const renderPlaylist = () => {
-    const tracks = [{
-        name: 'Sound of Silence',
-        album: {
-            name: 'Immortalized'
-        },
-        artists: [
-            {
-                name: 'Disturbed'
-            }
-        ],
-        duration_ms: 252908
-    }, 
-    {
-        name: 'The Greatest Showman Theme',
-        album: {
-            name: 'The Greatest Showman Soundtrack'
-        },
-        artists: [
-            {
-                name: 'Hugh Jackman'
-            }
-        ],
-        duration_ms: 272437
-    }]
-    const mockSetPlaylistTracks = jest.fn();
-    const mockSetAuth = jest.fn();
-    
-    render(<Playlist playlistTracks={tracks} setPlaylistTracks={mockSetPlaylistTracks} setAuth={mockSetAuth}/>);
-
-    return [mockSetPlaylistTracks, mockSetAuth];
+const renderPlaylist = (playlistTracks = tracks, setPlaylistTracks = () => {}, setAuth = () => {}) => {
+    render(<Playlist playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} setAuth={setAuth}/>);
 }
 
 describe('accessToken not expired', () => {
-    //set checkTokenExpired to mock return false
-    checkTokenExpired.mockImplementation(() => false);
-
     test('shows no tracks if none present', () => {
         render(<Playlist playlistTracks={[]} />);
     
@@ -76,10 +75,11 @@ describe('accessToken not expired', () => {
         expect(track2).toBeInTheDocument();
     });
     test('handleTrackClick is run when track is clicked', () => {
-        const [mockSetPlaylistTracks] = renderPlaylist();
-        const tracks = screen.getAllByRole('listitem');
+        const mockSetPlaylistTracks = jest.fn();
+        renderPlaylist(tracks, mockSetPlaylistTracks);
+        const renderedTracks = screen.getAllByRole('listitem');
     
-        for(const track of tracks) {
+        for(const track of renderedTracks) {
             user.click(track);
         }
     
@@ -110,7 +110,7 @@ describe('accessToken not expired', () => {
     
         expect(message).not.toBeInTheDocument();
     });
-    test.skip('playlist name and playlist tracks cleared after successful submission', async () => {
+    test('playlist name and playlist tracks cleared after successful submission', async () => {
         renderPlaylist();
     
         const name = screen.getByRole('textbox', {
@@ -132,13 +132,12 @@ describe('accessToken not expired', () => {
     });
 });
 describe('accessToken is expired', () => {
-    //set checkTokenExpired to mock return true
-    checkTokenExpired.mockImplementation(() => true);
-    test.skip('setAuth is called if token expired', () => {
-        jest.mock('../utilities/utils',() => {
-            return false;
-        });
-        const [ mockSetAuth ] = renderPlaylist();
+
+    test('setAuth is called if token expired', () => {
+        //set checkTokenExpired to mock return true
+        checkTokenExpired.mockReturnValueOnce(true); 
+        const mockSetAuth = jest.fn();
+        renderPlaylist(tracks, () => {}, mockSetAuth);
     
         const name = screen.getByRole('textbox', {
             name: 'Playlist name'
