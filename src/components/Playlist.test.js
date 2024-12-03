@@ -1,4 +1,4 @@
-import { screen, render } from '@testing-library/react';
+import { screen, render, waitFor, waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 import { checkTokenExpired } from '../utilities/utils';
@@ -74,17 +74,6 @@ describe('accessToken not expired', () => {
         expect(track1).toBeInTheDocument();
         expect(track2).toBeInTheDocument();
     });
-    test('handleTrackClick is run when track is clicked', () => {
-        const mockSetPlaylistTracks = jest.fn();
-        renderPlaylist(tracks, mockSetPlaylistTracks);
-        const renderedTracks = screen.getAllByRole('listitem');
-    
-        for(const track of renderedTracks) {
-            user.click(track);
-        }
-    
-        expect(mockSetPlaylistTracks).toHaveBeenCalledTimes(2);  
-    });
     test('error message is shown if playlist is empty', () => {
         
         render(<Playlist playlistTracks={[]} setAuth={() => {}} setPlaylistTracks={() => {}} />);
@@ -110,8 +99,24 @@ describe('accessToken not expired', () => {
     
         expect(message).not.toBeInTheDocument();
     });
-    test('playlist name and playlist tracks cleared after successful submission', async () => {
-        renderPlaylist();
+    test('handleTrackClick is run when track is clicked', () => {
+        const mockSetPlaylistTracks = jest.fn();
+        renderPlaylist(tracks, mockSetPlaylistTracks);
+        const renderedTracks = screen.getAllByRole('listitem');
+    
+        for(const track of renderedTracks) {
+            user.click(track);
+        }
+    
+        expect(mockSetPlaylistTracks).toHaveBeenCalledTimes(2);  
+    });
+    test('playlist name cleared after successful submission', async () => {
+        const mockSetPlaylistTracks = jest.fn();
+        renderPlaylist(undefined, mockSetPlaylistTracks);
+        const myTrack = screen.queryByRole('heading', {
+            name: /sound of silence/i
+        });
+        expect(myTrack).toBeInTheDocument();
     
         const name = screen.getByRole('textbox', {
             name: 'Playlist name'
@@ -119,17 +124,18 @@ describe('accessToken not expired', () => {
         const submit = screen.getByRole('button', {
             name: /save/i
         });
-    
+
         user.click(name);
         user.keyboard('My playlist name');
-        user.click(submit);
-    
+        user.click(submit);   
         
-        const playlistItems = screen.queryAllByRole('listitem');
-    
-        expect(name.value).toBe('');
-        expect(playlistItems).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(name.value).toBe('');
+        });
+        expect(mockSetPlaylistTracks).toHaveBeenCalled(); 
     });
+    //Testing if track are removed needs to be done in App.test.js
+    // as that is where setPlaylistTracks state is defined
 });
 describe('accessToken is expired', () => {
 

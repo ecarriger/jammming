@@ -55,7 +55,6 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
         else {
             throw(new Error('Cannot add tracks as no playlist id response'));
         }
-
         //Cleanup
         setPlaylistName('');
         setPlaylistTracks([]);
@@ -63,7 +62,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
 
 
     return (
-        <section>
+        <section id='playlist'>
             <h2>Playlist</h2>
             <form onSubmit={handleSaveSubmit}>
                 <label htmlFor="playlist-name">Playlist name</label>
@@ -77,7 +76,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
                 />
                 <input type='submit' value='Save to Spotify' />
             </form>
-            <p id="playlist-submit-message" hidden={playlistTracks.length >= 1 ? true : false}>test</p>
+            <p id="playlist-submit-message" hidden={playlistTracks.length >= 1 ? true : false}></p>
             <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
         </section>
     );
