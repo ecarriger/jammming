@@ -1,8 +1,35 @@
-import { screen, render, waitFor, waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import {setupServer} from 'msw/node';
+import { rest } from 'msw';
 
 import { checkTokenExpired } from '../utilities/utils';
 import Playlist from './Playlist';
+
+//mock Spotify API
+const handlers = [
+    rest.get('/api/me', (req, res, ctx) => {
+        return res(
+            ctx.json({
+                id: '123'
+            })
+        );
+    }),
+    rest.post('/api/users/playlists', (req, res, ctx) => {
+
+    })
+];
+const server = setupServer(...handlers);
+
+beforeAll(() => {
+    server.listen();
+});
+afterEach(() => {
+    server.resetHandlers();
+});
+afterAll(() => {
+    server.close();
+});
 
 //mock utilities module so checkTokenExpired can be set to return true or false
 jest.mock('../utilities/utils', () => {
