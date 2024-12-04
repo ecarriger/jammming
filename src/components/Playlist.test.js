@@ -112,7 +112,7 @@ test('shows 2 tracks when passed 2', () => {
     expect(track1).toBeInTheDocument();
     expect(track2).toBeInTheDocument();
 });
-test('error message is shown if playlist is empty', () => {
+test('error message is shown if playlist is empty', async () => {
     
     render(<Playlist playlistTracks={[]} setAuth={() => {}} setPlaylistTracks={() => {}} />);
     
@@ -148,6 +148,26 @@ test('handleTrackClick is run when track is clicked', () => {
 
     expect(mockSetPlaylistTracks).toHaveBeenCalledTimes(2);  
 });
+test('message set after playlist created', async () => {
+    renderPlaylist();
+
+    const name = screen.getByRole('textbox', {
+        name: 'Playlist name'
+    });
+    const submit = screen.getByRole('button', {
+        name: /save/i
+    });
+
+    user.click(name);
+    user.keyboard('My playlist name');
+    user.click(submit);
+
+    const message = screen.getByText(/my playlist name/i);
+
+    await waitFor(() => {
+        expect(message).toBeInTheDocument();
+    });
+})
 test('playlist name cleared after successful submission', async () => {
     const mockSetPlaylistTracks = jest.fn();
     renderPlaylist(undefined, mockSetPlaylistTracks);
