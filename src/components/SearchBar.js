@@ -4,7 +4,7 @@ import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
 
-const SearchBar = ({setResultTracks, setAuth}) => {
+const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration}) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearchChange = ({target}) => {
@@ -15,7 +15,7 @@ const SearchBar = ({setResultTracks, setAuth}) => {
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
 
-  if(checkTokenExpired(localStorage.getItem('accessTokenExpiration'))) {
+  if(checkTokenExpired(accessTokenExpiration)) {
     setAuth(false);
     window.location = 'http://localhost:3000';
     return;
@@ -24,7 +24,7 @@ const SearchBar = ({setResultTracks, setAuth}) => {
     const formData = new FormData(event.target);
     const query = formData.get('search-bar');    
 
-    const spotifyResults = await Spotify.getTracks(query, localStorage.getItem('accessToken'));
+    const spotifyResults = await Spotify.getTracks(query, accessToken);
     setResultTracks(spotifyResults.tracks.items);
   };
 
