@@ -45,7 +45,7 @@ const Spotify = {
             const redirect_uri = 'http://localhost:3000';
 
             const state = generateRandomString(16);
-            window.localStorage.setItem('state', state);
+            sessionStorage.setItem('state', state);
             const showDialog = true;
             const scope = 'playlist-modify-private';
 
