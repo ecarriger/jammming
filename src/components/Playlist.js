@@ -8,6 +8,7 @@ import { checkTokenExpired } from '../utilities/utils';
 
 const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
     const [playlistName, setPlaylistName] = useState('');
+    const [message, setMessage] = useState('');
     
     //Remove track from playlist
     const handleClickRemoveTrack = (trackIdToRemove) => {
@@ -26,11 +27,9 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
             window.location = 'http://localhost:3000';
             return;
         }
-
-        const messageElement = document.getElementById('playlist-submit-message');
-        
+        debugger;
         if(playlistTracks.length === 0) {
-            messageElement.innerHTML = 'Playlist is empty, please add some tracks';
+            setMessage('Playlist is empty, please add some tracks');
             return;
         }
         const trackUrisToSave = [];
@@ -51,9 +50,10 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
         //Add selected tracks to the new playlist
         if(playlistId) {
             const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, localStorage.getItem('accessToken'));
-            console.log(addTracksToPlaylistResults);
+            setMessage(`Playlist created: ${createPlaylistResults.name}. Snap: ${addTracksToPlaylistResults.snapshot_id}`);
         }
         else {
+            setMessage('Cannot add tracks as no playlist id response');
             throw(new Error('Cannot add tracks as no playlist id response'));
         }
         //Cleanup
@@ -77,7 +77,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
                 />
                 <input type='submit' value='Save to Spotify' />
             </form>
-            <p id="playlist-submit-message" hidden={playlistTracks.length >= 1 ? true : false}></p>
+            <p id="message">{message ? message : 'No message found'}</p>
             <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
         </section>
     );
