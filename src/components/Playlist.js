@@ -39,18 +39,19 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
         //Get user's Spotify ID
         let userId = localStorage.getItem('userId');
         if(!userId) {
-//            const user = await Spotify.getUserId(localStorage.getItem('accessToken'));
-//            userId = user.id;
+            const user = await Spotify.getUserId(localStorage.getItem('accessToken'));
+            userId = user.id;
+            console.log(userId);
         }
 
         //Create new playlist on users account
-//        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, localStorage.getItem('accessToken'));
-        const playlistId = '1';//createPlaylistResults.id;
+        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, userId, localStorage.getItem('accessToken'));
+        const playlistId = createPlaylistResults.id;
 
         //Add selected tracks to the new playlist
         if(playlistId) {
-//            const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, localStorage.getItem('accessToken'));
-//            console.log(addTracksToPlaylistResults);
+            const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, localStorage.getItem('accessToken'));
+            console.log(addTracksToPlaylistResults);
         }
         else {
             throw(new Error('Cannot add tracks as no playlist id response'));
