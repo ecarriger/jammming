@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import TrackList from './TrackList';
 
@@ -9,6 +9,13 @@ import { checkTokenExpired } from '../utilities/utils';
 const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
     const [playlistName, setPlaylistName] = useState('');
     const [message, setMessage] = useState('');
+    useEffect(() => {
+        if(message) {
+            setTimeout(() => {
+                setMessage('');
+            }, 5000);
+        }
+    }, [message]);
     
     //Remove track from playlist
     const handleClickRemoveTrack = (trackIdToRemove) => {
@@ -77,7 +84,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, setAuth}) => {
                 />
                 <input type='submit' value='Save to Spotify' />
             </form>
-            <p id="message">{message ? message : 'No message found'}</p>
+            <p id="message">{message}</p>
             <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
         </section>
     );
