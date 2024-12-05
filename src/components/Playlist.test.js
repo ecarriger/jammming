@@ -5,6 +5,7 @@ import { rest } from 'msw';
 
 import { checkTokenExpired } from '../utilities/utils';
 import Playlist from './Playlist';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 //mock Spotify API
 const handlers = [
@@ -18,14 +19,15 @@ const handlers = [
     rest.post('/api/users/*/playlists', (req, res, ctx) => {
         return res(
             ctx.json({
-                id: '456'
+                id: '456',
+                name: 'My playlist name'
             })
         )
     }),
     rest.post('/api/playlists/*/tracks', (req, res, ctx) => {
         return res(
             ctx.json({
-                id: '789'
+                snapshot_id: '789'
             })
         )
     })
@@ -86,18 +88,19 @@ test('shows no tracks if none present', () => {
 
     expect(tracks).not.toBeInTheDocument();
 });
-test('input name field can be typed into', () => {
+test('input name field can be typed into', async () => {
     renderPlaylist();
     const input = screen.getByRole('textbox', {
         name: 'Playlist name'
     });
+    expect(input).toBeInTheDocument();
 
     user.click(input);
-    
     user.keyboard('My playlist name');
 
-    expect(input).toBeInTheDocument();
-    expect(input.value).toBe('My playlist name');
+    await waitFor(() => {
+        expect(input.value).toBe('My playlist name');
+    });
 });
 test('shows 2 tracks when passed 2', () => {
     renderPlaylist();
@@ -119,11 +122,14 @@ test('error message is shown if playlist is empty', async () => {
     const submit = screen.getByRole('button', {
         name: /save/i
     });
+
     user.click(submit);
 
-    const message = screen.getByText(/playlist is empty/i);
-
-    expect(message).toBeInTheDocument();
+    await waitFor(() => {
+        const message = screen.getByText(/playlist is empty/i);
+        expect(message).toBeInTheDocument();
+    })
+   
 });
 test('no error message is shown if playlist has tracks', () => {
     renderPlaylist();
@@ -162,12 +168,11 @@ test('message set after playlist created', async () => {
     user.keyboard('My playlist name');
     user.click(submit);
 
-    const message = screen.getByText(/my playlist name/i);
-
     await waitFor(() => {
+        const message = screen.getByText(/my playlist name/i);
         expect(message).toBeInTheDocument();
     });
-})
+});
 test('playlist name cleared after successful submission', async () => {
     const mockSetPlaylistTracks = jest.fn();
     renderPlaylist(undefined, mockSetPlaylistTracks);
