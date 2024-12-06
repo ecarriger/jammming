@@ -32,7 +32,6 @@ if(searchQuery.length < 3) {
   setMessage('Search must be at least 3 charaters');
   return;
 }
-
 if(checkTokenExpired(accessTokenExpiration)) {
   setAuth(false);
   setMessage('Authentication expired, redirecting...');
