@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event'
+import user from '@testing-library/user-event';
 import Track from './Track';
 
 const setUpTrack = () => {
@@ -62,7 +62,7 @@ test('click handler runs when clicked', () => {
     const handleClick = setUpTrack();
 
     const listitem = screen.getByRole('listitem');
-    userEvent.click(listitem);
+    user.click(listitem);
 
     expect(handleClick).toHaveBeenCalled();
 });
