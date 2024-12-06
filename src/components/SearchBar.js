@@ -28,8 +28,7 @@ const queueRedirect = () => {
 //Send search request to Spotify
 const handleSearchSubmit = async (event) => {
   event.preventDefault();
-
-if(SearchBar.length < 3) {
+if(searchQuery.length < 3) {
   setMessage('Search must be at least 3 charaters');
   return;
 }
