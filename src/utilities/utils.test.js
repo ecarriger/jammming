@@ -1,4 +1,4 @@
-import { convertMsToTime } from './utils';
+import { convertMsToTime, generateRandomString } from './utils';
 
 describe('convertMsToTime tests', () => {
     test('60000ms returns 1:00', () => {
@@ -23,4 +23,29 @@ describe('convertMsToTime tests', () => {
         expect(time).toBe('1:00:00');
     });
 
+});
+describe('generateRandomString tests', () => {
+   test('returns empty string when passed 0', () => {
+    const desiredLength = 0;
+
+    const result = generateRandomString(desiredLength);
+
+    expect(result.length).toBe(0);
+   });
+   test('returns string with length 2 when passed 2', () => {
+    const desiredLength = 2;
+
+    const result = generateRandomString(desiredLength);
+
+    expect(result.length).toBe(2);
+   });
+   test('throws error if non-negative number is passed', () => {
+    const desiredLength = -2;
+
+    const result = () => {
+        generateRandomString(desiredLength);
+    }
+
+    expect(result).toThrow();
+    });
 });
