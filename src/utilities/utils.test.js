@@ -42,8 +42,10 @@ describe('generateRandomString tests', () => {
    test('throws error if non-negative number is passed', () => {
     const desiredLength = -2;
 
-    const result = generateRandomString(desiredLength);
+    const result = () => {
+        generateRandomString(desiredLength);
+    }
 
-    expect(result.length).toThrow('Non-negative number was not passed to function generateRandomString');
-   });
+    expect(result).toThrow();
+    });
 });

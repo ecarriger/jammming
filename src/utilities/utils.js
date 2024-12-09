@@ -5,7 +5,7 @@ const generateRandomCharacter = () => {
 };
 export const generateRandomString = (strLengthToGen) => {
     if(typeof strLengthToGen !== 'number' || strLengthToGen < 0) {
-        throw new Error('Non-negative number was not passed to function generateRandomString')
+        throw new Error('Non-negative number was not passed to function generateRandomString');
     } 
     let genStr = '';
 
