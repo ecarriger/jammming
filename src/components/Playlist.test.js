@@ -38,8 +38,8 @@ const tracks = [{
     duration_ms: 272437
 }];
 
-const renderPlaylist = (playlistTracks = tracks, setPlaylistTracks = () => {}, setAuth = () => {}) => {
-    render(<Playlist playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} setAuth={setAuth}/>);
+const renderPlaylist = (playlistTracks = tracks, setPlaylistTracks = () => {}, accessToken = 'abc123', setAuth = () => {}, accessTokenExpiration = new Date(2199, 11)) => {
+    render(<Playlist playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} accessToken={accessToken} setAuth={setAuth} accessTokenExpiration={accessTokenExpiration} />);
 }
 
 test('shows no tracks if none present', () => {
@@ -164,7 +164,7 @@ test('setAuth is called if token expired', () => {
     //set checkTokenExpired to mock return true
     checkTokenExpired.mockReturnValueOnce(true); 
     const mockSetAuth = jest.fn();
-    renderPlaylist(tracks, () => {}, mockSetAuth);
+    renderPlaylist(tracks, () => {}, undefined, mockSetAuth, undefined, new Date(1999, 1));
 
     const name = screen.getByRole('textbox', {
         name: 'Playlist name'
