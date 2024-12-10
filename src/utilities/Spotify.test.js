@@ -21,6 +21,16 @@ describe('auth requestAccessToken tests', () => {
 
         expect(mockSetItem).toHaveBeenCalled();
     });
+    test('navigates to spotify', () => {
+        window.location = {
+            href: 'http://localhost/'
+        };
+        Spotify.auth.requestAccessToken();
+
+        const url = window.location;
+
+        expect(url).toContain('https://accounts.spotify.com/authorize');
+    });
 });
 describe('auth checkUrlForAccessToken tests', () => {
     test('returns false if http://localhost/', () => {
@@ -79,7 +89,7 @@ describe('auth extractAccessToken tests', () => {
         expect(shouldError).toThrow(/more than one token found/i);
     });
 });
-describe('extractExpiration tests', () => {
+describe('auth extractExpiration tests', () => {
     test('returns a date if http://localhost?expires_in=3600 is in url', () => {
         window.location = {
             href: 'http://localhost?expires_in=3600'
