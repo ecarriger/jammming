@@ -87,8 +87,14 @@ const Spotify = {
             return expDate;
         },
         extractState: () => {
-            const returnedAccessToken = window.location.href.match(/(?<=state=)[\w\d]{16}/);
-            return returnedAccessToken[0];
+            const returnedState = window.location.href.match(/(?<=state=)[\w\d]{16}/g);
+            if(!returnedState || !returnedState[0]) {
+                throw new Error('State not found in url');
+            }
+            else if(returnedState.length > 1) {
+                throw new Error('More than one state found in url');
+            }
+            return returnedState[0];
         }
     },
     getTracks: async (query, accessToken) => {

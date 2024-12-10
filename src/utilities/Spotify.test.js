@@ -152,3 +152,50 @@ describe('auth extractExpiration tests', () => {
         expect(expError).toThrow(/more than one expiration found/i);
     });
 });
+describe('auth extractState tests', () => {
+    test('returns abcdefgh12345678 when http://localhost?state=abcdefgh12345678 is in the url', () => {
+        window.location = {
+            href: 'http://localhost?state=abcdefgh12345678'
+        }
+
+        const state = Spotify.auth.extractState();
+
+        expect(state).toBe('abcdefgh12345678');
+    });
+    test('returns abcdefgh12345678 when http://localhost?state=abcdefgh12345678&access_token=abc123 is in the url', () => {
+        window.location = {
+            href: 'http://localhost?state=abcdefgh12345678&access_token=abc123'
+        };
+
+        const state = Spotify.auth.extractState();
+
+        expect(state).toBe('abcdefgh12345678');
+    });
+    test('throws error if url is http://localhost', () => {
+        window.location = {
+            href: 'http://localhost'
+        };
+
+        const stateError = () =>  Spotify.auth.extractState();
+
+        expect(stateError).toThrow(/state not found/i);
+    });
+    test('throws error if url is http://localhost?state=', () => {
+        window.location = {
+            href: 'http://localhost'
+        };
+
+        const stateError = () =>  Spotify.auth.extractState();
+
+        expect(stateError).toThrow(/state not found/i);
+    });
+    test('throws error if url is http://localhost?state=abcdefgh12345678&state=abcdefgh12345678', () => {
+        window.location = {
+            href: 'http://localhost?state=abcdefgh12345678&state=abcdefgh12345678'
+        };
+
+        const stateError = () =>  Spotify.auth.extractState();
+
+        expect(stateError).toThrow(/more than one state found/i);
+    });
+});
