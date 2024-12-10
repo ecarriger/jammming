@@ -64,8 +64,18 @@ const Spotify = {
             return browserUrl.includes("access_token=");
         },
         extractAccessToken: () => {
-            const returnedAccessToken = window.location.href.match(/(?<=access_token=)([\w-]*)(?=(&|$))/);
-            return returnedAccessToken[0];
+            const returnedAccessToken = window.location.href.match(/(?<=access_token=)([\w-]*)(?=(&|$))/g);
+            if(!returnedAccessToken) {
+                throw new Error('No token found in url');
+            }
+            else if(!returnedAccessToken[0]) {
+                throw new Error('No token found in url');
+            }
+            else if(returnedAccessToken.length > 1) {
+                throw new Error('More than one token found in url');
+            } else {
+                return returnedAccessToken[0];
+            }
         },
         extractExpiration: () => {
             const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
