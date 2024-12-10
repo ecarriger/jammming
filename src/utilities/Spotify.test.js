@@ -20,10 +20,25 @@ describe('auth requestAccessToken tests', () => {
     });
 });
 describe('auth checkUrlForAccessToken tests', () => {
-    test('returns false if accessToken not present', () => {
+    test('returns false if http://localhost/', () => {
+        delete window.location;
+        window.location = {
+            href: "http://localhost/"
+        };
+        
         const accessTokenIsInUrl = Spotify.auth.checkUrlForAccessToken();
 
         expect(accessTokenIsInUrl).toBe(false);
+    });
+    test('returns true if http://localhost?access_token=abc123 is in url', () => {
+        delete window.location;
+        window.location = {
+            href: "http://localhost?access_token=abc123"
+        };
+
+        const accessTokenIsInUrl = Spotify.auth.checkUrlForAccessToken();
+
+        expect(accessTokenIsInUrl).toBe(true);
     });
 });
 describe('auth extractAccessToken tests', () => {
@@ -32,7 +47,6 @@ describe('auth extractAccessToken tests', () => {
         window.location = {
             href: "http://localhost?access_token=abc123"
         };
-        console.log(window.location.href);
         const accessToken = Spotify.auth.extractAccessToken();
 
         expect(accessToken).toBe('abc123');
