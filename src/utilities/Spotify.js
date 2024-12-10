@@ -64,7 +64,7 @@ const Spotify = {
             return browserUrl.includes("access_token=");
         },
         extractAccessToken: () => {
-            const returnedAccessToken = window.location.href.match(/(?<=access_token=)(.*)(?=&token_type)/);
+            const returnedAccessToken = window.location.href.match(/(?<=access_token=)([\w-]*)(?=(&|$))/);
             return returnedAccessToken[0];
         },
         extractExpiration: () => {
