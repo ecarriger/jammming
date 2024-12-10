@@ -1,16 +1,19 @@
-import Spotify from "./Spotify";
+import Spotify from './Spotify';
 
 //mock sessionStorage for tests
 const mockGetItem = jest.fn();
 const mockSetItem = jest.fn();
 const mockRemoveItem = jest.fn();
-Object.defineProperty(window, "sessionStorage", {
+Object.defineProperty(window, 'sessionStorage', {
   value: {
     getItem: (...args) => mockGetItem(...args),
     setItem: (...args) => mockSetItem(...args),
     removeItem: (...args) => mockRemoveItem(...args),
   },
 });
+
+//Clear window.location so it can be mocked
+delete window.location;
 
 describe('auth requestAccessToken tests', () => {
     test('sessionStorage is called to set Spotify state', () => {
@@ -21,9 +24,8 @@ describe('auth requestAccessToken tests', () => {
 });
 describe('auth checkUrlForAccessToken tests', () => {
     test('returns false if http://localhost/', () => {
-        delete window.location;
         window.location = {
-            href: "http://localhost/"
+            href: 'http://localhost/'
         };
         
         const accessTokenIsInUrl = Spotify.auth.checkUrlForAccessToken();
@@ -31,9 +33,8 @@ describe('auth checkUrlForAccessToken tests', () => {
         expect(accessTokenIsInUrl).toBe(false);
     });
     test('returns true if http://localhost?access_token=abc123 is in url', () => {
-        delete window.location;
         window.location = {
-            href: "http://localhost?access_token=abc123"
+            href: 'http://localhost?access_token=abc123'
         };
 
         const accessTokenIsInUrl = Spotify.auth.checkUrlForAccessToken();
@@ -43,18 +44,16 @@ describe('auth checkUrlForAccessToken tests', () => {
 });
 describe('auth extractAccessToken tests', () => {
     test('returns abc123 if ?access_token=abc123 is in url', () => {
-        delete window.location;
         window.location = {
-            href: "http://localhost?access_token=abc123"
+            href: 'http://localhost?access_token=abc123'
         };
         const accessToken = Spotify.auth.extractAccessToken();
 
         expect(accessToken).toBe('abc123');
     });
     test('returns abc123 if ?access_token=abc123&token_type is in url', () => {
-        delete window.location;
         window.location = {
-            href: "http://localhost?access_token=abc123&token_type"
+            href: 'http://localhost?access_token=abc123&token_type'
         };
 
         const accessToken = Spotify.auth.extractAccessToken();
@@ -62,9 +61,8 @@ describe('auth extractAccessToken tests', () => {
         expect(accessToken).toBe('abc123');
     });
     test('throws error if token not found', () => {
-        delete window.location;
         window.location = {
-            href: "http://localhost?token_type=abc123"
+            href: 'http://localhost?token_type=abc123'
         };
 
         const shouldError = () => Spotify.auth.extractAccessToken();
@@ -72,13 +70,75 @@ describe('auth extractAccessToken tests', () => {
         expect(shouldError).toThrow(/no token found/i);
     });
     test('throws error if more than one token found', () => {
-        delete window.location;
         window.location = {
-            href: "http://localhost?access_token=abc123&access_token=xyz890&"
+            href: 'http://localhost?access_token=abc123&access_token=xyz890&'
         };
 
         const shouldError = () => Spotify.auth.extractAccessToken();
 
         expect(shouldError).toThrow(/more than one token found/i);
+    });
+});
+describe('extractExpiration tests', () => {
+    test('returns a date if http://localhost?expires_in=3600 is in url', () => {
+        window.location = {
+            href: 'http://localhost?expires_in=3600'
+        };
+
+        const expiration = Spotify.auth.extractExpiration();
+        const isDate = expiration instanceof Date;
+
+        expect(isDate).toBe(true);
+    });
+    test('returns date 3600 seconds in the future if http://localhost?expires_in=3600 is in url', () => {
+        window.location = {
+            href: 'http://localhost?expires_in=3600'
+        };
+
+        const now = new Date();
+        const expiration = Spotify.auth.extractExpiration();
+        const difference = expiration.getTime() - now.getTime();
+
+        //3600 seconds + 10 second buffer converted to milliseconds is 3610000
+        expect(difference).toBeLessThan(3610000);
+    });
+    test('returns date 3600 seconds in the future if http://localhost?expires_in=3600&access_token=abc123 is in url', () => {
+        window.location = {
+            href: 'http://localhost?expires_in=3600&access_token=abc123'
+        };
+
+        const now = new Date();
+        const expiration = Spotify.auth.extractExpiration();
+        const difference = expiration.getTime() - now.getTime();
+
+        //3600 seconds + 10 second buffer converted to milliseconds is 3610000
+        expect(difference).toBeLessThan(3610000);
+    });
+    test('throws error if http://localhost/ is in url', () => {
+        window.location = {
+            href: 'http://localhost/'
+        };
+
+        const expError = () => Spotify.auth.extractExpiration();
+
+        expect(expError).toThrow(/expiration not found/i);
+    });
+    test('throws error if http://localhost?expires_in= is in url', () => {
+        window.location = {
+            href: 'http://localhost?expires_in='
+        };
+
+        const expError = () => Spotify.auth.extractExpiration();
+
+        expect(expError).toThrow(/expiration not found/i);
+    });
+    test('throws error if http://localhost?expires_in=3600&expires_in=3600 is in url', () => {
+        window.location = {
+            href: 'http://localhost?expires_in=3600&expires_in=3600'
+        };
+
+        const expError = () => Spotify.auth.extractExpiration();
+
+        expect(expError).toThrow(/more than one expiration found/i);
     });
 });

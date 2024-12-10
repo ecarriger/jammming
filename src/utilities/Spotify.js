@@ -65,20 +65,23 @@ const Spotify = {
         },
         extractAccessToken: () => {
             const returnedAccessToken = window.location.href.match(/(?<=access_token=)([\w-]*)(?=(&|$))/g);
-            if(!returnedAccessToken) {
-                throw new Error('No token found in url');
-            }
-            else if(!returnedAccessToken[0]) {
+            if(!returnedAccessToken || !returnedAccessToken[0]) {
                 throw new Error('No token found in url');
             }
             else if(returnedAccessToken.length > 1) {
                 throw new Error('More than one token found in url');
-            } else {
-                return returnedAccessToken[0];
             }
+
+            return returnedAccessToken[0];
         },
         extractExpiration: () => {
-            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
+            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=(&|$))/g);
+            if(!returnedExpiration || !returnedExpiration[0]) {
+                throw new Error('Expiration not found in url');
+            }
+            else if(returnedExpiration.length > 1) {
+                throw new Error('More than one expiration found in url');
+            }
             const expDate = new Date();
             expDate.setSeconds(expDate.getSeconds() + Number(returnedExpiration[0]));
             return expDate;
