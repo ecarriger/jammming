@@ -60,6 +60,12 @@ const handlers = [
         );
     }),
     rest.post('/api/users/*/playlists', (req, res, ctx) => {
+        const accessToken = req.headers.get('Authorization');
+        if(accessToken !== 'Bearer abc123') {
+            return res(
+                ctx.status(401)
+            )
+        }
         return res(
             ctx.json({
                 id: '456',
@@ -68,6 +74,12 @@ const handlers = [
         )
     }),
     rest.post('/api/playlists/*/tracks', (req, res, ctx) => {
+        const accessToken = req.headers.get('Authorization');
+        if(accessToken !== 'Bearer abc123') {
+            return res(
+                ctx.status(401)
+            )
+        }
         return res(
             ctx.json({
                 snapshot_id: '789'

@@ -238,3 +238,14 @@ describe('getTracks tests', () => {
         expect(trackName).toMatch(/sound of silence/i);
     });
 });
+describe('postNewPlaylist tests', () => {
+    test('passing access token xyz789 throws error', async () => {
+        const playlistName = 'New playlist';
+        const userId = '123';
+        const accessToken = 'xyz789';
+
+        const response = async () => {await Spotify.postNewPlaylist(playlistName, userId, accessToken)};
+
+        await expect(response()).rejects.toThrow(/401: unauthorized/i);
+    });
+});
