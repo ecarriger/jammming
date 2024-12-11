@@ -228,4 +228,13 @@ describe('getTracks tests', () => {
 
         await expect(response()).rejects.toThrow(/401: unauthorized/i);
     });
+    test('passing access token abc123 results in successful query', async () => {
+        const accessToken = 'abc123';
+        const query = 'sound of silence';
+
+        const response = await Spotify.getTracks(query, accessToken);
+        const trackName = response.tracks.items[0].name;
+
+        expect(trackName).toMatch(/sound of silence/i);
+    });
 });
