@@ -217,3 +217,15 @@ describe('getUserId tests', () => {
         await expect(response()).rejects.toThrow(/401: unauthorized/i);
     });
 });
+describe('getTracks tests', () => {
+    test('passing access token xyz789 throws error', async () => {
+        const accessToken = 'xyz789';
+        const query = 'sound of silence';
+
+        const response = async () => {
+            await Spotify.getTracks(query, accessToken);
+        };
+
+        await expect(response()).rejects.toThrow(/401: unauthorized/i);
+    });
+});

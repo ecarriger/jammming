@@ -22,6 +22,12 @@ const handlers = [
         );
     }),
     rest.get('/api/search', (req, res, ctx) => {
+        const accessToken = req.headers.get('Authorization');
+        if(accessToken !== 'Bearer abc123') {
+            return res(
+                ctx.status(401)
+            )
+        }
         return res(
             ctx.json({
                 tracks: {

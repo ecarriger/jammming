@@ -104,12 +104,18 @@ const Spotify = {
     },
     getTracks: async (query, accessToken) => {
         //Using relative path with proxy server during development 
-        const base = '/api';
+        const base = process.env.REACT_APP_API_ROOT + '/api';
         const endpoint = '/search';
         const url = base + endpoint + '?type=track&q=' + encodeURIComponent(query);
 
-        const results = await get(url, accessToken);
-        return results;      
+        try {
+            const results = await get(url, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }     
     },
     getUserId: async (accessToken) => {
         //Using relative path with proxy server during development 
@@ -124,7 +130,6 @@ const Spotify = {
             console.log(e);
             throw new Error(e.message);
         }
-        
     },
     
     postNewPlaylist: async (playlistName, userId, accessToken) => {
