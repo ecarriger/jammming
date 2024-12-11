@@ -108,7 +108,8 @@ const Spotify = {
     },
     getUserId: async (accessToken) => {
         //Using relative path with proxy server during development 
-        const base = '/api';
+        debugger;
+        const base = process.env.REACT_APP_API_ROOT + '/api';
         const endpoint = '/me';
         const url = base + endpoint;
 

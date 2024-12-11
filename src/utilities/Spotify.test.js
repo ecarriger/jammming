@@ -199,3 +199,12 @@ describe('auth extractState tests', () => {
         expect(stateError).toThrow(/more than one state found/i);
     });
 });
+describe('getUserId tests', () => {
+    test('passing access token abc123 response contains user id 123', async () => {
+        const accessToken = 'abc123';
+
+        const response = await Spotify.getUserId(accessToken);
+
+        expect(response.id).toBe('123');
+    });
+});

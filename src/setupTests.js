@@ -9,6 +9,12 @@ import { rest } from 'msw';
 //mock Spotify API
 const handlers = [
     rest.get('/api/me', (req, res, ctx) => {
+        const accessToken = req.headers.get('Authorization');
+        if(accessToken !== 'Bearer abc123') {
+            return res(
+                ctx.status(401)
+            )
+        }
         return res(
             ctx.json({
                 id: '123'
