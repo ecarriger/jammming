@@ -2,7 +2,8 @@ import { generateRandomString } from "./utils";
 
 const get = async (url, accessToken) => {
     try{
-        const response = await fetch(url, {
+        const response = 
+        await fetch(url, {
             headers: {
                 method: 'GET',
                 Authorization: 'Bearer ' + accessToken
@@ -12,9 +13,13 @@ const get = async (url, accessToken) => {
             const json = await response.json();
             return json;
         }
+        else {
+            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
+        }
     }
     catch(error) {
         console.log(error);
+        throw error;
    }
 };
 const post = async (url, data, accessToken) => {
@@ -108,13 +113,18 @@ const Spotify = {
     },
     getUserId: async (accessToken) => {
         //Using relative path with proxy server during development 
-        debugger;
         const base = process.env.REACT_APP_API_ROOT + '/api';
         const endpoint = '/me';
         const url = base + endpoint;
-
-        const results = await get(url, accessToken);
-        return results;
+        try {
+            const results = await get(url, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }
+        
     },
     
     postNewPlaylist: async (playlistName, userId, accessToken) => {

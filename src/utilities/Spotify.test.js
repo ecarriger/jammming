@@ -207,4 +207,13 @@ describe('getUserId tests', () => {
 
         expect(response.id).toBe('123');
     });
+    test('passing access token xyz789 throws error', async () => {
+        const accessToken = 'xyz789';
+
+        const response = async () => {
+            await Spotify.getUserId(accessToken);
+        };
+
+        await expect(response()).rejects.toThrow(/401: unauthorized/i);
+    });
 });
