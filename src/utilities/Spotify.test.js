@@ -248,4 +248,14 @@ describe('postNewPlaylist tests', () => {
 
         await expect(response()).rejects.toThrow(/401: unauthorized/i);
     });
+    test('passing access token abc123 returns new playlist id 456', async () => {
+        const playlistName = 'New playlist';
+        const userId = '123';
+        const accessToken = 'abc123';
+
+        const response = await Spotify.postNewPlaylist(playlistName, userId, accessToken);
+        const newPlaylistId = response.id;
+
+        expect(newPlaylistId).toBe('456');
+    });
 });
