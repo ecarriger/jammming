@@ -259,3 +259,24 @@ describe('postNewPlaylist tests', () => {
         expect(newPlaylistId).toBe('456');
     });
 });
+describe('postTracksToPlaylist tests', () => {
+    test('passing access token xyz789 throws error', async () => {
+        const playlistId = '456';
+        const trackUrisToSave = ['1', '2', '3', '4', '5'];
+        const accessToken = 'xyz789';
+
+        const response = async () => {await Spotify.postTracksToPlaylist(trackUrisToSave, playlistId, accessToken)};
+
+        await expect(response()).rejects.toThrow(/401: unauthorized/i);
+    });
+    test('passing access token abc123 returns snapshot id 789', async () => {
+        const playlistId = '456';
+        const trackUrisToSave = ['1', '2', '3', '4', '5'];
+        const accessToken = 'abc123';
+
+        const response = await Spotify.postTracksToPlaylist(trackUrisToSave, playlistId, accessToken);
+        const snapshotID = response.snapshot_id;
+
+        expect(snapshotID).toBe('789');
+    });
+});

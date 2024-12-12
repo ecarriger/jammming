@@ -167,8 +167,14 @@ const Spotify = {
 
         const body = {"uris": trackUrisToSave};
 
-        const results = await post(url, body, accessToken);
-        return results;
+        try {
+            const results = await post(url, body, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }
     }
 };
 export default Spotify;
