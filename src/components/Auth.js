@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Spotify from '../utilities/Spotify';
+import { requestAccessToken, checkUrlForAccessToken, extractAccessToken, extractExpiration, extractState } from '../utilities/Spotify';
 
 const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpiration}) => { 
   //Clear token and expiration when auth set to false
@@ -12,12 +12,12 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
   }, [auth, setAccessToken, setAccessTokenExpiration]);
   //Authorize app if access token present and not expired
   useEffect(() => {
-    const accessTokenInUrl = Spotify.auth.checkUrlForAccessToken();
+    const accessTokenInUrl = checkUrlForAccessToken();
     if(!accessToken && accessTokenInUrl) {
-      const stateMatches = sessionStorage.getItem('state') === Spotify.auth.extractState();
+      const stateMatches = sessionStorage.getItem('state') === extractState();
       if(stateMatches) {
-        setAccessToken(Spotify.auth.extractAccessToken());
-        setAccessTokenExpiration(Spotify.auth.extractExpiration());
+        setAccessToken(extractAccessToken());
+        setAccessTokenExpiration(extractExpiration());
         setAuth(true);
       }
     }
@@ -26,7 +26,7 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
   //Redirect to Spotify to grant permission to app
   const handleAuthSubmit = (event) => {
     event.preventDefault();
-    Spotify.auth.requestAccessToken();
+    requestAccessToken();
   };
 
   return (
