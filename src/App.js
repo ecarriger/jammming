@@ -41,6 +41,7 @@ function App() {
         auth={auth}
         setAuth={setAuth}
         accessToken={accessToken}
+        accessTokenExpiration={accessTokenExpiration}
       />}
     </section>
   )

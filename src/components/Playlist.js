@@ -6,7 +6,7 @@ import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
 
-const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth}) => {
+const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth, accessTokenExpiration}) => {
     const [playlistName, setPlaylistName] = useState('');
     const [userId, setUserId] = useState('');
     useEffect(() => {
@@ -34,7 +34,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
 
     const handleSaveSubmit = async (event) => {
         event.preventDefault();
-        const tokenExpired = checkTokenExpired(accessToken);
+        const tokenExpired = checkTokenExpired(accessTokenExpiration);
         if(tokenExpired) {
             setAuth(false);
             window.location = 'http://localhost:3000';

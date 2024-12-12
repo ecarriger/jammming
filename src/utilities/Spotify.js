@@ -2,7 +2,8 @@ import { generateRandomString } from "./utils";
 
 const get = async (url, accessToken) => {
     try{
-        const response = await fetch(url, {
+        const response = 
+        await fetch(url, {
             headers: {
                 method: 'GET',
                 Authorization: 'Bearer ' + accessToken
@@ -12,9 +13,13 @@ const get = async (url, accessToken) => {
             const json = await response.json();
             return json;
         }
+        else {
+            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
+        }
     }
     catch(error) {
         console.log(error);
+        throw error;
    }
 };
 const post = async (url, data, accessToken) => {
@@ -33,9 +38,13 @@ const post = async (url, data, accessToken) => {
             const json = await response.json();
             return json;
         }
+        else {
+            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
+        }
     }
     catch(error) {
         console.log(error);
+        throw error;
    }
 };
 const Spotify = {
@@ -64,62 +73,108 @@ const Spotify = {
             return browserUrl.includes("access_token=");
         },
         extractAccessToken: () => {
-            const returnedAccessToken = window.location.href.match(/(?<=access_token=)(.*)(?=&token_type)/);
+            const returnedAccessToken = window.location.href.match(/(?<=access_token=)([\w-]*)(?=(&|$))/g);
+            if(!returnedAccessToken || !returnedAccessToken[0]) {
+                throw new Error('No token found in url');
+            }
+            else if(returnedAccessToken.length > 1) {
+                throw new Error('More than one token found in url');
+            }
+
             return returnedAccessToken[0];
         },
         extractExpiration: () => {
-            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=&state)/);
+            const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=(&|$))/g);
+            if(!returnedExpiration || !returnedExpiration[0]) {
+                throw new Error('Expiration not found in url');
+            }
+            else if(returnedExpiration.length > 1) {
+                throw new Error('More than one expiration found in url');
+            }
             const expDate = new Date();
             expDate.setSeconds(expDate.getSeconds() + Number(returnedExpiration[0]));
             return expDate;
         },
         extractState: () => {
-            const returnedAccessToken = window.location.href.match(/(?<=state=)[\w\d]{16}/);
-            return returnedAccessToken[0];
+            const returnedState = window.location.href.match(/(?<=state=)[\w\d]{16}/g);
+            if(!returnedState || !returnedState[0]) {
+                throw new Error('State not found in url');
+            }
+            else if(returnedState.length > 1) {
+                throw new Error('More than one state found in url');
+            }
+            return returnedState[0];
         }
     },
     getTracks: async (query, accessToken) => {
         //Using relative path with proxy server during development 
-        const base = '/api';
+        const base = process.env.REACT_APP_API_ROOT + '/api';
         const endpoint = '/search';
-        const url = base + endpoint + '?type=track&q=' + encodeURIComponent(query);
+        const urlQuery = '?type=track&q=' + encodeURIComponent(query);
+        //http://localhost/api/search/?type=track&q=*
+        const url = base + endpoint + urlQuery
 
-        const results = await get(url, accessToken);
-        return results;      
+        try {
+            const results = await get(url, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }     
     },
     getUserId: async (accessToken) => {
         //Using relative path with proxy server during development 
-        const base = '/api';
+        const base = process.env.REACT_APP_API_ROOT + '/api';
         const endpoint = '/me';
+        //http://localhost/api/me
         const url = base + endpoint;
 
-        const results = await get(url, accessToken);
-        return results;
+        try {
+            const results = await get(url, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }
     },
-    
     postNewPlaylist: async (playlistName, userId, accessToken) => {
         //Using relative path with proxy server during development 
-        const base = '/api';
+        const base = process.env.REACT_APP_API_ROOT + '/api';
         const midpoint = '/users/';
         const endpoint = '/playlists';
         const url = base + midpoint + userId + endpoint;
-
+        //http://localhost/api/users/*/playlists
         const body = {name: playlistName, public: false};
 
-        const results = await post(url, body, accessToken);
-        return results;
+        try {
+            const results = await post(url, body, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }
     },
     postTracksToPlaylist: async (playlistID, trackUrisToSave, accessToken) => {
         //Using relative path with proxy server during development 
-        const base = '/api';
+        const base = process.env.REACT_APP_API_ROOT + '/api';
         const midpoint = '/playlists/';
         const endpoint = '/tracks'
+        //http://localhost/api/playlists/*/tracks
         const url = base + midpoint + playlistID + endpoint;
 
         const body = {"uris": trackUrisToSave};
 
-        const results = await post(url, body, accessToken);
-        return results;
+        try {
+            const results = await post(url, body, accessToken);
+            return results;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Error(e.message);
+        }
     }
 };
 export default Spotify;
