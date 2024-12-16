@@ -54,8 +54,6 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
     const navTarget = new URL(baseUrl);
     navTarget.search = query.toString();
 
-    console.log(navTarget);
-
     //execute navigation
     window.location.href = navTarget;
   };
