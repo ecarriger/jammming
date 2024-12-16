@@ -1,4 +1,4 @@
-import Spotify from './Spotify';
+import Spotify, { requestAccessToken, checkUrlForAccessToken, extractAccessToken, extractExpiration, extractState } from './Spotify';
 
 //mock sessionStorage for tests
 const mockGetItem = jest.fn();
@@ -17,7 +17,7 @@ delete window.location;
 
 describe('auth requestAccessToken tests', () => {
     test('sessionStorage is called to set Spotify state', () => {
-        Spotify.auth.requestAccessToken();
+        requestAccessToken();
 
         expect(mockSetItem).toHaveBeenCalled();
     });
@@ -25,7 +25,7 @@ describe('auth requestAccessToken tests', () => {
         window.location = {
             href: 'http://localhost/'
         };
-        Spotify.auth.requestAccessToken();
+        requestAccessToken();
 
         const url = window.location;
 
@@ -38,7 +38,7 @@ describe('auth checkUrlForAccessToken tests', () => {
             href: 'http://localhost/'
         };
         
-        const accessTokenIsInUrl = Spotify.auth.checkUrlForAccessToken();
+        const accessTokenIsInUrl = checkUrlForAccessToken();
 
         expect(accessTokenIsInUrl).toBe(false);
     });
@@ -47,7 +47,7 @@ describe('auth checkUrlForAccessToken tests', () => {
             href: 'http://localhost?access_token=abc123'
         };
 
-        const accessTokenIsInUrl = Spotify.auth.checkUrlForAccessToken();
+        const accessTokenIsInUrl = checkUrlForAccessToken();
 
         expect(accessTokenIsInUrl).toBe(true);
     });
@@ -57,7 +57,7 @@ describe('auth extractAccessToken tests', () => {
         window.location = {
             href: 'http://localhost?access_token=abc123'
         };
-        const accessToken = Spotify.auth.extractAccessToken();
+        const accessToken = extractAccessToken();
 
         expect(accessToken).toBe('abc123');
     });
@@ -66,7 +66,7 @@ describe('auth extractAccessToken tests', () => {
             href: 'http://localhost?access_token=abc123&token_type'
         };
 
-        const accessToken = Spotify.auth.extractAccessToken();
+        const accessToken = extractAccessToken();
 
         expect(accessToken).toBe('abc123');
     });
@@ -75,7 +75,7 @@ describe('auth extractAccessToken tests', () => {
             href: 'http://localhost?token_type=abc123'
         };
 
-        const shouldError = () => Spotify.auth.extractAccessToken();
+        const shouldError = () => extractAccessToken();
 
         expect(shouldError).toThrow(/no token found/i);
     });
@@ -84,7 +84,7 @@ describe('auth extractAccessToken tests', () => {
             href: 'http://localhost?access_token=abc123&access_token=xyz890&'
         };
 
-        const shouldError = () => Spotify.auth.extractAccessToken();
+        const shouldError = () => extractAccessToken();
 
         expect(shouldError).toThrow(/more than one token found/i);
     });
@@ -95,7 +95,7 @@ describe('auth extractExpiration tests', () => {
             href: 'http://localhost?expires_in=3600'
         };
 
-        const expiration = Spotify.auth.extractExpiration();
+        const expiration = extractExpiration();
         const isDate = expiration instanceof Date;
 
         expect(isDate).toBe(true);
@@ -106,7 +106,7 @@ describe('auth extractExpiration tests', () => {
         };
 
         const now = new Date();
-        const expiration = Spotify.auth.extractExpiration();
+        const expiration = extractExpiration();
         const difference = expiration.getTime() - now.getTime();
 
         //3600 seconds + 10 second buffer converted to milliseconds is 3610000
@@ -118,7 +118,7 @@ describe('auth extractExpiration tests', () => {
         };
 
         const now = new Date();
-        const expiration = Spotify.auth.extractExpiration();
+        const expiration = extractExpiration();
         const difference = expiration.getTime() - now.getTime();
 
         //3600 seconds + 10 second buffer converted to milliseconds is 3610000
@@ -129,7 +129,7 @@ describe('auth extractExpiration tests', () => {
             href: 'http://localhost/'
         };
 
-        const expError = () => Spotify.auth.extractExpiration();
+        const expError = () => extractExpiration();
 
         expect(expError).toThrow(/expiration not found/i);
     });
@@ -138,7 +138,7 @@ describe('auth extractExpiration tests', () => {
             href: 'http://localhost?expires_in='
         };
 
-        const expError = () => Spotify.auth.extractExpiration();
+        const expError = () => extractExpiration();
 
         expect(expError).toThrow(/expiration not found/i);
     });
@@ -147,7 +147,7 @@ describe('auth extractExpiration tests', () => {
             href: 'http://localhost?expires_in=3600&expires_in=3600'
         };
 
-        const expError = () => Spotify.auth.extractExpiration();
+        const expError = () => extractExpiration();
 
         expect(expError).toThrow(/more than one expiration found/i);
     });
@@ -158,7 +158,7 @@ describe('auth extractState tests', () => {
             href: 'http://localhost?state=abcdefgh12345678'
         }
 
-        const state = Spotify.auth.extractState();
+        const state = extractState();
 
         expect(state).toBe('abcdefgh12345678');
     });
@@ -167,7 +167,7 @@ describe('auth extractState tests', () => {
             href: 'http://localhost?state=abcdefgh12345678&access_token=abc123'
         };
 
-        const state = Spotify.auth.extractState();
+        const state = extractState();
 
         expect(state).toBe('abcdefgh12345678');
     });
@@ -176,7 +176,7 @@ describe('auth extractState tests', () => {
             href: 'http://localhost'
         };
 
-        const stateError = () =>  Spotify.auth.extractState();
+        const stateError = () =>  extractState();
 
         expect(stateError).toThrow(/state not found/i);
     });
@@ -185,7 +185,7 @@ describe('auth extractState tests', () => {
             href: 'http://localhost'
         };
 
-        const stateError = () =>  Spotify.auth.extractState();
+        const stateError = () =>  extractState();
 
         expect(stateError).toThrow(/state not found/i);
     });
@@ -194,7 +194,7 @@ describe('auth extractState tests', () => {
             href: 'http://localhost?state=abcdefgh12345678&state=abcdefgh12345678'
         };
 
-        const stateError = () =>  Spotify.auth.extractState();
+        const stateError = () =>  extractState();
 
         expect(stateError).toThrow(/more than one state found/i);
     });
