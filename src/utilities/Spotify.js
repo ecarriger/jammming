@@ -1,5 +1,3 @@
-import { generateRandomString } from "./utils";
-
 const get = async (url, accessToken) => {
     try{
         const response = 
@@ -118,62 +116,6 @@ const Spotify = {
             throw new Error(e.message);
         }
     }
-};
-export const requestAccessToken = () => {
-    const client_id = '7549faaac87744f98288992bdaadfbde';
-    const redirect_uri = 'http://localhost:3000';
-
-    const state = generateRandomString(16);
-    sessionStorage.setItem('state', state);
-    const showDialog = true;
-    const scope = 'playlist-modify-private';
-
-    let url = 'https://accounts.spotify.com/authorize';
-    url += '?response_type=token';
-    url += '&client_id=' + encodeURIComponent(client_id);
-    url += '&scope=' + encodeURIComponent(scope);
-    url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
-    url += '&state=' + encodeURIComponent(state);
-    url += '&show_dialog=' + encodeURIComponent(showDialog);
-
-    window.location = url;
-};
-export const checkUrlForAccessToken = () => {
-    const browserUrl = window.location.href;
-    return browserUrl.includes("access_token=");
-};
-export const extractAccessToken = () => {
-    const returnedAccessToken = window.location.href.match(/(?<=access_token=)([\w-]*)(?=(&|$))/g);
-    if(!returnedAccessToken || !returnedAccessToken[0]) {
-        throw new Error('No token found in url');
-    }
-    else if(returnedAccessToken.length > 1) {
-        throw new Error('More than one token found in url');
-    }
-
-    return returnedAccessToken[0];
-};
-export const extractExpiration=  () => {
-    const returnedExpiration = window.location.href.match(/(?<=expires_in=)(\d*)(?=(&|$))/g);
-    if(!returnedExpiration || !returnedExpiration[0]) {
-        throw new Error('Expiration not found in url');
-    }
-    else if(returnedExpiration.length > 1) {
-        throw new Error('More than one expiration found in url');
-    }
-    const expDate = new Date();
-    expDate.setSeconds(expDate.getSeconds() + Number(returnedExpiration[0]));
-    return expDate;
-};
-export const extractState = () => {
-    const returnedState = window.location.href.match(/(?<=state=)[\w\d]{16}/g);
-    if(!returnedState || !returnedState[0]) {
-        throw new Error('State not found in url');
-    }
-    else if(returnedState.length > 1) {
-        throw new Error('More than one state found in url');
-    }
-    return returnedState[0];
 };
 
 export default Spotify;
