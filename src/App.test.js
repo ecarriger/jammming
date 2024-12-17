@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
@@ -47,6 +47,7 @@ describe('auth state false (no access token in url)', () => {
   });
 });
 describe('auth state set to true (access token in url and spotify state matches)', () => {
+  //set access token in url and spotify state in sessionStorage
   beforeEach(() => {
     delete window.location;
     window.location = {
@@ -82,5 +83,41 @@ describe('auth state set to true (access token in url and spotify state matches)
   
     expect(authButton).not.toBeInTheDocument();
     
+  });
+  test('track added and removed from playlist when clicked', async () => {
+    renderApp();
+
+    //enter search term
+    const searchBar = screen.getByRole('textbox', {
+      name: /search for songs/i
+    });
+    user.click(searchBar);
+    user.keyboard('sound of silence');
+    //submit search
+    const searchButton = screen.getByRole('button', {
+      name: /search/i
+    });
+    user.click(searchButton);
+    //click search result track to add to playlist
+    const searchResultTrack = await screen.findByRole('heading', {
+      name: /sound of silence/i
+    });
+    user.click(searchResultTrack);
+    //click playlist track to remove
+    
+    await waitFor(() => {
+      const playlistTrack = screen.getAllByRole('heading', {
+        name: /sound of silence/i
+      });
+      expect(playlistTrack.length).toBe(2);
+    });
+    const playlistTrack = await screen.findAllByRole('heading', {
+      name: /sound of silence/i
+    });
+    user.click(playlistTrack[1]);
+
+    await waitFor(() => {
+      expect(playlistTrack[1]).not.toBeInTheDocument();
+    });
   });
 });
