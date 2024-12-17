@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
-import { useLocation, useSearchParams, createSearchParams } from "react-router-dom";
+import { useSearchParams, createSearchParams } from "react-router-dom";
 import { generateRandomString } from "../utilities/utils";
 
 const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpiration}) => { 
   //handle returned hash properties from Spotify
-  const location = useLocation();
-  const [ searchParams, setSearchParams ] = useSearchParams();
-  useEffect(() => {
-    if(location.hash) {
-      const query = createSearchParams(location.hash.slice(1)); //slice off # from hash string
-      setSearchParams(query);
-    }
-  }, [location, setSearchParams])
+  const [ searchParams ] = useSearchParams();
+  if(window.location.hash) {
+    const query = createSearchParams(window.location.hash.slice(1)); //slice off # from hash string
+    window.location.search = query.toString();
+  }
   //Clear token and expiration when auth set to false
   useEffect(() => {
     if(!auth) {

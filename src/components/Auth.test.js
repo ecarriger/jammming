@@ -1,20 +1,8 @@
+import { BrowserRouter } from 'react-router-dom';
 import { screen, render } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 import Auth from './Auth';
-import Spotify from '../utilities/Spotify';
-
-jest.mock('../utilities/spotify', () => {
-    return {
-        auth: {
-            requestAccessToken: jest.fn(),
-            checkUrlForAccessToken: jest.fn(),
-            extractAccessToken: jest.fn(),
-            extractState: jest.fn(),
-            extractExpiration: jest.fn()
-        }
-    };
-});
 
 const renderAuth = (
     auth = false, 
@@ -23,13 +11,16 @@ const renderAuth = (
     setAccessToken = token => accessToken = token, 
     setAccessTokenExpiration = () => {}
 ) => {
-    render(<Auth 
-        auth={auth}
-        setAuth={setAuth}
-        accessToken={accessToken}
-        setAccessToken={setAccessToken}
-        setAccessTokenExpiration={setAccessTokenExpiration}
-    />)
+    render(
+    <BrowserRouter>
+        <Auth 
+            auth={auth}
+            setAuth={setAuth}
+            accessToken={accessToken}
+            setAccessToken={setAccessToken}
+            setAccessTokenExpiration={setAccessTokenExpiration}
+        />
+    </BrowserRouter>)
 };
 test('authorize button renders', () => {
     renderAuth();
@@ -41,6 +32,8 @@ test('authorize button renders', () => {
     expect(button).toBeInTheDocument();
 });
 test('Spotify.auth.requestAccessToken function fires if button clicked', () => {
+    delete window.location;
+    window.location = {href: 'http://localhost/'};
     renderAuth();
 
     const button = screen.getByRole('button', {
@@ -48,5 +41,18 @@ test('Spotify.auth.requestAccessToken function fires if button clicked', () => {
     });
     user.click(button);
 
-    expect(Spotify.auth.requestAccessToken).toHaveBeenCalled();
+    //second .href needed to extract the href string from the URL object
+    expect(window.location.href.href).toMatch(/accounts.spotify/i);
+});
+test('spotify hash response converts to search query in url', () => {
+    delete window.location;
+    window.location = { 
+        href: 'http://localhost/',
+        hash: '#access_token=abc123',
+        search: ''
+    };
+
+    renderAuth();
+
+    expect(window.location.search).toMatch('access_token=abc123');
 });
