@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import { requestAccessToken } from './utilities/Spotify';
 
 
 
@@ -17,18 +17,17 @@ Object.defineProperty(window, 'sessionStorage', {
   },
 });
 
-
-//mock spotify authorization
-jest.mock('./utilities/Spotify', () => {
-  const originalModule = jest.requireActual('./utilities/Spotify');
-  return {
-    ...originalModule,
-    'requestAccessToken': jest.fn() 
-  };
-});
+//setup App render
+const renderApp = () => {
+  render (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  )
+};
 
 test('renders Jamming title', () => {
-  render(<App />);
+  renderApp();
 
   const title = screen.getByRole('heading', {
     name: /jammming/i
@@ -37,7 +36,7 @@ test('renders Jamming title', () => {
   expect(title).toBeInTheDocument();
 });
 test('auth button is present when App is first rendered', () => {
-  render(<App />);
+  renderApp();
 
   const authButton = screen.getByRole('button', {
     name: /authorize spotify/i
@@ -45,28 +44,23 @@ test('auth button is present when App is first rendered', () => {
 
   expect(authButton).toBeInTheDocument();
 });
-test('clicking auth button leads to rest of app', async () => {
-  requestAccessToken.mockImplementation(() => {
+describe('auth state set to true (access token in url and spotify state matches)', () => {
+  beforeEach(() => {
+    delete window.location;
     window.location = {
-      href: process.env.REACT_APP_APP_ROOT + `?access_token=abc123&expires_in=3600&state=abcdefgh12345678`
+      href: 'http://localhost',
+      search: '?access_token=abc123&expires_in=3600&state=abcdefgh12345678'
     };
-    console.log(window.location.href);
-    console.log(window.location.search);
-  })
-  const { rerender } = render(<App />);
-
-  const authButton = screen.getByRole('button', {
-    name: /authorize spotify/i
+    mockGetItem.mockReturnValue('abcdefgh12345678');
   });
-  user.click(authButton);
 
-  //simulater navigating back to app from Spotify authentication
-  console.log(window.location.href);
-  rerender(<App />);
+  test('SearhBar, SearchResults, and Playlist render if access token is in browser', () => {
+    renderApp();
 
-  const searchBar = screen.getByRole('textbox', {
-    name: /search for songs/i
-  })
+    const searchHeader = screen.getByRole('heading', {
+      name: 'Search'
+    });
 
-  expect(searchBar).toBeInTheDocument();
+    expect(searchHeader).toBeInTheDocument();
+  });
 });
