@@ -26,23 +26,25 @@ const renderApp = () => {
   )
 };
 
-test('renders Jamming title', () => {
-  renderApp();
-
-  const title = screen.getByRole('heading', {
-    name: /jammming/i
+describe('auth state false (no access token in url)', () => {
+  test('renders Jamming title', () => {
+    renderApp();
+  
+    const title = screen.getByRole('heading', {
+      name: /jammming/i
+    });
+  
+    expect(title).toBeInTheDocument();
   });
-
-  expect(title).toBeInTheDocument();
-});
-test('auth button is present when App is first rendered', () => {
-  renderApp();
-
-  const authButton = screen.getByRole('button', {
-    name: /authorize spotify/i
+  test('auth button is present when App is first rendered', () => {
+    renderApp();
+  
+    const authButton = screen.getByRole('button', {
+      name: /authorize spotify/i
+    });
+  
+    expect(authButton).toBeInTheDocument();
   });
-
-  expect(authButton).toBeInTheDocument();
 });
 describe('auth state set to true (access token in url and spotify state matches)', () => {
   beforeEach(() => {
@@ -57,10 +59,28 @@ describe('auth state set to true (access token in url and spotify state matches)
   test('SearhBar, SearchResults, and Playlist render if access token is in browser', () => {
     renderApp();
 
-    const searchHeader = screen.getByRole('heading', {
+    const searchBarHeader = screen.getByRole('heading', {
       name: 'Search'
     });
+    const searchResultsHeader = screen.getByRole('heading', {
+      name: /search results/i
+    });
+    const playlistHeader = screen.getByRole('heading', {
+      name: /playlist/i
+    });
 
-    expect(searchHeader).toBeInTheDocument();
+    expect(searchBarHeader).toBeInTheDocument();
+    expect(searchResultsHeader).toBeInTheDocument();
+    expect(playlistHeader).toBeInTheDocument();
+  });
+  test('Auth does not render', () => {
+    renderApp();
+
+    const authButton = screen.queryByRole('button', {
+      name: /authorize spotify/i
+    });
+  
+    expect(authButton).not.toBeInTheDocument();
+    
   });
 });
