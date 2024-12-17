@@ -24,7 +24,10 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
       const stateMatches = sessionStorage.getItem('state') === searchParams.get('state');
       if(stateMatches) {
         setAccessToken(searchParams.get('access_token'));
-        setAccessTokenExpiration(searchParams.get('expires_in'));
+        const expirationMinutes = searchParams.get('expires_in');
+        const expirationDate = new Date();
+        expirationDate.setMinutes(expirationDate.getMinutes + expirationMinutes);
+        setAccessTokenExpiration(expirationDate);
         setAuth(true);
       }
     }
