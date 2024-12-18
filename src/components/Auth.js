@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
-import Spotify from '../utilities/Spotify';
+import { useSearchParams, createSearchParams } from "react-router-dom";
+import { generateRandomString } from "../utilities/utils";
 
 const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpiration}) => { 
+  //handle returned hash properties from Spotify
+  const [ searchParams ] = useSearchParams();
+  if(window.location.hash) {
+    const query = createSearchParams(window.location.hash.slice(1)); //slice off # from hash string
+    window.location.search = query.toString();
+  }
   //Clear token and expiration when auth set to false
   useEffect(() => {
     if(!auth) {
@@ -12,12 +19,15 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
   }, [auth, setAccessToken, setAccessTokenExpiration]);
   //Authorize app if access token present and not expired
   useEffect(() => {
-    const accessTokenInUrl = Spotify.auth.checkUrlForAccessToken();
+    const accessTokenInUrl = searchParams.has('access_token');
     if(!accessToken && accessTokenInUrl) {
-      const stateMatches = sessionStorage.getItem('state') === Spotify.auth.extractState();
+      const stateMatches = sessionStorage.getItem('state') === searchParams.get('state');
       if(stateMatches) {
-        setAccessToken(Spotify.auth.extractAccessToken());
-        setAccessTokenExpiration(Spotify.auth.extractExpiration());
+        setAccessToken(searchParams.get('access_token'));
+        const expirationMinutes = searchParams.get('expires_in');
+        const expirationDate = new Date();
+        expirationDate.setMinutes(expirationDate.getMinutes + expirationMinutes);
+        setAccessTokenExpiration(expirationDate);
         setAuth(true);
       }
     }
@@ -26,7 +36,26 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
   //Redirect to Spotify to grant permission to app
   const handleAuthSubmit = (event) => {
     event.preventDefault();
-    Spotify.auth.requestAccessToken();
+    
+    //configurations for navigation to spotify authorization
+    const baseUrl = 'https://accounts.spotify.com/authorize';
+    const state = generateRandomString(16);
+    sessionStorage.setItem('state', state);
+    const query = createSearchParams({
+      'response_type': 'token',
+      'client_id': process.env.REACT_APP_API_CLIENT_ID,
+      'redirect_uri': process.env.REACT_APP_APP_ROOT,
+      'showDialog': true,
+      'scope': 'playlist-modify-private',
+      'state': state
+    });
+
+    //build full url with search
+    const navTarget = new URL(baseUrl);
+    navTarget.search = query.toString();
+
+    //execute navigation
+    window.location.href = navTarget;
   };
 
   return (

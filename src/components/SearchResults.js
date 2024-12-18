@@ -1,11 +1,11 @@
 import React from 'react';
 import TrackList from './TrackList';
 
-const SearchResults = ({resultTracks, setPlaylistTracks}) => {
+const SearchResults = ({resultTracks, playlistTracks, setPlaylistTracks}) => {
 
     //Add clicked track to playlist (clicked from SearchResult list)
     const handleClickAddToPlaylist = (trackIdToAdd) => {
-        setPlaylistTracks(playlistTracks => [resultTracks[trackIdToAdd], ...playlistTracks]);
+        setPlaylistTracks([resultTracks[trackIdToAdd], ...playlistTracks]);
     };
 
     return (

@@ -34,7 +34,7 @@ function App() {
         accessToken={accessToken}
         accessTokenExpiration={accessTokenExpiration}
       />}
-      {auth && <SearchResults resultTracks={resultTracks} setPlaylistTracks={setPlaylistTracks} />}
+      {auth && <SearchResults resultTracks={resultTracks} playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} />}
       {auth && <Playlist 
         playlistTracks={playlistTracks} 
         setPlaylistTracks={setPlaylistTracks} 

@@ -3,7 +3,7 @@ import user from '@testing-library/user-event';
 
 import SearchBar from './SearchBar';
 
-const renderSearchBar = (setResultTracks = () => {}, setAuth = () => {}, accessToken = 'ab123', accessTokenExpiration = new Date(999999999999999)) => {
+const renderSearchBar = (setResultTracks = () => {}, setAuth = () => {}, accessToken = 'abc123', accessTokenExpiration = new Date(999999999999999)) => {
     render(
         <SearchBar 
             setResultTracks={setResultTracks} 
