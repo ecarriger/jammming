@@ -22,7 +22,7 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
 
 const queueRedirect = () => {
   setTimeout(() => {
-    window.location = 'http://localhost:3000';
+    window.location = process.env.REACT_APP_APP_ROOT;
   }, 3000)
 };
 //Send search request to Spotify

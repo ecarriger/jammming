@@ -4,6 +4,18 @@ import user from '@testing-library/user-event';
 
 import Auth from './Auth';
 
+//mock sessionStorage for tests
+const mockGetItem = jest.fn();
+const mockSetItem = jest.fn();
+const mockRemoveItem = jest.fn();
+Object.defineProperty(window, 'sessionStorage', {
+  value: {
+    getItem: (...args) => mockGetItem(...args),
+    setItem: (...args) => mockSetItem(...args),
+    removeItem: (...args) => mockRemoveItem(...args),
+  },
+});
+
 const renderAuth = (
     auth = false, 
     setAuth = bool => auth = bool, 
@@ -31,7 +43,8 @@ test('authorize button renders', () => {
 
     expect(button).toBeInTheDocument();
 });
-test('Spotify.auth.requestAccessToken function fires if button clicked', () => {
+test('window.location navigates to spotify function fires if button clicked', () => {
+    //Clear window.location so it can be mocked
     delete window.location;
     window.location = {href: 'http://localhost/'};
     renderAuth();
@@ -45,6 +58,7 @@ test('Spotify.auth.requestAccessToken function fires if button clicked', () => {
     expect(window.location.href.href).toMatch(/accounts.spotify/i);
 });
 test('spotify hash response converts to search query in url', () => {
+    //Clear window.location so it can be mocked
     delete window.location;
     window.location = { 
         href: 'http://localhost/',
@@ -55,4 +69,31 @@ test('spotify hash response converts to search query in url', () => {
     renderAuth();
 
     expect(window.location.search).toMatch('access_token=abc123');
+});
+test('sessionStorage is called to set Spotify state', () => {
+    renderAuth();
+
+    const button = screen.getByRole('button', {
+        name: /authorize spotify/i
+    });
+    user.click(button);    
+
+    expect(mockSetItem).toHaveBeenCalled();
+});
+test('navigates to spotify', () => {
+    //Clear window.location so it can be mocked
+    delete window.location;
+    window.location = {
+        href: 'http://localhost/'
+    };
+    renderAuth();
+
+    const button = screen.getByRole('button', {
+        name: /authorize spotify/i
+    });
+    user.click(button);
+
+    const url = window.location.href.href;
+
+    expect(url).toMatch('https://accounts.spotify.com/authorize');
 });

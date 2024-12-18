@@ -28,7 +28,7 @@ const renderSearchResults = (handleClick) => {
         duration_ms: 272437
     }]
 
-    render(<SearchResults resultTracks={tracks} setPlaylistTracks={handleClick} />);
+    render(<SearchResults resultTracks={tracks} playlistTracks={[]} setPlaylistTracks={handleClick} />);
 }
 
 test('shows no tracks if none present', () => {
