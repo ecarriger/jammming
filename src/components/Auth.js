@@ -45,7 +45,7 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
       'response_type': 'token',
       'client_id': process.env.REACT_APP_API_CLIENT_ID,
       'redirect_uri': process.env.REACT_APP_APP_ROOT,
-      'showDialog': true,
+      'show_dialog': true,
       'scope': 'playlist-modify-private',
       'state': state
     });
