@@ -1,0 +1,29 @@
+li {
+    list-style-type: none;
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+.trackWrapper {
+    display: flex;
+    gap: 1rem;
+}
+.trackText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.trackText > * {
+    margin: 0;
+}
+.trackTitle {
+    font-size: 1rem;
+}
+.trackDetails {
+    font-size: .9rem;
+    display: flex;
+    justify-content: space-between;
+}
+.plusIcon {
+    font-size: 2rem;
+}
