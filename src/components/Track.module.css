@@ -1,6 +1,9 @@
+@import '../globalVars.css';
+
 li {
     list-style-type: none;
     margin: 1rem;
+    border-bottom: 1px solid ;
     display: flex;
     justify-content: space-between;
 }
@@ -22,8 +25,9 @@ li {
 .trackDetails {
     font-size: .9rem;
     display: flex;
-    justify-content: space-between;
+    gap: 2rem;
 }
 .plusIcon {
+    color: var(--color-secondary);
     font-size: 2rem;
 }
