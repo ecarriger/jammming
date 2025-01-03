@@ -3,13 +3,18 @@
 li {
     list-style-type: none;
     margin: 1rem;
-    border-bottom: 1px solid ;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-bg);
     display: flex;
     justify-content: space-between;
 }
 .trackWrapper {
     display: flex;
     gap: 1rem;
+}
+.trackWrapper img {
+    width: 3rem;
+    height: 3rem;
 }
 .trackText {
     display: flex;
@@ -23,11 +28,17 @@ li {
     font-size: 1rem;
 }
 .trackDetails {
-    font-size: .9rem;
     display: flex;
     gap: 2rem;
 }
+.trackDetails h4 {
+    font-size: .875rem;
+}
 .plusIcon {
     color: var(--color-secondary);
-    font-size: 2rem;
+    font-size: 3rem;
+    line-height: 3rem;
+    height: 3rem;
+    width: 3rem;
+    text-align: center;
 }
