@@ -1,12 +1,10 @@
 @font-face {
     font-family: 'Inter';
-    font-style: NORMAL;
-    src: local('Inter') url('./fonts/Inter-Variable.ttf') format('truetype');
+    src: local('Inter') url('./fonts/inter/Inter-Variable.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Galada';
-    font-style: NORMAL;
-    src: local('Galada') url('./fonts/Galada-Regular.ttf') format('truetype');
+    src: local('Galada') url('./fonts/galada/Galada-Regular.ttf') format('truetype');
 }
 :root {
     --color-primary: #F53277;

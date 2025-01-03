@@ -19,31 +19,40 @@ function App() {
 
   //App JSX to render
   return (
-    <section>
-      <h1>Jammming</h1>
-      {!auth && <Auth 
-        auth={auth} 
-        setAuth={setAuth} 
-        accessToken={accessToken}
-        setAccessToken={setAccessToken}
-        setAccessTokenExpiration={setAccessTokenExpiration}
-      />}
-      {auth && <SearchBar 
-        setResultTracks={setResultTracks} 
-        setAuth={setAuth} 
-        accessToken={accessToken}
-        accessTokenExpiration={accessTokenExpiration}
-      />}
-      {auth && <SearchResults resultTracks={resultTracks} playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} />}
-      {auth && <Playlist 
-        playlistTracks={playlistTracks} 
-        setPlaylistTracks={setPlaylistTracks} 
-        auth={auth}
-        setAuth={setAuth}
-        accessToken={accessToken}
-        accessTokenExpiration={accessTokenExpiration}
-      />}
-    </section>
+    <div>
+      <header>
+        <img src='/' alt='Jammming headphones logo' />
+        <h1>Jammming</h1>
+        <p>Search for songs on Spotify and create a playlist</p>
+      </header>
+      <main>
+        {!auth && <Auth 
+          auth={auth} 
+          setAuth={setAuth} 
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
+          setAccessTokenExpiration={setAccessTokenExpiration}
+        />}
+        {auth && <SearchBar 
+          setResultTracks={setResultTracks} 
+          setAuth={setAuth} 
+          accessToken={accessToken}
+          accessTokenExpiration={accessTokenExpiration}
+        />}
+        {auth && <SearchResults resultTracks={resultTracks} playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} />}
+        {auth && <Playlist 
+          playlistTracks={playlistTracks} 
+          setPlaylistTracks={setPlaylistTracks} 
+          auth={auth}
+          setAuth={setAuth}
+          accessToken={accessToken}
+          accessTokenExpiration={accessTokenExpiration}
+        />}
+      </main>
+      <footer>
+
+      </footer>
+    </div>
   )
 }
 
