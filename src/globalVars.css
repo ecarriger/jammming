@@ -3,6 +3,11 @@
     font-style: NORMAL;
     src: local('Inter') url('./fonts/Inter-Variable.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'Galada';
+    font-style: NORMAL;
+    src: local('Galada') url('./fonts/Galada-Regular.ttf') format('truetype');
+}
 :root {
     --color-primary: #F53277;
     --color-secondary: #F985AE;
