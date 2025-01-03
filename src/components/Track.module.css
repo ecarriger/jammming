@@ -1,0 +1,44 @@
+@import '../globalVars.css';
+
+li {
+    list-style-type: none;
+    margin: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-bg);
+    display: flex;
+    justify-content: space-between;
+}
+.trackWrapper {
+    display: flex;
+    gap: 1rem;
+}
+.trackWrapper img {
+    width: 3rem;
+    height: 3rem;
+}
+.trackText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.trackText > * {
+    margin: 0;
+}
+.trackTitle {
+    font-size: 1rem;
+}
+.trackDetails {
+    display: flex;
+    gap: 2rem;
+}
+.trackDetails h4 {
+    font-size: .875rem;
+}
+.plusIcon {
+    color: var(--color-secondary);
+    font-size: 3rem;
+    line-height: 3rem;
+    height: 3rem;
+    width: 3rem;
+    text-align: center;
+}
