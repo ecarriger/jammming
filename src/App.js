@@ -21,7 +21,7 @@ function App() {
   return (
     <div>
       <header>
-        <img src='/' alt='Jammming headphones logo' />
+        <img className='logo' src='/' alt='Jammming headphones logo' />
         <h1 className='galada-regular' >Jammming</h1>
         <p>Search for songs on Spotify and create a playlist</p>
       </header>
