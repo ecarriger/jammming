@@ -4,15 +4,25 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-offset);
+  background-color: var(--color-bg);
+  color: var(--color-body-text);
 }
-p,a,h1,h2,h3,h4,h5,h6,li,td,input,label {
+html {
+  font-size: 16px;
+}
+p,a,li,td,input,img,label {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
-  font-size: 16px;
-  color: var(--color-body-text);
+  font-size: 1rem;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: bold;
+  font-size: 1.5rem;
 }
 h1 {
   font-size: 2rem;
