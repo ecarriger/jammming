@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useSearchParams, createSearchParams } from "react-router-dom";
 import { generateRandomString } from "../utilities/utils";
 
+import './Auth.module.css';
+
 const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpiration}) => { 
   //handle returned hash properties from Spotify
   const [ searchParams ] = useSearchParams();
@@ -60,7 +62,7 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
 
   return (
     <form onSubmit={handleAuthSubmit}>
-      <input type="submit" value="Authorize Spotify" />
+      <input className="inter-bold" type="submit" value="Connect to Spotify" />
     </form>  
   );
 };
