@@ -30,6 +30,7 @@ h1 {
 
 /*** Main Styles ***/
 main {
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;

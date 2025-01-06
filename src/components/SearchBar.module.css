@@ -1,0 +1,20 @@
+section {
+    width: 100%;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+label {
+    font-size: 1.25rem;
+}
+#inputWrapper {
+    display: flex;
+    gap: 1rem;
+}
+input[type='text'] {
+    background-color: var(--color-bg);
+    border: 3px solid var(--color-primary);
+    flex-grow: 1;
+}
