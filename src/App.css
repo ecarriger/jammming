@@ -1,8 +1,15 @@
 @import './globalVars.css';
 
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 /*** Header Styles ***/
 header {
-  padding: 2rem 1rem;
+  padding: 2rem 2rem;
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -29,3 +36,11 @@ main {
 }
 
 /*** Footer Styles ***/
+footer {
+  background-color: var(--color-bg-offset);
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: .75rem;
+}

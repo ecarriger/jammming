@@ -4,10 +4,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg);
-  color: var(--color-body-text);
 }
 html {
+  background-color: var(--color-bg);
+  color: var(--color-body-text);
   font-size: 16px;
 }
 p,a,li,td,input,img,label {
@@ -26,4 +26,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 h1 {
   font-size: 2rem;
+}
+a:visited {
+  color: var(--color-secondary);
 }
