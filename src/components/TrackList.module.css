@@ -1,0 +1,5 @@
+.trackList {
+    background-color: var(--color-bg-offset);
+    border-radius: 1rem;
+    padding: 1rem;
+}
