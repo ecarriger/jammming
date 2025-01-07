@@ -18,3 +18,7 @@ input[type='text'] {
     border: 3px solid var(--color-primary);
     flex-grow: 1;
 }
+#searchBar {
+    background-color: var(--color-bg);
+    color: var(--color-body-text);
+}

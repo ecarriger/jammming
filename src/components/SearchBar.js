@@ -54,7 +54,7 @@ if(checkTokenExpired(accessTokenExpiration)) {
               <div id={styles.inputWrapper}>
                 <input 
                     type="text"
-                    id="search-bar" 
+                    id={styles.searchBar} 
                     name="search-bar" 
                     value={searchQuery} 
                     onChange={handleSearchChange}
