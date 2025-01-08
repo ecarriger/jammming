@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
 
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
@@ -19,10 +19,10 @@ function App() {
 
   //App JSX to render
   return (
-    <div id="app">
+    <div className={styles.app}>
       <div id="upper-content">
         <header>
-          <img className='logo' src='/' alt='Jammming headphones logo' />
+          <img className={styles.logo} src='/' alt='Jammming headphones logo' />
           <h1 className='galada-regular' >Jammming</h1>
           <p>Search for songs on Spotify and create a playlist</p>
         </header>
@@ -40,15 +40,17 @@ function App() {
             accessToken={accessToken}
             accessTokenExpiration={accessTokenExpiration}
           />}
-          {auth && <SearchResults resultTracks={resultTracks} playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} />}
-          {auth && <Playlist 
-            playlistTracks={playlistTracks} 
-            setPlaylistTracks={setPlaylistTracks} 
-            auth={auth}
-            setAuth={setAuth}
-            accessToken={accessToken}
-            accessTokenExpiration={accessTokenExpiration}
-          />}
+          <div className={styles.trackListsWrapper}>
+            {auth && <SearchResults resultTracks={resultTracks} playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} />}
+            {auth && <Playlist 
+              playlistTracks={playlistTracks} 
+              setPlaylistTracks={setPlaylistTracks} 
+              auth={auth}
+              setAuth={setAuth}
+              accessToken={accessToken}
+              accessTokenExpiration={accessTokenExpiration}
+            />}
+          </div>
         </main>
       </div>
       <footer>
