@@ -80,17 +80,18 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
         <section id={styles.playlist}>
             <h2>Playlist</h2>
             <form onSubmit={handleSaveSubmit}>
-                <label htmlFor="playlist-name">New playlist name:</label>
+                <label className='inter-bold' htmlFor="playlistName">New playlist name:</label>
                 <div className={styles.formInputs}>
                     <input 
                         type="text" 
-                        id="playlist-name" 
+                        id='playlistName'
+                        className={styles.playlistName}
                         name="playlist-name" 
-                        placeholder="Type playlist name" 
+                        placeholder="Type playlist name..." 
                         value={playlistName}
                         onChange={handlePlaylistNameChange} 
                     />
-                    <input type='submit' value='Save to Spotify' />
+                    <input type='submit' className='inter-bold playlistSubmit' value='Save to Spotify' />
                 </div>
             </form>
             <p id="message">{message}</p>

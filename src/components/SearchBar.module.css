@@ -9,7 +9,14 @@ form {
 label {
     font-size: 1.25rem;
 }
-#inputWrapper {
+.inputWrapper {
     display: flex;
     gap: 1rem;
 }
+    .searchBar {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+    .searchSubmit {
+        flex: 1 0 auto;
+    }

@@ -46,8 +46,17 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-transition-delay: 99999s;
 }
+input {
+  color: var(--color-bodytext);
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  padding: 1.25rem .625rem;
+}
 input[type='text'] {
-  color: var(--color-body-text);
   background-color: var(--color-bg);
   border: 3px solid var(--color-primary);  
+}
+input[type='submit'] {
+  background-color: var(--color-primary);
+  border: none;
 }

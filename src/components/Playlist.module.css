@@ -7,3 +7,10 @@
     display: flex;
     gap: 1rem;
 }
+    .playlistName {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+    .playlistSubmit {
+        flex: 1 0 auto;
+    }
