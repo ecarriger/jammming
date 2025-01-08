@@ -50,11 +50,11 @@ if(checkTokenExpired(accessTokenExpiration)) {
   return (
       <section>
           <form onSubmit={handleSearchSubmit}>
-              <label className='inter-bold' htmlFor="search-bar">Search for songs:</label>
+              <label className='inter-bold' htmlFor="searchBar">Search for songs:</label>
               <div id={styles.inputWrapper}>
                 <input 
                     type="text"
-                    id={styles.searchBar} 
+                    id='searchBar'
                     name="search-bar" 
                     value={searchQuery} 
                     onChange={handleSearchChange}

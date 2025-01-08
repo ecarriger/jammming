@@ -13,12 +13,3 @@ label {
     display: flex;
     gap: 1rem;
 }
-input[type='text'] {
-    background-color: var(--color-bg);
-    border: 3px solid var(--color-primary);
-    flex-grow: 1;
-}
-#searchBar {
-    background-color: var(--color-bg);
-    color: var(--color-body-text);
-}
