@@ -47,6 +47,7 @@ main {
 footer {
   background-color: var(--color-bg-offset);
   padding: 4rem 2rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -55,11 +56,18 @@ footer {
 
 /*** Desktop Styles ***/
 @media (min-width: 960px) {
+  .app {
+    align-items: center;
+  }
+  .upperContent {
+    max-width: 1600px;
+    width: 100%;
+  }
   .trackListsWrapper {
     flex-direction: row;
   }
   .trackListsWrapper > * {
-    flex: 1 1 auto;
+    flex: 1 1 100%;
     min-width: 0;
   }
   footer {

@@ -48,7 +48,7 @@ if(checkTokenExpired(accessTokenExpiration)) {
 };
 
   return (
-      <section>
+      <section className={styles.searchBar}>
           <form onSubmit={handleSearchSubmit}>
               <label className='inter-bold' htmlFor="searchBar">Search for songs:</label>
               <div className={styles.inputWrapper}>

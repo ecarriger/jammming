@@ -54,9 +54,18 @@ input {
 }
 input[type='text'] {
   background-color: var(--color-bg);
-  border: 3px solid var(--color-primary);  
+  border: 3px solid var(--color-primary);
+}
+input[type='text']:focus {
+  border: 3px solid var(--color-secondary);
 }
 input[type='submit'] {
   background-color: var(--color-primary);
-  border: none;
+  border: 3px solid var(--color-primary);
+}
+input[type='submit']:hover {
+  cursor: pointer;
+}
+input[type='submit']:active {
+  border: 3px solid var(--color-secondary);
 }

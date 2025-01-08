@@ -20,7 +20,7 @@ function App() {
   //App JSX to render
   return (
     <div className={styles.app}>
-      <div id="upper-content">
+      <div className={styles.upperContent}>
         <header>
           <img className={styles.logo} src='/' alt='Jammming headphones logo' />
           <h1 className='galada-regular' >Jammming</h1>

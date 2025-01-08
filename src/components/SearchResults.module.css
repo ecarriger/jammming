@@ -3,7 +3,6 @@
     .listSection {
         display: flex;
         flex-direction: column;
-        flex: 1 1 auto;
     }
     .resultsTitle {
         flex: 0 1 auto;
