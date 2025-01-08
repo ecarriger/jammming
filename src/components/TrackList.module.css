@@ -5,3 +5,12 @@
     height: 25rem;
     overflow: scroll;
 }
+/*** Desktop styles ***/
+@media (min-width: 960px) {
+    .trackList {
+        min-height: 25rem;
+        height: fit-content;
+        overflow: unset;
+        flex: 1 1 auto;
+    }
+}

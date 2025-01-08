@@ -1,3 +1,15 @@
-.listSection {
-    
+/*** Desktop styles ***/
+@media (min-width: 960px) {
+    .listSection {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+    }
+    .resultsTitle {
+        flex: 0 1 auto;
+    }
+    .resultsList {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
 }

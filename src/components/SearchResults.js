@@ -12,8 +12,8 @@ const SearchResults = ({resultTracks, playlistTracks, setPlaylistTracks}) => {
 
     return (
         <section className={styles.listSection}>
-            <h2>Search Results</h2>
-            <TrackList tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
+            <h2 className={styles.resultsTitle}>Search Results</h2>
+            <TrackList className={styles.resultsList} tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
         </section>
     );
 };
