@@ -17,10 +17,11 @@ header {
   gap: 1rem;
 }
 .logo {
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-offset);
   border-radius: 50%;
-  height: 100px;
-  width: 100px;
+  padding: 1rem;
+  height: 200px;
+  width: 200px;
   text-align: center;
 }
 h1 {
