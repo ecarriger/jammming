@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
 import styles from './App.module.css';
 
 import SearchBar from './components/SearchBar';
