@@ -62,6 +62,7 @@ footer {
   }
   .upperContent {
     max-width: 1600px;
+    max-width: 1200px;
     width: 100%;
   }
   .trackListsWrapper {
