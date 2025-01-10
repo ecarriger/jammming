@@ -30,10 +30,10 @@ li {
                 margin: 0;
             }
             .trackTitle {
-                font-size: 1.25rem;
+                font-size: 1rem;
                 font-family: 'Inter', sans-serif;
-                font-style: normal;
-                font-weight: 300;
+                font-style: bold;
+                font-weight: 600;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -42,6 +42,7 @@ li {
                 gap: 2rem;
             }
                 .trackDetails h4 {
+                    color: var(--color-tertiary);
                     font-size: .875rem;
                     font-family: 'Inter', sans-serif;
                     font-style: normal;
