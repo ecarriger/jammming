@@ -57,3 +57,6 @@ li {
         text-align: end;
         flex: 1 0 auto;
     }
+    .trackWrapper:hover {
+        cursor: pointer;
+    }
