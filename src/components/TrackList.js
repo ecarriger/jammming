@@ -3,8 +3,17 @@ import Track from './Track';
 
 import styles from './TrackList.module.css'
 
-const TrackList = ({tracks, handleTrackClick}) => {
-    const tracksToDisplay = tracks.map((track, index) => <Track key={index} track={track} handleTrackClick={() => handleTrackClick(index)} /> )
+const TrackList = ({tracks, handleTrackClick, iconSymbol}) => {
+    const tracksToDisplay = tracks.map((track, index) => {
+        return (
+            <Track 
+                key={index} 
+                track={track} 
+                handleTrackClick={() => handleTrackClick(index)}
+                iconSymbol={iconSymbol}
+            />
+        );
+    });
     return (
         <ul className={styles.trackList}>
             {tracksToDisplay}
