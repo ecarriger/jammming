@@ -4,11 +4,77 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-offset);
 }
-p,a,h1,h2,h3,h4,h5,h6,li,td,input,label {
-  font-family: Inter, sans-serif;
-  font-size: 16px;
-  font-weight: 300;
+html {
+  background-color: var(--color-bg);
   color: var(--color-body-text);
+  font-size: 16px;
+}
+p,a,li,td,img,label {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 1rem;
+}
+input {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 1rem;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: bold;
+  font-size: 1.5rem;
+}
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+a:visited {
+  color: var(--color-secondary);
+}
+/* Override Chrome autofill styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-transition-delay: 99999s;
+}
+input {
+  color: var(--color-bodytext);
+  border-radius: 1rem;
+  padding: 1.25rem .625rem;
+}
+input[type='text'] {
+  background-color: var(--color-bg);
+  border: 3px solid var(--color-primary);
+}
+input[type='text']:focus {
+  border: 3px solid var(--color-secondary);
+}
+input[type='submit'] {
+  background-color: var(--color-primary);
+  border: 3px solid var(--color-primary);
+}
+input[type='submit']:hover {
+  cursor: pointer;
+}
+input[type='submit']:active {
+  border: 3px solid var(--color-secondary);
+}
+@media (min-width: 960px) {
+
 }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
+import styles from './SearchBar.module.css';
 
 const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration}) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,18 +48,20 @@ if(checkTokenExpired(accessTokenExpiration)) {
 };
 
   return (
-      <section>
-          <h2>Search</h2>
+      <section className={styles.searchBar}>
           <form onSubmit={handleSearchSubmit}>
-              <label htmlFor="search-bar">Search for songs</label>
-              <input 
-                  type="text"
-                  id="search-bar" 
-                  name="search-bar" 
-                  value={searchQuery} 
-                  onChange={handleSearchChange}
-                  placeholder="Type your search..." />
-              <input type="submit" value="Search" />
+              <label className='inter-bold' htmlFor="searchBar">Search for songs:</label>
+              <div className={styles.inputWrapper}>
+                <input 
+                    type="text"
+                    id='searchBar'
+                    className={styles.searchBar}
+                    name="search-bar" 
+                    value={searchQuery} 
+                    onChange={handleSearchChange}
+                    placeholder="Type your search..." />
+                <input className='searchSubmit inter-bold' type="submit" value="Search" />
+              </div>
           </form>
           <p>{message}</p>
       </section>

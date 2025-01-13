@@ -5,6 +5,8 @@ import TrackList from './TrackList';
 import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
+import styles from './Playlist.module.css'
+
 
 const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth, accessTokenExpiration}) => {
     const [playlistName, setPlaylistName] = useState('');
@@ -75,19 +77,22 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
 
 
     return (
-        <section id='playlist'>
+        <section id={styles.playlist}>
             <h2>Playlist</h2>
             <form onSubmit={handleSaveSubmit}>
-                <label htmlFor="playlist-name">Playlist name</label>
-                <input 
-                    type="text" 
-                    id="playlist-name" 
-                    name="playlist-name" 
-                    placeholder="Playlist name" 
-                    value={playlistName}
-                    onChange={handlePlaylistNameChange} 
-                />
-                <input type='submit' value='Save to Spotify' />
+                <label className='inter-bold' htmlFor="playlistName">New playlist name:</label>
+                <div className={styles.formInputs}>
+                    <input 
+                        type="text" 
+                        id='playlistName'
+                        className={styles.playlistName}
+                        name="playlist-name" 
+                        placeholder="Type playlist name..." 
+                        value={playlistName}
+                        onChange={handlePlaylistNameChange} 
+                    />
+                    <input type='submit' className='inter-bold playlistSubmit' value='Save to Spotify' />
+                </div>
             </form>
             <p id="message">{message}</p>
             <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
