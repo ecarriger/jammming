@@ -12,7 +12,7 @@ const get = async (url, accessToken) => {
             return json;
         }
         else {
-            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
+            return new Error(`GET response status ${response.status}: ${response.statusText}`);
         }
     }
     catch(error) {
@@ -37,7 +37,7 @@ const post = async (url, data, accessToken) => {
             return json;
         }
         else {
-            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
+            return new Error(`GET response status ${response.status}: ${response.statusText}`);
         }
     }
     catch(error) {
@@ -60,7 +60,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            throw new Error(e.message);
+            return new Error(e.message);
         }     
     },
     getUserId: async (accessToken) => {
@@ -76,7 +76,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            throw new Error(e.message);
+            return new Error(e.message);
         }
     },
     postNewPlaylist: async (playlistName, userId, accessToken) => {
@@ -94,7 +94,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            throw new Error(e.message);
+            return new Error(e.message);
         }
     },
     postTracksToPlaylist: async (playlistID, trackUrisToSave, accessToken) => {
@@ -113,7 +113,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            throw new Error(e.message);
+            return new Error(e.message);
         }
     }
 };

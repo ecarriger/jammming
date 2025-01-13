@@ -34,12 +34,18 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
         setPlaylistName(target.value);
     };
 
+    const queueRedirect = () => {
+        setTimeout(() => {
+          window.location = process.env.REACT_APP_APP_ROOT;
+        }, 3000)
+      };
+
     const handleSaveSubmit = async (event) => {
         event.preventDefault();
         const tokenExpired = checkTokenExpired(accessTokenExpiration);
         if(tokenExpired) {
             setAuth(false);
-            window.location = 'http://localhost:3000';
+            queueRedirect();
             return;
         }
         if(playlistTracks.length === 0) {
@@ -59,6 +65,11 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
 
         //Create new playlist on users account
         const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, accessToken);
+        if(createPlaylistResults instanceof Error) {
+            setMessage('Connection failed, please re-authenticate. Redirecting...');
+            queueRedirect();
+            return;
+        }
         const playlistId = createPlaylistResults.id;
 
         //Add selected tracks to the new playlist
