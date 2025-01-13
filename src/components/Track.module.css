@@ -55,5 +55,11 @@ li {
         height: 3rem;
         width: 3rem;
         text-align: end;
-        flex: 1 0 auto;
+        flex: 2 0 auto;
+    }
+    .plusIcon:hover {
+        cursor: pointer;
+    }
+    .plusIcon:active {
+        color: var(--color-primary);
     }
