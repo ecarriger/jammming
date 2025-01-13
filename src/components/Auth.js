@@ -6,7 +6,7 @@ import './Auth.module.css';
 
 const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpiration}) => { 
   //handle returned hash properties from Spotify
-  const [ searchParams ] = useSearchParams();
+  const [ searchParams, setSearchParams ] = useSearchParams();
   if(window.location.hash) {
     const query = createSearchParams(window.location.hash.slice(1)); //slice off # from hash string
     window.location.search = query.toString();
@@ -25,11 +25,16 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
     if(!accessToken && accessTokenInUrl) {
       const stateMatches = sessionStorage.getItem('state') === searchParams.get('state');
       if(stateMatches) {
+        debugger;
         setAccessToken(searchParams.get('access_token'));
-        const expirationMinutes = searchParams.get('expires_in');
+        const expirationMinutes = searchParams.get('expires_in') / 60;
         const expirationDate = new Date();
-        expirationDate.setMinutes(expirationDate.getMinutes + expirationMinutes);
+        console.log(`New date: ${expirationDate}`);
+        console.log(`New date minutes: ${expirationDate.getMinutes()}`);
+        expirationDate.setMinutes(expirationDate.getMinutes() + expirationMinutes);
+        console.log(`Modified date: ${expirationDate}`);
         setAccessTokenExpiration(expirationDate);
+        setSearchParams({});
         setAuth(true);
       }
     }
