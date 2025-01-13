@@ -3,7 +3,7 @@ import { convertMsToTime } from '../utilities/utils';
 
 import styles from './Track.module.css';
 
-const Track = ({index, track, handleTrackClick}) => {
+const Track = ({index, track, handleTrackClick, iconSymbol}) => {
 
     return (
         <li key={index} onClick={handleTrackClick}>
@@ -17,7 +17,7 @@ const Track = ({index, track, handleTrackClick}) => {
                     </div>
                 </div>
             </div>
-            <span className={styles.plusIcon}>+</span>
+            <span className={styles.trackIcon}>{iconSymbol}</span>
         </li>
     );
 };

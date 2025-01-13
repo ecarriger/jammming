@@ -95,7 +95,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
                 </div>
             </form>
             <p id="message">{message}</p>
-            <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} />
+            <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} iconSymbol='-' />
         </section>
     );
 };

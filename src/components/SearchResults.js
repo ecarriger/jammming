@@ -13,7 +13,7 @@ const SearchResults = ({resultTracks, playlistTracks, setPlaylistTracks}) => {
     return (
         <section className={styles.listSection}>
             <h2 className={styles.resultsTitle}>Search Results</h2>
-            <TrackList className={styles.resultsList} tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} />
+            <TrackList className={styles.resultsList} tracks={resultTracks} handleTrackClick={handleClickAddToPlaylist} iconSymbol='+' />
         </section>
     );
 };

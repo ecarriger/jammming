@@ -48,7 +48,7 @@ li {
                     font-style: normal;
                     font-weight: 300;
                 }
-    .plusIcon {
+    .trackIcon {
         color: var(--color-secondary);
         font-size: 3rem;
         line-height: 3rem;
@@ -57,9 +57,9 @@ li {
         text-align: end;
         flex: 2 0 auto;
     }
-    .plusIcon:hover {
+    .trackIcon:hover {
         cursor: pointer;
     }
-    .plusIcon:active {
+    .trackIcon:active {
         color: var(--color-primary);
     }
