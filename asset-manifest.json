@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/jammming/static/css/main.f855e6bc.css",
-    "main.js": "/jammming/static/js/main.29bbeab0.js",
+    "main.css": "/jammming/static/css/main.61d2e341.css",
+    "main.js": "/jammming/static/js/main.e49f8c43.js",
     "static/js/453.a69270cd.chunk.js": "/jammming/static/js/453.a69270cd.chunk.js",
-    "static/media/logo.svg": "/jammming/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/media/logo.png": "/jammming/static/media/logo.84d36c6116094b339dd9.png",
     "index.html": "/jammming/index.html",
-    "main.f855e6bc.css.map": "/jammming/static/css/main.f855e6bc.css.map",
-    "main.29bbeab0.js.map": "/jammming/static/js/main.29bbeab0.js.map",
+    "main.61d2e341.css.map": "/jammming/static/css/main.61d2e341.css.map",
+    "main.e49f8c43.js.map": "/jammming/static/js/main.e49f8c43.js.map",
     "453.a69270cd.chunk.js.map": "/jammming/static/js/453.a69270cd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f855e6bc.css",
-    "static/js/main.29bbeab0.js"
+    "static/css/main.61d2e341.css",
+    "static/js/main.e49f8c43.js"
   ]
 }
