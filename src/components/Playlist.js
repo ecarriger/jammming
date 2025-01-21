@@ -66,8 +66,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
         //Create new playlist on users account
         const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, accessToken);
         if(createPlaylistResults instanceof Error) {
-            setMessage('Connection failed, please re-authenticate. Redirecting...');
-            queueRedirect();
+            setMessage('Connection failed, please try again.');
             return;
         }
         const playlistId = createPlaylistResults.id;

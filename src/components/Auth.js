@@ -25,7 +25,6 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
     if(!accessToken && accessTokenInUrl) {
       const stateMatches = sessionStorage.getItem('state') === searchParams.get('state');
       if(stateMatches) {
-        debugger;
         setAccessToken(searchParams.get('access_token'));
         const expirationMinutes = searchParams.get('expires_in') / 60;
         const expirationDate = new Date();
