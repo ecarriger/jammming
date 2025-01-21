@@ -2,8 +2,9 @@ const get = async (url, accessToken) => {
     try{
         const response = 
         await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
             headers: {
-                method: 'GET',
                 Authorization: 'Bearer ' + accessToken
             }
         });
