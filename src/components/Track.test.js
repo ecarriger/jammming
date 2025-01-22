@@ -7,7 +7,12 @@ const setUpTrack = () => {
     const track = {
         name: 'Sound of Silence',
         album: {
-            name: 'Immortalized'
+            name: 'Immortalized',
+            images: [
+                '/',
+                '/',
+                '/'
+            ]
         },
         artists: [
             {
@@ -17,7 +22,7 @@ const setUpTrack = () => {
         duration_ms: 252908
     }
 
-    render(<Track track={track} handleTrackClick={handleClick} />);
+    render(<Track track={track} handleTrackClick={handleClick} iconSymbol={'+'} />);
     
     return handleClick;
 }
@@ -31,6 +36,7 @@ test('Track name is displayed', () => {
 
     expect(track).toBeInTheDocument();
 });
+/*Album name no longer wanted in track details
 test('Track album name is shown', () => {
     setUpTrack();
 
@@ -39,7 +45,7 @@ test('Track album name is shown', () => {
     });
 
     expect(album).toBeInTheDocument();
-});
+});*/
 test('Track artist name is shown', () => {
     setUpTrack();
 
