@@ -22,7 +22,6 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
 
 
 const queueRedirect = () => {
-  debugger;
   setTimeout(() => {
     window.location = process.env.REACT_APP_APP_ROOT;
   }, 3000)
