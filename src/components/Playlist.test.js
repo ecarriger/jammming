@@ -1,22 +1,17 @@
 import { screen, render, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
-import { checkTokenExpired } from '../utilities/utils';
 import Playlist from './Playlist';
 
-
-//mock utilities module so checkTokenExpired can be set to return true or false
-jest.mock('../utilities/utils', () => {
-    return {
-        convertMsToTime: () => {},
-        checkTokenExpired: jest.fn()
-    };
-});
- 
 const tracks = [{
     name: 'Sound of Silence',
     album: {
-        name: 'Immortalized'
+        name: 'Immortalized',
+        images: [
+            '/',
+            '/',
+            '/'
+        ]
     },
     artists: [
         {
@@ -28,7 +23,12 @@ const tracks = [{
 {
     name: 'The Greatest Showman Theme',
     album: {
-        name: 'The Greatest Showman Soundtrack'
+        name: 'The Greatest Showman Soundtrack',
+        images: [
+            '/',
+            '/',
+            '/'
+        ]
     },
     artists: [
         {
@@ -38,8 +38,8 @@ const tracks = [{
     duration_ms: 272437
 }];
 
-const renderPlaylist = (playlistTracks = tracks, setPlaylistTracks = () => {}, accessToken = 'abc123', setAuth = () => {}, accessTokenExpiration = new Date(2199, 11)) => {
-    render(<Playlist playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} accessToken={accessToken} setAuth={setAuth} accessTokenExpiration={accessTokenExpiration} />);
+const renderPlaylist = (playlistTracks = tracks, setPlaylistTracks = () => {}, accessToken = 'abc123', auth = true, setAuth = () => {}, accessTokenExpiration = new Date(2199, 11)) => {
+    render(<Playlist playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} accessToken={accessToken} auth={auth} setAuth={setAuth} accessTokenExpiration={accessTokenExpiration} />);
 }
 
 test('shows no tracks if none present', () => {
@@ -52,7 +52,7 @@ test('shows no tracks if none present', () => {
 test('input name field can be typed into', async () => {
     renderPlaylist();
     const input = screen.getByRole('textbox', {
-        name: 'Playlist name'
+        name: /new playlist name/i
     });
     expect(input).toBeInTheDocument();
 
@@ -119,7 +119,7 @@ test('message set after playlist created', async () => {
     renderPlaylist();
 
     const name = screen.getByRole('textbox', {
-        name: 'Playlist name'
+        name: /new playlist name/i
     });
     const submit = screen.getByRole('button', {
         name: /save/i
@@ -143,7 +143,7 @@ test('playlist name cleared after successful submission', async () => {
     expect(myTrack).toBeInTheDocument();
 
     const name = screen.getByRole('textbox', {
-        name: 'Playlist name'
+        name: /new playlist name/i
     });
     const submit = screen.getByRole('button', {
         name: /save/i
@@ -162,14 +162,13 @@ test('playlist name cleared after successful submission', async () => {
 // as that is where setPlaylistTracks state is defined
 test('setAuth is called if token expired', () => {
     //set checkTokenExpired to mock return true
-    checkTokenExpired.mockReturnValueOnce(true); 
     const mockSetAuth = jest.fn();
-    renderPlaylist(tracks, () => {}, undefined, mockSetAuth, undefined, new Date(1999, 1));
+    renderPlaylist(tracks, () => {}, undefined, undefined, mockSetAuth, new Date(1999, 1));
 
     const name = screen.getByRole('textbox', {
-        name: 'Playlist name'
+        name: /new playlist name/i
     });
-    const submit = screen.getByRole('button', {
+    const submit = screen.getByRole('button', { 
         name: /save/i
     });
 
