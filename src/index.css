@@ -38,6 +38,9 @@ h2 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
 }
+a {
+  color: var(--color-secondary);
+}
 a:visited {
   color: var(--color-secondary);
 }
