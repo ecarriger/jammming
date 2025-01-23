@@ -38,7 +38,7 @@ test('authorize button renders', () => {
     renderAuth();
 
     const button = screen.getByRole('button', {
-        name: /authorize spotify/i
+        name: /connect to spotify/i
     });
 
     expect(button).toBeInTheDocument();
@@ -50,7 +50,7 @@ test('window.location navigates to spotify function fires if button clicked', ()
     renderAuth();
 
     const button = screen.getByRole('button', {
-        name: /authorize spotify/i
+        name: /connect to spotify/i
     });
     user.click(button);
 
@@ -74,7 +74,7 @@ test('sessionStorage is called to set Spotify state', () => {
     renderAuth();
 
     const button = screen.getByRole('button', {
-        name: /authorize spotify/i
+        name: /connect to spotify/i
     });
     user.click(button);    
 
@@ -89,7 +89,7 @@ test('navigates to spotify', () => {
     renderAuth();
 
     const button = screen.getByRole('button', {
-        name: /authorize spotify/i
+        name: /connect to spotify/i
     });
     user.click(button);
 
