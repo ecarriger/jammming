@@ -6,7 +6,12 @@ const renderSearchResults = (handleClick) => {
     const tracks = [{
         name: 'Sound of Silence',
         album: {
-            name: 'Immortalized'
+            name: 'Immortalized',
+            images: [
+                '/',
+                '/',
+                '/'
+            ]
         },
         artists: [
             {
@@ -18,7 +23,12 @@ const renderSearchResults = (handleClick) => {
     {
         name: 'The Greatest Showman Theme',
         album: {
-            name: 'The Greatest Showman Soundtrack'
+            name: 'The Greatest Showman Soundtrack',
+            images: [
+                '/',
+                '/',
+                '/'
+            ]
         },
         artists: [
             {
