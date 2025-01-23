@@ -40,7 +40,7 @@ describe('auth state false (no access token in url)', () => {
     renderApp();
   
     const authButton = screen.getByRole('button', {
-      name: /authorize spotify/i
+      name: /connect to spotify/i
     });
   
     expect(authButton).toBeInTheDocument();
@@ -60,8 +60,8 @@ describe('auth state set to true (access token in url and spotify state matches)
   test('SearhBar, SearchResults, and Playlist render if access token is in browser', () => {
     renderApp();
 
-    const searchBarHeader = screen.getByRole('heading', {
-      name: 'Search'
+    const searchBarHeader = screen.getByRole('textbox', {
+      name: /search for songs/i
     });
     const searchResultsHeader = screen.getByRole('heading', {
       name: /search results/i
@@ -78,7 +78,7 @@ describe('auth state set to true (access token in url and spotify state matches)
     renderApp();
 
     const authButton = screen.queryByRole('button', {
-      name: /authorize spotify/i
+      name: /connect to spotify/i
     });
   
     expect(authButton).not.toBeInTheDocument();

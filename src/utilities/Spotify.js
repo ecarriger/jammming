@@ -13,12 +13,12 @@ const get = async (url, accessToken) => {
             return json;
         }
         else {
-            return new Error(`GET response status ${response.status}: ${response.statusText}`);
+            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
         }
     }
-    catch(error) {
-        console.log(error);
-        throw error;
+    catch(e) {
+        console.log(e);
+        throw e;
    }
 };
 const post = async (url, data, accessToken) => {
@@ -38,12 +38,12 @@ const post = async (url, data, accessToken) => {
             return json;
         }
         else {
-            return new Error(`GET response status ${response.status}: ${response.statusText}`);
+            throw new Error(`GET response status ${response.status}: ${response.statusText}`);
         }
     }
-    catch(error) {
-        console.log(error);
-        throw error;
+    catch(e) {
+        console.log(e);
+        throw e;
    }
 };
 const Spotify = {
@@ -61,7 +61,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            return new Error(e.message);
+            throw e;
         }     
     },
     getUserId: async (accessToken) => {
@@ -77,7 +77,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            return new Error(e.message);
+            throw e;
         }
     },
     postNewPlaylist: async (playlistName, userId, accessToken) => {
@@ -95,7 +95,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            return new Error(e.message);
+            throw e;
         }
     },
     postTracksToPlaylist: async (playlistID, trackUrisToSave, accessToken) => {
@@ -114,7 +114,7 @@ const Spotify = {
         }
         catch(e) {
             console.log(e);
-            return new Error(e.message);
+            throw e;
         }
     }
 };

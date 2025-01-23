@@ -22,7 +22,6 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
 
 
 const queueRedirect = () => {
-  debugger;
   setTimeout(() => {
     window.location = process.env.REACT_APP_APP_ROOT;
   }, 3000)
@@ -43,12 +42,15 @@ if(checkTokenExpired(accessTokenExpiration)) {
 
   const formData = new FormData(event.target);
   const query = formData.get('search-bar');    
-  const spotifyResults = await Spotify.getTracks(query, accessToken);
-  if(spotifyResults instanceof Error) {
+
+  try {
+    const spotifyResults = await Spotify.getTracks(query, accessToken);
+    setResultTracks(spotifyResults.tracks.items);
+  }
+  catch(e) {
     setMessage('Connection failed, please try again.');
     return;
   }
-  setResultTracks(spotifyResults.tracks.items);
 };
 
   return (
