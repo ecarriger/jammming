@@ -1,4 +1,4 @@
-import Spotify, { requestAccessToken, checkUrlForAccessToken, extractAccessToken, extractExpiration, extractState } from './Spotify';
+import Spotify from './Spotify';
 
 describe('getUserId tests', () => {
     test('passing access token abc123 response contains user id 123', async () => {

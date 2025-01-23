@@ -58,28 +58,39 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
         //Get user's Spotify ID
         let currentUserId = userId;
         if(!currentUserId) {
-            const user = await Spotify.getUserId(accessToken);
-            currentUserId = user.id;
-            setUserId(currentUserId);
+            try {
+                const user = await Spotify.getUserId(accessToken);
+                currentUserId = user.id;
+                setUserId(currentUserId);
+            }
+            catch(e) {
+                setMessage(e.message);
+                return;
+            }   
         }
 
         //Create new playlist on users account
-        const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, accessToken);
-        if(createPlaylistResults instanceof Error) {
-            setMessage('Connection failed, please try again.');
+        try {
+            const createPlaylistResults =  await Spotify.postNewPlaylist(playlistName, currentUserId, accessToken);
+            const playlistId = createPlaylistResults.id;
+            //Add selected tracks to the new playlist
+            try {
+                const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, accessToken);
+                console.log(`Playlist created snapshot id: ${addTracksToPlaylistResults.snapshot_id}`);
+                setMessage(`Playlist created: ${createPlaylistResults.name}`);
+            }
+            //Spotify.postTracksToPlaylist threw error
+            catch(e) {
+                setMessage(e.message);
+                return
+            }
+        }
+        //Spotify.postNewPlaylist threw error
+        catch(e) {
+            setMessage(e.message);
             return;
         }
-        const playlistId = createPlaylistResults.id;
-
-        //Add selected tracks to the new playlist
-        if(playlistId) {
-            const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, accessToken);
-            setMessage(`Playlist created: ${createPlaylistResults.name}. Snap: ${addTracksToPlaylistResults.snapshot_id}`);
-        }
-        else {
-            setMessage('Cannot add tracks as no playlist id response');
-            throw(new Error('Cannot add tracks as no playlist id response'));
-        }
+        
         //Cleanup
         setPlaylistName('');
         setPlaylistTracks([]);
