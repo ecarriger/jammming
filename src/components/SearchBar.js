@@ -44,6 +44,7 @@ if(checkTokenExpired(accessTokenExpiration)) {
   const query = formData.get('search-bar');    
 
   try {
+    setMessage('Loading...');
     const spotifyResults = await Spotify.getTracks(query, accessToken);
     setResultTracks(spotifyResults.tracks.items);
   }
