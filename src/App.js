@@ -55,7 +55,7 @@ function App() {
       </div>
       <footer>
           <p>Created by <a href="https://github.com/ecarriger/jammming">@ecarriger on GitHub</a></p>
-          <p><a href="/">Privacy Policy</a></p>
+          <p><a href="https://github.com/ecarriger/jammming/blob/master/PRIVACY.md" rel="noreferrer" target="_blank">Privacy Policy</a></p>
       </footer>
     </div>
   )
