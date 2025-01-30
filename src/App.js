@@ -9,7 +9,7 @@ import Auth from './components/Auth';
 
 function App() {
   //Initialize states for result list and playlist tracks
-
+  const [fadeOutResults, setFadeOutResults] = useState(false);
   const [resultTracks, setResultTracks] = useState([]);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [auth, setAuth] = useState(false);
@@ -39,9 +39,14 @@ function App() {
             setAuth={setAuth} 
             accessToken={accessToken}
             accessTokenExpiration={accessTokenExpiration}
+            setFadeOutResults={setFadeOutResults}
           />}
           <div className={styles.trackListsWrapper}>
-            {auth && <SearchResults resultTracks={resultTracks} playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} />}
+            {auth && <SearchResults 
+              resultTracks={resultTracks} 
+              setPlaylistTracks={setPlaylistTracks}
+              fadeOutResults={fadeOutResults}
+            />}
             {auth && <Playlist 
               playlistTracks={playlistTracks} 
               setPlaylistTracks={setPlaylistTracks} 

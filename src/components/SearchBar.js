@@ -5,7 +5,7 @@ import { checkTokenExpired } from '../utilities/utils';
 
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration}) => {
+const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration, setFadeOutResults}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [message, setMessage] = useState('');
   useEffect(() => {
@@ -21,33 +21,36 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
   };
 
 
-const queueRedirect = () => {
-  setTimeout(() => {
-    window.location = process.env.REACT_APP_APP_ROOT;
-  }, 3000)
-};
-//Send search request to Spotify
-const handleSearchSubmit = async (event) => {
-  event.preventDefault();
-if(searchQuery.length < 3) {
-  setMessage('Search must be at least 3 charaters');
-  return;
-}
-if(checkTokenExpired(accessTokenExpiration)) {
-  setAuth(false);
-  setMessage('Authentication expired, redirecting...');
-  queueRedirect();
-  return;
-}
+  const queueRedirect = () => {
+    setTimeout(() => {
+      window.location = process.env.REACT_APP_APP_ROOT;
+    }, 3000)
+  };
+  //Send search request to Spotify
+  const handleSearchSubmit = async (event) => {
+    event.preventDefault();
+  if(searchQuery.length < 3) {
+    setMessage('Search must be at least 3 charaters');
+    return;
+  }
+  if(checkTokenExpired(accessTokenExpiration)) {
+    setAuth(false);
+    setMessage('Authentication expired, redirecting...');
+    queueRedirect();
+    return;
+  }
 
   const formData = new FormData(event.target);
   const query = formData.get('search-bar');    
-
   try {
-    setResultTracks([]);
     setMessage('Loading...');
+    setFadeOutResults(true);
     const spotifyResults = await Spotify.getTracks(query, accessToken);
-    setResultTracks(spotifyResults.tracks.items);
+    setTimeout(() => {
+      setResultTracks([]);
+      setResultTracks(spotifyResults.tracks.items);
+      setFadeOutResults(false);
+    }, 250);
     setMessage('');
   }
   catch(e) {
@@ -72,7 +75,7 @@ if(checkTokenExpired(accessTokenExpiration)) {
                 <input className='searchSubmit inter-bold' type="submit" value="Search" />
               </div>
           </form>
-          <p>{message}</p>
+          <p className={styles.message}>{message}</p>
       </section>
       
   );

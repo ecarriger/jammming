@@ -10,7 +10,7 @@
 /*** Header Styles ***/
 header {
   padding: 2rem 2rem;
-  margin: 2rem 0;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +35,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3.5rem;
+  gap: 1rem;
 }
 .trackListsWrapper {
   width: 100%;
