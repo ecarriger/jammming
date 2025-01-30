@@ -3,18 +3,23 @@ import { convertMsToTime } from '../utilities/utils';
 
 import styles from './Track.module.css';
 
-const Track = ({track, handleTrackClick, iconSymbol}) => {
+const Track = ({track, handleTrackClick, iconSymbol, fadeOutResults}) => {
     const [fadeOut, setFadeOut] = useState(false);
     const clickHandler = (event) => {
-        console.log(event);
         //iconSymbol of minus means this is a playlist track
         if(iconSymbol === '-') {
             setFadeOut(true);
         }
         handleTrackClick();
     };
+    const listType = iconSymbol === '-' ? 'playlist' : 'resultlist'; 
+    const listClasses = [
+        styles[listType],
+        fadeOut || fadeOutResults ? ` ${styles.fadeOut}` : ''        
+    ]
+    .join('');
     return (
-        <li className={fadeOut ? styles.fadeOut : ''} onClick={clickHandler}>
+        <li className={listClasses} onClick={clickHandler}>
             <div className={styles.trackWrapper}>
                 <img src={track.album.images[2].url} alt='Cover art' />
                 <div className={styles.trackText}>
