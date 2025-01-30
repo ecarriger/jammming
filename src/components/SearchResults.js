@@ -1,13 +1,17 @@
 import React from 'react';
 import TrackList from './TrackList';
 
+import { generateRandomString } from '../utilities/utils';
+
 import styles from './SearchResults.module.css'
 
-const SearchResults = ({resultTracks, playlistTracks, setPlaylistTracks}) => {
+const SearchResults = ({resultTracks, setPlaylistTracks}) => {
 
     //Add clicked track to playlist (clicked from SearchResult list)
     const handleClickAddToPlaylist = (trackIdToAdd) => {
-        setPlaylistTracks([...playlistTracks, resultTracks[trackIdToAdd]]);
+        const trackToAdd = JSON.parse(JSON.stringify(resultTracks[trackIdToAdd]));
+        trackToAdd.uKey = generateRandomString(8);
+        setPlaylistTracks(prevPlaylistTracks => [...prevPlaylistTracks, trackToAdd]);
     };
 
     return (
