@@ -27,7 +27,10 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
     
     //Remove track from playlist
     const handleClickRemoveTrack = (trackIdToRemove) => {
-        setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
+        //give element time to fadeOut
+        setTimeout(() => {
+            setPlaylistTracks(playlistTracks => playlistTracks.filter((track, index) => index !== trackIdToRemove ));
+        }, 250);
     }
 
     const handlePlaylistNameChange = ({target}) => {

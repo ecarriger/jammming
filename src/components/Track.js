@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { convertMsToTime } from '../utilities/utils';
 
 import styles from './Track.module.css';
 
-const Track = ({index, track, handleTrackClick, iconSymbol}) => {
-
+const Track = ({track, handleTrackClick, iconSymbol}) => {
+    const [fadeOut, setFadeOut] = useState(false);
+    const clickHandler = (event) => {
+        console.log(event);
+        //iconSymbol of minus means this is a playlist track
+        if(iconSymbol === '-') {
+            setFadeOut(true);
+        }
+        handleTrackClick();
+    };
     return (
-        <li key={index} onClick={handleTrackClick}>
+        <li className={fadeOut ? styles.fadeOut : ''} onClick={clickHandler}>
             <div className={styles.trackWrapper}>
                 <img src={track.album.images[2].url} alt='Cover art' />
                 <div className={styles.trackText}>

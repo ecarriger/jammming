@@ -7,7 +7,7 @@ const SearchResults = ({resultTracks, playlistTracks, setPlaylistTracks}) => {
 
     //Add clicked track to playlist (clicked from SearchResult list)
     const handleClickAddToPlaylist = (trackIdToAdd) => {
-        setPlaylistTracks([resultTracks[trackIdToAdd], ...playlistTracks]);
+        setPlaylistTracks([...playlistTracks, resultTracks[trackIdToAdd]]);
     };
 
     return (
