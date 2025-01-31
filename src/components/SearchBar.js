@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Spotify from '../utilities/Spotify';
 import { checkTokenExpired } from '../utilities/utils';
 
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration, setFadeOutResults}) => {
+const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration, setFadeOutResults, messageHandler}) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [message, setMessage] = useState('');
-  useEffect(() => {
-    if(message) {
-      setTimeout(() => {
-        setMessage('');
-      }, 5000)
-    }
-  }, [message])
 
   const handleSearchChange = ({target}) => {
       setSearchQuery(target.value);
   };
-
 
   const queueRedirect = () => {
     setTimeout(() => {
@@ -30,12 +21,12 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
   if(searchQuery.length < 3) {
-    setMessage('Search must be at least 3 charaters');
+    messageHandler('Search must be at least 3 charaters', 3000);
     return;
   }
   if(checkTokenExpired(accessTokenExpiration)) {
     setAuth(false);
-    setMessage('Authentication expired, redirecting...');
+    messageHandler('Authentication expired, redirecting...', 3000);
     queueRedirect();
     return;
   }
@@ -43,7 +34,7 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
   const formData = new FormData(event.target);
   const query = formData.get('search-bar');    
   try {
-    setMessage('Loading...');
+    messageHandler('Loading...');
     setFadeOutResults(true);
     const spotifyResults = await Spotify.getTracks(query, accessToken);
     setTimeout(() => {
@@ -51,10 +42,10 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
       setResultTracks(spotifyResults.tracks.items);
       setFadeOutResults(false);
     }, 250);
-    setMessage('');
+    messageHandler('');
   }
   catch(e) {
-    setMessage('Connection failed, please try again.');
+    messageHandler('Connection failed, please try again.', 3000);
     return;
   }
 };
@@ -75,7 +66,6 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
                 <input className='searchSubmit inter-bold' type="submit" value="Search" />
               </div>
           </form>
-          <p className={styles.message}>{message}</p>
       </section>
       
   );

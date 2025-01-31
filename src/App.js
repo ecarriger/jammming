@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.png';
 import styles from './App.module.css';
 
@@ -6,6 +6,7 @@ import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import Playlist from './components/Playlist';
 import Auth from './components/Auth';
+import Message from './components/Message';
 
 function App() {
   //Initialize states for result list and playlist tracks
@@ -15,11 +16,34 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date());
+  const [message, setMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
+  
+  const messageHandler = (newMessage, messageDuration = null) => {
+    const fadeOutDuration = 250;
+    if(!newMessage) {
+      setShowMessage(false);
+      setTimeout(() => {
+
+      }, fadeOutDuration)
+    }
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+      setTimeout(() => {
+        setMessage('');
+      }, fadeOutDuration);
+    }, messageDuration);
+  };
 
 
   //App JSX to render
   return (
     <div className={styles.app}>
+      <Message 
+        message={message}
+        showMessage={showMessage}
+      />
       <div className={styles.upperContent}>
         <header>
           <img className={styles.logo} src={logo} alt='Jammming headphones logo' />
@@ -40,12 +64,14 @@ function App() {
             accessToken={accessToken}
             accessTokenExpiration={accessTokenExpiration}
             setFadeOutResults={setFadeOutResults}
+            messageHandler={messageHandler}
           />}
           <div className={styles.trackListsWrapper}>
             {auth && <SearchResults 
               resultTracks={resultTracks} 
               setPlaylistTracks={setPlaylistTracks}
               fadeOutResults={fadeOutResults}
+              messageHandler={messageHandler}
             />}
             {auth && <Playlist 
               playlistTracks={playlistTracks} 
@@ -54,6 +80,7 @@ function App() {
               setAuth={setAuth}
               accessToken={accessToken}
               accessTokenExpiration={accessTokenExpiration}
+              messageHandler={messageHandler}
             />}
           </div>
         </main>

@@ -5,7 +5,7 @@ import { generateRandomString } from '../utilities/utils';
 
 import styles from './SearchResults.module.css'
 
-const SearchResults = ({resultTracks, setPlaylistTracks, fadeOutResults}) => {
+const SearchResults = ({resultTracks, setPlaylistTracks, fadeOutResults, setMessage}) => {
 
     //Add clicked track to playlist (clicked from SearchResult list)
     const handleClickAddToPlaylist = (trackIdToAdd) => {

@@ -8,7 +8,7 @@ import { checkTokenExpired } from '../utilities/utils';
 import styles from './Playlist.module.css'
 
 
-const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth, accessTokenExpiration}) => {
+const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth, accessTokenExpiration, setMessage}) => {
     const [playlistName, setPlaylistName] = useState('');
     const [userId, setUserId] = useState('');
     useEffect(() => {
@@ -16,14 +16,6 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
             setUserId('');
         }
     }, [auth]);
-    const [message, setMessage] = useState('');
-    useEffect(() => {
-        if(message) {
-            setTimeout(() => {
-                setMessage('');
-            }, 5000);
-        }
-    }, [message]);
     
     //Remove track from playlist
     const handleClickRemoveTrack = (trackIdToRemove) => {
@@ -118,7 +110,6 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
                     <input type='submit' className='inter-bold playlistSubmit' value='Save to Spotify' />
                 </div>
             </form>
-            <p id="message">{message}</p>
             <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} iconSymbol='-' fadeOutResults={false} />
         </section>
     );

@@ -1,0 +1,16 @@
+#messageWrapper {
+    display: static;
+  }
+#messageWrapper h3 {
+background-color: var(--color-secondary);
+border-radius: .5rem;
+color: var(--color-body-text);
+}
+.show {
+visibility: visible;
+opacity: 1;
+}
+.hide {
+visibility: hidden;
+opacity: 0;
+}
