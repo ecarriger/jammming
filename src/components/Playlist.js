@@ -44,7 +44,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
             return;
         }
         if(playlistTracks.length === 0) {
-            setMessage('Playlist is empty, please add some tracks');
+            setMessage('Playlist is empty, please add some tracks', 3000);
             return;
         }
         const trackUrisToSave = [];
@@ -59,7 +59,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
                 setUserId(currentUserId);
             }
             catch(e) {
-                setMessage(e.message);
+                setMessage(e.message, 5000);
                 return;
             }   
         }
@@ -72,7 +72,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
             try {
                 const addTracksToPlaylistResults = await Spotify.postTracksToPlaylist(playlistId, trackUrisToSave, accessToken);
                 console.log(`Playlist created snapshot id: ${addTracksToPlaylistResults.snapshot_id}`);
-                setMessage(`Playlist created: ${createPlaylistResults.name}`);
+                setMessage(`Playlist created: ${createPlaylistResults.name}`, 3000);
             }
             //Spotify.postTracksToPlaylist threw error
             catch(e) {
@@ -82,7 +82,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
         }
         //Spotify.postNewPlaylist threw error
         catch(e) {
-            setMessage(e.message);
+            setMessage(e.message, 5000);
             return;
         }
         

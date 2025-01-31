@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import useMessage from './utilities/useMessage';
 import logo from './logo.png';
 import styles from './App.module.css';
 
@@ -16,32 +17,13 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [accessTokenExpiration, setAccessTokenExpiration] = useState(new Date());
-  const [message, setMessage] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
+  const [messageContent, showMessage, setMessage] = useMessage();
   
-  const messageHandler = (newMessage, messageDuration = null) => {
-    const fadeOutDuration = 250;
-    if(!newMessage) {
-      setShowMessage(false);
-      setTimeout(() => {
-
-      }, fadeOutDuration)
-    }
-    setShowMessage(true);
-    setTimeout(() => {
-      setShowMessage(false);
-      setTimeout(() => {
-        setMessage('');
-      }, fadeOutDuration);
-    }, messageDuration);
-  };
-
-
   //App JSX to render
   return (
     <div className={styles.app}>
       <Message 
-        message={message}
+        messageContent={messageContent}
         showMessage={showMessage}
       />
       <div className={styles.upperContent}>
@@ -64,14 +46,14 @@ function App() {
             accessToken={accessToken}
             accessTokenExpiration={accessTokenExpiration}
             setFadeOutResults={setFadeOutResults}
-            messageHandler={messageHandler}
+            setMessage={setMessage}
           />}
           <div className={styles.trackListsWrapper}>
             {auth && <SearchResults 
               resultTracks={resultTracks} 
               setPlaylistTracks={setPlaylistTracks}
               fadeOutResults={fadeOutResults}
-              messageHandler={messageHandler}
+              setMessage={setMessage}
             />}
             {auth && <Playlist 
               playlistTracks={playlistTracks} 
@@ -80,7 +62,7 @@ function App() {
               setAuth={setAuth}
               accessToken={accessToken}
               accessTokenExpiration={accessTokenExpiration}
-              messageHandler={messageHandler}
+              setMessage={setMessage}
             />}
           </div>
         </main>

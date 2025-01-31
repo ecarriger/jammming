@@ -5,7 +5,7 @@ import { checkTokenExpired } from '../utilities/utils';
 
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration, setFadeOutResults, messageHandler}) => {
+const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration, setFadeOutResults, setMessage}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchChange = ({target}) => {
@@ -21,12 +21,12 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
   if(searchQuery.length < 3) {
-    messageHandler('Search must be at least 3 charaters', 3000);
+    setMessage('Search must be at least 3 charaters', 3000);
     return;
   }
   if(checkTokenExpired(accessTokenExpiration)) {
     setAuth(false);
-    messageHandler('Authentication expired, redirecting...', 3000);
+    setMessage('Authentication expired, redirecting...', 3000);
     queueRedirect();
     return;
   }
@@ -34,7 +34,7 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
   const formData = new FormData(event.target);
   const query = formData.get('search-bar');    
   try {
-    messageHandler('Loading...');
+    setMessage('Loading...');
     setFadeOutResults(true);
     const spotifyResults = await Spotify.getTracks(query, accessToken);
     setTimeout(() => {
@@ -42,10 +42,10 @@ const SearchBar = ({setResultTracks, setAuth, accessToken, accessTokenExpiration
       setResultTracks(spotifyResults.tracks.items);
       setFadeOutResults(false);
     }, 250);
-    messageHandler('');
+    setMessage('');
   }
   catch(e) {
-    messageHandler('Connection failed, please try again.', 3000);
+    setMessage('Connection failed, please try again.', 3000);
     return;
   }
 };

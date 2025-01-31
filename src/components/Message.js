@@ -1,9 +1,9 @@
 import styles from 'Message.module.css'
 
-const Message = ({message, showMessage}) => {
+const Message = ({messageContent, showMessage}) => {
     return (
         <aside id='messageWrapper' className={showMessage ? styles.show : styles.hide} >
-            <h3>{message}</h3>
+            <h3>{messageContent}</h3>
         </aside>
     );
 };
