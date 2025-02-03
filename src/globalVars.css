@@ -20,10 +20,11 @@
 }
   
 :root {
-    --color-primary: #F53277;
-    --color-secondary: #F985AE;
+    --color-primary: #F53277 /*245, 50, 119*/;
+    --color-secondary: #F985AE /*249, 133, 174*/;
     --color-tertiary: #D9D9D9;
     --color-bg: #282828;
+    --color-bg-message: #353535;
     --color-bg-offset: #424242;
     --color-body-text: #e5e5e5;
   

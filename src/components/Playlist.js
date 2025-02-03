@@ -11,6 +11,7 @@ import styles from './Playlist.module.css'
 const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth, accessTokenExpiration, setMessage}) => {
     const [playlistName, setPlaylistName] = useState('');
     const [userId, setUserId] = useState('');
+    const [saveDisabled, setSaveDisabled] = useState(false);
     useEffect(() => {
         if(!auth) {
             setUserId('');
@@ -47,6 +48,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
             setMessage('Playlist is empty, please add some tracks', 3000);
             return;
         }
+        setSaveDisabled(true);
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
 
@@ -89,6 +91,7 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
         //Cleanup
         setPlaylistName('');
         setPlaylistTracks([]);
+        setSaveDisabled(false);
     };
 
 
@@ -107,7 +110,11 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
                         value={playlistName}
                         onChange={handlePlaylistNameChange} 
                     />
-                    <input type='submit' className='inter-bold playlistSubmit' value='Save to Spotify' />
+                    <input type='submit'
+                        className='inter-bold playlistSubmit' 
+                        value={saveDisabled ? 'Saving...' : 'Save to Spotify'} 
+                        disabled={saveDisabled} 
+                    />
                 </div>
             </form>
             <TrackList tracks={playlistTracks} handleTrackClick={handleClickRemoveTrack} iconSymbol='-' fadeOutResults={false} />

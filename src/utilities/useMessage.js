@@ -35,13 +35,14 @@ const useMessage = (startingAnimationDuration = 250) => {
         setShowMessage(true);
       }
       else {
-          setShowMessage(true);
-          setTimeout(() => {
-              setShowMessage(false);
-              setTimeout(() => {
-                  setMessageContent('');
-              }, animationDuration);
-          }, messageDuration);
+        setMessageContent(newMessage);
+        setShowMessage(true);
+        setTimeout(() => {
+            setShowMessage(false);
+            setTimeout(() => {
+                setMessageContent('');
+            }, animationDuration);
+        }, messageDuration);
       }
     }, [messageConfig, animationDuration]);
     const setNewMessage = (newMessage = '', messageDuration = null) => {

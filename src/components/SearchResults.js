@@ -12,6 +12,7 @@ const SearchResults = ({resultTracks, setPlaylistTracks, fadeOutResults, setMess
         const trackToAdd = JSON.parse(JSON.stringify(resultTracks[trackIdToAdd]));
         trackToAdd.uKey = generateRandomString(8);
         setPlaylistTracks(prevPlaylistTracks => [...prevPlaylistTracks, trackToAdd]);
+        setMessage('Track added', 750);
     };
 
     return (
