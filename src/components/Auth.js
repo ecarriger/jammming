@@ -28,10 +28,7 @@ const Auth = ({auth, setAuth, accessToken, setAccessToken, setAccessTokenExpirat
         setAccessToken(searchParams.get('access_token'));
         const expirationMinutes = searchParams.get('expires_in') / 60;
         const expirationDate = new Date();
-        console.log(`New date: ${expirationDate}`);
-        console.log(`New date minutes: ${expirationDate.getMinutes()}`);
         expirationDate.setMinutes(expirationDate.getMinutes() + expirationMinutes);
-        console.log(`Modified date: ${expirationDate}`);
         setAccessTokenExpiration(expirationDate);
         setSearchParams({});
         setAuth(true);

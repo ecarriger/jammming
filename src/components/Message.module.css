@@ -1,0 +1,25 @@
+.messageWrapper {
+  position: fixed;
+  top: 2rem;
+  width: 100%;
+  text-align: center;
+  z-index: 5;
+  }
+.messageWrapper div {
+  background-color: rgba(53, 53, 53, .85);
+  border-radius: .5rem;
+  display: inline;
+  padding: .75rem;
+}
+.messageWrapper p {
+  color: var(--color-body-text);
+  display: inline;
+}
+.show {
+  visibility: visible;
+  opacity: 1;
+}
+.hide {
+  visibility: hidden;
+  opacity: 0;
+}
