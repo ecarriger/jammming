@@ -2,7 +2,7 @@ import { screen, render } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import SearchResults from './SearchResults';
 
-const renderSearchResults = (handleClick) => {
+const renderSearchResults = (handleClick, setMessage) => {
     const tracks = [{
         name: 'Sound of Silence',
         album: {
@@ -38,7 +38,7 @@ const renderSearchResults = (handleClick) => {
         duration_ms: 272437
     }]
 
-    render(<SearchResults resultTracks={tracks} playlistTracks={[]} setPlaylistTracks={handleClick} />);
+    render(<SearchResults resultTracks={tracks} playlistTracks={[]} setPlaylistTracks={handleClick} setMessage={() => {}} />);
 }
 
 test('shows no tracks if none present', () => {

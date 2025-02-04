@@ -3,13 +3,22 @@ import user from '@testing-library/user-event';
 
 import SearchBar from './SearchBar';
 
-const renderSearchBar = (setResultTracks = () => {}, setAuth = () => {}, accessToken = 'abc123', accessTokenExpiration = new Date(999999999999999)) => {
+const renderSearchBar = (
+    setResultTracks = () => {}, 
+    setAuth = () => {}, 
+    accessToken = 'abc123', 
+    accessTokenExpiration = new Date(999999999999999),
+    setFadeOutResults = () => {},
+    setMessage = () => {}
+) => {
     render(
         <SearchBar 
             setResultTracks={setResultTracks} 
             setAuth={setAuth} 
             accessToken={accessToken} 
-            accessTokenExpiration={accessTokenExpiration} 
+            accessTokenExpiration={accessTokenExpiration}
+            setFadeOutResults={setFadeOutResults}
+            setMessage={setMessage}
         />
     )
 };
@@ -28,20 +37,22 @@ test('Searchbar saves value', async () => {
     expect(searchbar.value).toBe('sound of silence');
 });
 test('Message shown if search to short', async () => {
-    renderSearchBar();
+    const mockSetmessage = jest.fn();
+    renderSearchBar(undefined, undefined, undefined, undefined, undefined, mockSetmessage);
 
     const searchButton = screen.getByRole('button', {
         name: /search/i
     });
     user.click(searchButton);
 
-    const message = await screen.findByText(/search must be at least 3 charaters/i);
-
-    expect(message).toBeInTheDocument();
+    await waitFor(() => {
+        expect(mockSetmessage).toHaveBeenCalledWith(expect.stringMatching(/search must be at least 3 charaters/i), expect.any(Number));
+    });
 });
 test('Message shown if token expired', async () => {
     const mockSetAuth = jest.fn();
-    renderSearchBar(undefined, mockSetAuth, undefined, new Date());
+    const mockSetMessage = jest.fn();
+    renderSearchBar(undefined, mockSetAuth, undefined, new Date(), undefined, mockSetMessage);
 
     const searchBox = screen.getByRole('textbox', {
         name: /search for songs/i
@@ -54,10 +65,11 @@ test('Message shown if token expired', async () => {
     user.keyboard('sound');
     user.click(searchButton);
 
-    const message = await screen.findByText(/authentication expired/i);
-
     expect(mockSetAuth).toHaveBeenCalled();
-    expect(message).toBeInTheDocument();
+    await waitFor(() => {
+        expect(mockSetMessage).toHaveBeenCalledWith(expect.stringMatching(/authentication expired/i), expect.any(Number));
+    });
+    
 });
 test('search button fires setResultTracks function', async () => {
     const mockSetResultTracks = jest.fn();
