@@ -13,43 +13,43 @@ import { useState, useEffect } from 'react';
     Default animation duration delay is 250ms, but can be overridden by passing a value at initializion or using setter function
 ***/
 const useMessage = (startingAnimationDuration = 250) => {
-    const [messageContent, setMessageContent] = useState('');
-    const [showMessage, setShowMessage] = useState('');
-    const [animationDuration, setAnimationDuration] = useState(startingAnimationDuration)
-    const [messageConfig, setMessageConfig] = useState('');
+  const [messageContent, setMessageContent] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
+  const [animationDuration, setAnimationDuration] = useState(startingAnimationDuration)
+  const [messageConfig, setMessageConfig] = useState(['', 0]);
 
-    useEffect(() => {
-        const newMessage = messageConfig[0];
-        const messageDuration = messageConfig[1];
+  useEffect(() => {
+    const newMessage = messageConfig[0];
+    const messageDuration = messageConfig[1];
 
-        //if no newMessage then fade out current message and then clear
+    //if no newMessage then fade out current message and then clear
     if(!newMessage) {
-        setShowMessage(false);
-        setTimeout(() => {
-          setMessageContent(newMessage);
-        }, animationDuration);
-      }
-      //if no duration passed then set message and fade it in and return
-      else if(!messageDuration) {
-        setMessageContent(newMessage);
-        setShowMessage(true);
-      }
-      else {
-        setMessageContent(newMessage);
-        setShowMessage(true);
-        setTimeout(() => {
-            setShowMessage(false);
-            setTimeout(() => {
-                setMessageContent('');
-            }, animationDuration);
-        }, messageDuration);
-      }
-    }, [messageConfig, animationDuration]);
-    const setNewMessage = (newMessage = '', messageDuration = null) => {
-        setMessageConfig([newMessage, messageDuration]);
-    };
-    
-    return [messageContent, showMessage, setNewMessage, setAnimationDuration];
+      setShowMessage(false);
+      setTimeout(() => {
+        setMessageContent('');
+      }, animationDuration);
+    }
+    //if no duration passed then set message and fade it in and return
+    else if(!messageDuration) {
+      setMessageContent(newMessage);
+      setShowMessage(true);
+    }
+    else {
+      setMessageContent(newMessage);
+      setShowMessage(true);
+      setTimeout(() => {
+          setShowMessage(false);
+          setTimeout(() => {
+              setMessageContent('');
+          }, animationDuration);
+      }, messageDuration);
+    }
+  }, [messageConfig, animationDuration]);
+  const setNewMessage = (newMessage = '', messageDuration = null) => {
+      setMessageConfig([newMessage, messageDuration]);
+  };
+  
+  return [messageContent, showMessage, setNewMessage, setAnimationDuration];
 };
 
 export default useMessage;
