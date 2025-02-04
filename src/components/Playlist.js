@@ -48,6 +48,10 @@ const Playlist = ({playlistTracks, setPlaylistTracks, accessToken, auth, setAuth
             setMessage('Playlist is empty, please add some tracks', 3000);
             return;
         }
+        if(playlistName.length === 0) {
+            setMessage('Playlist name is missing', 3000);
+            return;
+        }
         setSaveDisabled(true);
         const trackUrisToSave = [];
         playlistTracks.forEach(track => trackUrisToSave.push(track.uri));
