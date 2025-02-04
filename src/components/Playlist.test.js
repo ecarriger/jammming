@@ -38,8 +38,26 @@ const tracks = [{
     duration_ms: 272437
 }];
 
-const renderPlaylist = (playlistTracks = tracks, setPlaylistTracks = () => {}, accessToken = 'abc123', auth = true, setAuth = () => {}, accessTokenExpiration = new Date(2199, 11)) => {
-    render(<Playlist playlistTracks={playlistTracks} setPlaylistTracks={setPlaylistTracks} accessToken={accessToken} auth={auth} setAuth={setAuth} accessTokenExpiration={accessTokenExpiration} />);
+const renderPlaylist = (
+        playlistTracks = tracks, 
+        setPlaylistTracks = () => {}, 
+        accessToken = 'abc123', 
+        auth = true, 
+        setAuth = () => {}, 
+        accessTokenExpiration = new Date(2199, 11),
+        setMessage = () => {}
+    ) => {
+    render(
+        <Playlist 
+            playlistTracks={playlistTracks} 
+            setPlaylistTracks={setPlaylistTracks} 
+            accessToken={accessToken} 
+            auth={auth} 
+            setAuth={setAuth} 
+            accessTokenExpiration={accessTokenExpiration} 
+            setMessage={setMessage}
+        />
+    );
 }
 
 test('shows no tracks if none present', () => {
@@ -77,8 +95,8 @@ test('shows 2 tracks when passed 2', () => {
     expect(track2).toBeInTheDocument();
 });
 test('error message is shown if playlist is empty', async () => {
-    
-    render(<Playlist playlistTracks={[]} setAuth={() => {}} setPlaylistTracks={() => {}} />);
+    const mockSetMessage = jest.fn();
+    render(<Playlist playlistTracks={[]} setAuth={() => {}} setPlaylistTracks={() => {}} setMessage={mockSetMessage} />);
     
     const submit = screen.getByRole('button', {
         name: /save/i
@@ -87,8 +105,7 @@ test('error message is shown if playlist is empty', async () => {
     user.click(submit);
 
     await waitFor(() => {
-        const message = screen.getByText(/playlist is empty/i);
-        expect(message).toBeInTheDocument();
+        expect(mockSetMessage).toHaveBeenCalledWith(expect.stringMatching(/playlist is empty/i), expect.any(Number));
     })
    
 });
@@ -104,7 +121,7 @@ test('no error message is shown if playlist has tracks', () => {
 
     expect(message).not.toBeInTheDocument();
 });
-test('handleTrackClick is run when track is clicked', () => {
+test('handleTrackClick is run when track is clicked', async () => {
     const mockSetPlaylistTracks = jest.fn();
     renderPlaylist(tracks, mockSetPlaylistTracks);
     const renderedTracks = screen.getAllByRole('listitem');
@@ -113,10 +130,14 @@ test('handleTrackClick is run when track is clicked', () => {
         user.click(track);
     }
 
-    expect(mockSetPlaylistTracks).toHaveBeenCalledTimes(2);  
+    await waitFor(() => {
+        expect(mockSetPlaylistTracks).toHaveBeenCalledTimes(tracks.length);
+    });
+      
 });
 test('message set after playlist created', async () => {
-    renderPlaylist();
+    const mockSetMessage = jest.fn();
+    renderPlaylist(undefined, undefined, undefined, undefined, undefined, undefined, mockSetMessage);
 
     const name = screen.getByRole('textbox', {
         name: /new playlist name/i
@@ -129,9 +150,8 @@ test('message set after playlist created', async () => {
     user.keyboard('My playlist name');
     user.click(submit);
 
-    await waitFor(() => {
-        const message = screen.getByText(/my playlist name/i);
-        expect(message).toBeInTheDocument();
+     await waitFor(() => {
+        expect(mockSetMessage).toHaveBeenCalledWith(expect.stringMatching(/my playlist name/i), expect.any(Number));
     });
 });
 test('playlist name cleared after successful submission', async () => {
