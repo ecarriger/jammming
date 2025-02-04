@@ -2,8 +2,8 @@ import styles from './Message.module.css'
 
 const Message = ({messageContent, showMessage}) => {
     return (
-        <aside className={styles.messageWrapper} >
-            <div className={showMessage ? styles.show : styles.hide}>
+        <aside className={`${styles.messageWrapper} ${showMessage ? styles.show : styles.hide}`} >
+            <div>
                 <p>{messageContent}</p>
             </div> 
         </aside>
